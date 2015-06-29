@@ -24,9 +24,9 @@ class ControllerCommonForgotten extends Controller {
 
 			$this->model_user_user->editCode($this->request->post['email'], $code);
 
-			$subject = sprintf($this->language->get('text_subject'), html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8'));
+			$subject = sprintf($this->language->get('text_subject'), $this->config->get('config_name'));
 
-			$message  = sprintf($this->language->get('text_greeting'), html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8')) . "\n\n";
+			$message  = sprintf($this->language->get('text_greeting'), $this->config->get('config_name')) . "\n\n";
 			$message .= $this->language->get('text_change') . "\n\n";
 			$message .= $this->url->link('common/reset', 'code=' . $code, 'SSL') . "\n\n";
 			$message .= sprintf($this->language->get('text_ip'), $this->request->server['REMOTE_ADDR']) . "\n\n";
@@ -79,7 +79,7 @@ class ControllerCommonForgotten extends Controller {
 			'text' => $this->language->get('heading_title'),
 			'href' => $this->url->link('common/forgotten', 'token=' . '', 'SSL')
 		);
-
+		
 		$data['action'] = $this->url->link('common/forgotten', '', 'SSL');
 
 		$data['cancel'] = $this->url->link('common/login', '', 'SSL');

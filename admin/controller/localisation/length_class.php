@@ -182,7 +182,7 @@ class ControllerLocalisationLengthClass extends Controller {
 		}
 
 		$data['heading_title'] = $this->language->get('heading_title');
-
+		
 		$data['text_list'] = $this->language->get('text_list');
 		$data['text_no_results'] = $this->language->get('text_no_results');
 		$data['text_confirm'] = $this->language->get('text_confirm');
@@ -262,9 +262,9 @@ class ControllerLocalisationLengthClass extends Controller {
 
 	protected function getForm() {
 		$data['heading_title'] = $this->language->get('heading_title');
-
+		
 		$data['text_form'] = !isset($this->request->get['length_class_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
-
+		
 		$data['entry_title'] = $this->language->get('entry_title');
 		$data['entry_unit'] = $this->language->get('entry_unit');
 		$data['entry_value'] = $this->language->get('entry_value');
@@ -363,7 +363,7 @@ class ControllerLocalisationLengthClass extends Controller {
 		}
 
 		foreach ($this->request->post['length_class_description'] as $language_id => $value) {
-			if ((utf8_strlen($value['title']) < 3) || (utf8_strlen($value['title']) > 32)) {
+			if ((utf8_strlen($value['title']) < 1) || (utf8_strlen($value['title']) > 32)) {
 				$this->error['title'][$language_id] = $this->language->get('error_title');
 			}
 

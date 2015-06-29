@@ -7,7 +7,7 @@
       </div>
       <div class="col-sm-6">
         <div id="logo" class="pull-right hidden-xs">
-          <img src="view/image/logo.png" alt="OpenCart" title="OpenCart" />
+          <img src="view/image/logo.png" alt="MyCnCart" title="MyCnCart" />
         </div>
       </div>
     </div>
@@ -15,7 +15,7 @@
   <div class="row">
     <div class="col-sm-12">
       <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" class="form-horizontal">
-        <p><?php echo $text_maxmind_top; ?> <a target="_blank" href="http://www.maxmind.com/?rId=opencart"><u><?php echo $text_maxmind_link; ?></u></a></p>
+        <p><?php echo $text_maxmind_top; ?> <a target="_blank" href="http://www.maxmind.com/?rId=mycncart"><u><?php echo $text_maxmind_link; ?></u></a></p>
         <fieldset>
           <div class="form-group required">
             <label class="col-sm-2 control-label" for="fraud-key"><?php echo $entry_licence_key; ?></label>

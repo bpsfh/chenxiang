@@ -23,20 +23,11 @@
         <fieldset>
           <legend><?php echo $text_order; ?></legend>
           <div class="form-group required">
-            <label class="col-sm-2 control-label" for="input-firstname"><?php echo $entry_firstname; ?></label>
+            <label class="col-sm-2 control-label" for="input-fullname"><?php echo $entry_fullname; ?></label>
             <div class="col-sm-10">
-              <input type="text" name="firstname" value="<?php echo $firstname; ?>" placeholder="<?php echo $entry_firstname; ?>" id="input-firstname" class="form-control" />
-              <?php if ($error_firstname) { ?>
-              <div class="text-danger"><?php echo $error_firstname; ?></div>
-              <?php } ?>
-            </div>
-          </div>
-          <div class="form-group required">
-            <label class="col-sm-2 control-label" for="input-lastname"><?php echo $entry_lastname; ?></label>
-            <div class="col-sm-10">
-              <input type="text" name="lastname" value="<?php echo $lastname; ?>" placeholder="<?php echo $entry_lastname; ?>" id="input-lastname" class="form-control" />
-              <?php if ($error_lastname) { ?>
-              <div class="text-danger"><?php echo $error_lastname; ?></div>
+              <input type="text" name="fullname" value="<?php echo $fullname; ?>" placeholder="<?php echo $entry_fullname; ?>" id="input-fullname" class="form-control" />
+              <?php if ($error_fullname) { ?>
+              <div class="text-danger"><?php echo $error_fullname; ?></div>
               <?php } ?>
             </div>
           </div>
@@ -150,16 +141,20 @@
               <textarea name="comment" rows="10" placeholder="<?php echo $entry_fault_detail; ?>" id="input-comment" class="form-control"><?php echo $comment; ?></textarea>
             </div>
           </div>
-          <?php if ($site_key) { ?>
-            <div class="form-group">
-              <div class="col-sm-offset-2 col-sm-10">
-                <div class="g-recaptcha" data-sitekey="<?php echo $site_key; ?>"></div>
-                <?php if ($error_captcha) { ?>
-                  <div class="text-danger"><?php echo $error_captcha; ?></div>
-                <?php } ?>
-              </div>
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-captcha"><?php echo $entry_captcha; ?></label>
+            <div class="col-sm-10">
+              <input type="text" name="captcha" value="" placeholder="<?php echo $entry_captcha; ?>" id="input-captcha" class="form-control" />
             </div>
-          <?php } ?>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-10 pull-right">
+              <img src="index.php?route=tool/captcha" alt="" />
+              <?php if ($error_captcha) { ?>
+                <div class="text-danger"><?php echo $error_captcha; ?></div>
+              <?php } ?>
+            </div>
+          </div>
         </fieldset>
         <?php if ($text_agree) { ?>
         <div class="buttons clearfix">

@@ -8,7 +8,7 @@
       </div>
       <div class="col-sm-6">
         <div id="logo" class="pull-right hidden-xs">
-          <img src="view/image/logo.png" alt="OpenCart" title="OpenCart" />
+          <img src="view/image/logo.png" alt="MyCnCart" title="MyCnCart" />
         </div>
       </div>
     </div>
@@ -322,7 +322,7 @@
                   <span class="text-danger"><?php echo $text_unwritable; ?></span>
                   <?php } ?>
                 </td>
-              </tr>
+              </tr>              
               <tr>
                 <td><?php echo $image . '/'; ?></td>
                 <td><?php if (is_writable($image)) { ?>

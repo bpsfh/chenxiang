@@ -62,20 +62,11 @@
                 </div>
               </div>
               <div class="form-group required">
-                <label class="col-sm-2 control-label" for="input-firstname"><?php echo $entry_firstname; ?></label>
+                <label class="col-sm-2 control-label" for="input-fullname"><?php echo $entry_fullname; ?></label>
                 <div class="col-sm-10">
-                  <input type="text" name="firstname" value="<?php echo $firstname; ?>" placeholder="<?php echo $entry_firstname; ?>" id="input-firstname" class="form-control" />
-                  <?php if ($error_firstname) { ?>
-                  <div class="text-danger"><?php echo $error_firstname; ?></div>
-                  <?php } ?>
-                </div>
-              </div>
-              <div class="form-group required">
-                <label class="col-sm-2 control-label" for="input-lastname"><?php echo $entry_lastname; ?></label>
-                <div class="col-sm-10">
-                  <input type="text" name="lastname" value="<?php echo $lastname; ?>" placeholder="<?php echo $entry_lastname; ?>" id="input-lastname" class="form-control" />
-                  <?php if ($error_lastname) { ?>
-                  <div class="text-danger"><?php echo $error_lastname; ?></div>
+                  <input type="text" name="fullname" value="<?php echo $fullname; ?>" placeholder="<?php echo $entry_fullname; ?>" id="input-fullname" class="form-control" />
+                  <?php if ($error_fullname) { ?>
+                  <div class="text-danger"><?php echo $error_fullname; ?></div>
                   <?php } ?>
                 </div>
               </div>
@@ -243,8 +234,7 @@ $('input[name=\'customer\']').autocomplete({
 						category: item['customer_group'],
 						label: item['name'],
 						value: item['customer_id'],
-						firstname: item['firstname'],
-						lastname: item['lastname'],
+						fullname: item['fullname'],
 						email: item['email'],
 						telephone: item['telephone']			
 					}
@@ -255,8 +245,7 @@ $('input[name=\'customer\']').autocomplete({
 	'select': function(item) {
 		$('input[name=\'customer\']').val(item['label']);
 		$('input[name=\'customer_id\']').val(item['value']);
-		$('input[name=\'firstname\']').attr('value', item['firstname']);
-		$('input[name=\'lastname\']').attr('value', item['lastname']);
+		$('input[name=\'fullname\']').attr('value', item['fullname']);
 		$('input[name=\'email\']').attr('value', item['email']);
 		$('input[name=\'telephone\']').attr('value', item['telephone']);
 	}

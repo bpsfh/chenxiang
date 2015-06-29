@@ -19,12 +19,12 @@ class ControllerAffiliateLogin extends Controller {
 
 			$activity_data = array(
 				'affiliate_id' => $this->affiliate->getId(),
-				'name'         => $this->affiliate->getFirstName() . ' ' . $this->affiliate->getLastName()
+				'name'         => $this->affiliate->getFullName()
 			);
 
 			$this->model_affiliate_activity->addActivity('login', $activity_data);
 
-			// Added strpos check to pass McAfee PCI compliance test (http://forum.opencart.com/viewtopic.php?f=10&t=12043&p=151494#p151295)
+			// Added strpos check to pass McAfee PCI compliance test (http://forum.mycncart.com/viewtopic.php?f=10&t=12043&p=151494#p151295)
 			if (isset($this->request->post['redirect']) && (strpos($this->request->post['redirect'], $this->config->get('config_url')) !== false || strpos($this->request->post['redirect'], $this->config->get('config_ssl')) !== false)) {
 				$this->response->redirect(str_replace('&amp;', '&', $this->request->post['redirect']));
 			} else {

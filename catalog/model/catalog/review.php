@@ -10,7 +10,6 @@ class ModelCatalogReview extends Model {
 		if ($this->config->get('config_review_mail')) {
 			$this->load->language('mail/review');
 			$this->load->model('catalog/product');
-			
 			$product_info = $this->model_catalog_product->getProduct($product_id);
 
 			$subject = sprintf($this->language->get('text_subject'), html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8'));

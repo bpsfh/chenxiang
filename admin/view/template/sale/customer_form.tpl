@@ -66,20 +66,11 @@
                         </div>
                       </div>
                       <div class="form-group required">
-                        <label class="col-sm-2 control-label" for="input-firstname"><?php echo $entry_firstname; ?></label>
+                        <label class="col-sm-2 control-label" for="input-fullname"><?php echo $entry_fullname; ?></label>
                         <div class="col-sm-10">
-                          <input type="text" name="firstname" value="<?php echo $firstname; ?>" placeholder="<?php echo $entry_firstname; ?>" id="input-firstname" class="form-control" />
-                          <?php if ($error_firstname) { ?>
-                          <div class="text-danger"><?php echo $error_firstname; ?></div>
-                          <?php } ?>
-                        </div>
-                      </div>
-                      <div class="form-group required">
-                        <label class="col-sm-2 control-label" for="input-lastname"><?php echo $entry_lastname; ?></label>
-                        <div class="col-sm-10">
-                          <input type="text" name="lastname" value="<?php echo $lastname; ?>" placeholder="<?php echo $entry_lastname; ?>" id="input-lastname" class="form-control" />
-                          <?php if ($error_lastname) { ?>
-                          <div class="text-danger"><?php echo $error_lastname; ?></div>
+                          <input type="text" name="fullname" value="<?php echo $fullname; ?>" placeholder="<?php echo $entry_fullname; ?>" id="input-fullname" class="form-control" />
+                          <?php if ($error_fullname) { ?>
+                          <div class="text-danger"><?php echo $error_fullname; ?></div>
                           <?php } ?>
                         </div>
                       </div>
@@ -340,20 +331,11 @@
                     <div class="tab-pane" id="tab-address<?php echo $address_row; ?>">
                       <input type="hidden" name="address[<?php echo $address_row; ?>][address_id]" value="<?php echo $address['address_id']; ?>" />
                       <div class="form-group required">
-                        <label class="col-sm-2 control-label" for="input-firstname<?php echo $address_row; ?>"><?php echo $entry_firstname; ?></label>
+                        <label class="col-sm-2 control-label" for="input-fullname<?php echo $address_row; ?>"><?php echo $entry_fullname; ?></label>
                         <div class="col-sm-10">
-                          <input type="text" name="address[<?php echo $address_row; ?>][firstname]" value="<?php echo $address['firstname']; ?>" placeholder="<?php echo $entry_firstname; ?>" id="input-firstname<?php echo $address_row; ?>" class="form-control" />
-                          <?php if (isset($error_address[$address_row]['firstname'])) { ?>
-                          <div class="text-danger"><?php echo $error_address[$address_row]['firstname']; ?></div>
-                          <?php } ?>
-                        </div>
-                      </div>
-                      <div class="form-group required">
-                        <label class="col-sm-2 control-label" for="input-lastname<?php echo $address_row; ?>"><?php echo $entry_lastname; ?></label>
-                        <div class="col-sm-10">
-                          <input type="text" name="address[<?php echo $address_row; ?>][lastname]" value="<?php echo $address['lastname']; ?>" placeholder="<?php echo $entry_lastname; ?>" id="input-lastname<?php echo $address_row; ?>" class="form-control" />
-                          <?php if (isset($error_address[$address_row]['lastname'])) { ?>
-                          <div class="text-danger"><?php echo $error_address[$address_row]['lastname']; ?></div>
+                          <input type="text" name="address[<?php echo $address_row; ?>][fullname]" value="<?php echo $address['fullname']; ?>" placeholder="<?php echo $entry_fullname; ?>" id="input-fullname<?php echo $address_row; ?>" class="form-control" />
+                          <?php if (isset($error_address[$address_row]['fullname'])) { ?>
+                          <div class="text-danger"><?php echo $error_address[$address_row]['fullname']; ?></div>
                           <?php } ?>
                         </div>
                       </div>
@@ -361,39 +343,6 @@
                         <label class="col-sm-2 control-label" for="input-company<?php echo $address_row; ?>"><?php echo $entry_company; ?></label>
                         <div class="col-sm-10">
                           <input type="text" name="address[<?php echo $address_row; ?>][company]" value="<?php echo $address['company']; ?>" placeholder="<?php echo $entry_company; ?>" id="input-company<?php echo $address_row; ?>" class="form-control" />
-                        </div>
-                      </div>
-                      <div class="form-group required">
-                        <label class="col-sm-2 control-label" for="input-address-1<?php echo $address_row; ?>"><?php echo $entry_address_1; ?></label>
-                        <div class="col-sm-10">
-                          <input type="text" name="address[<?php echo $address_row; ?>][address_1]" value="<?php echo $address['address_1']; ?>" placeholder="<?php echo $entry_address_1; ?>" id="input-address-1<?php echo $address_row; ?>" class="form-control" />
-                          <?php if (isset($error_address[$address_row]['address_1'])) { ?>
-                          <div class="text-danger"><?php echo $error_address[$address_row]['address_1']; ?></div>
-                          <?php } ?>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="col-sm-2 control-label" for="input-address-2<?php echo $address_row; ?>"><?php echo $entry_address_2; ?></label>
-                        <div class="col-sm-10">
-                          <input type="text" name="address[<?php echo $address_row; ?>][address_2]" value="<?php echo $address['address_2']; ?>" placeholder="<?php echo $entry_address_2; ?>" id="input-address-2<?php echo $address_row; ?>" class="form-control" />
-                        </div>
-                      </div>
-                      <div class="form-group required">
-                        <label class="col-sm-2 control-label" for="input-city<?php echo $address_row; ?>"><?php echo $entry_city; ?></label>
-                        <div class="col-sm-10">
-                          <input type="text" name="address[<?php echo $address_row; ?>][city]" value="<?php echo $address['city']; ?>" placeholder="<?php echo $entry_city; ?>" id="input-city<?php echo $address_row; ?>" class="form-control" />
-                          <?php if (isset($error_address[$address_row]['city'])) { ?>
-                          <div class="text-danger"><?php echo $error_address[$address_row]['city']; ?></div>
-                          <?php } ?>
-                        </div>
-                      </div>
-                      <div class="form-group required">
-                        <label class="col-sm-2 control-label" for="input-postcode<?php echo $address_row; ?>"><?php echo $entry_postcode; ?></label>
-                        <div class="col-sm-10">
-                          <input type="text" name="address[<?php echo $address_row; ?>][postcode]" value="<?php echo $address['postcode']; ?>" placeholder="<?php echo $entry_postcode; ?>" id="input-postcode<?php echo $address_row; ?>" class="form-control" />
-                          <?php if (isset($error_address[$address_row]['postcode'])) { ?>
-                          <div class="text-danger"><?php echo $error_address[$address_row]['postcode']; ?></div>
-                          <?php } ?>
                         </div>
                       </div>
                       <div class="form-group required">
@@ -424,6 +373,35 @@
                           <?php } ?>
                         </div>
                       </div>
+                      <div class="form-group required">
+                        <label class="col-sm-2 control-label" for="input-city<?php echo $address_row; ?>"><?php echo $entry_city; ?></label>
+                        <div class="col-sm-10">
+                          <input type="text" name="address[<?php echo $address_row; ?>][city]" value="<?php echo $address['city']; ?>" placeholder="<?php echo $entry_city; ?>" id="input-city<?php echo $address_row; ?>" class="form-control" />
+                          <?php if (isset($error_address[$address_row]['city'])) { ?>
+                          <div class="text-danger"><?php echo $error_address[$address_row]['city']; ?></div>
+                          <?php } ?>
+                        </div>
+                      </div>
+                      <div class="form-group required">
+                        <label class="col-sm-2 control-label" for="input-address<?php echo $address_row; ?>"><?php echo $entry_address; ?></label>
+                        <div class="col-sm-10">
+                          <input type="text" name="address[<?php echo $address_row; ?>][address]" value="<?php echo $address['address']; ?>" placeholder="<?php echo $entry_address; ?>" id="input-address<?php echo $address_row; ?>" class="form-control" />
+                          <?php if (isset($error_address[$address_row]['address'])) { ?>
+                          <div class="text-danger"><?php echo $error_address[$address_row]['address']; ?></div>
+                          <?php } ?>
+                        </div>
+                      </div>
+                      
+                      <div class="form-group required">
+                        <label class="col-sm-2 control-label" for="input-postcode<?php echo $address_row; ?>"><?php echo $entry_postcode; ?></label>
+                        <div class="col-sm-10">
+                          <input type="text" name="address[<?php echo $address_row; ?>][postcode]" value="<?php echo $address['postcode']; ?>" placeholder="<?php echo $entry_postcode; ?>" id="input-postcode<?php echo $address_row; ?>" class="form-control" />
+                          <?php if (isset($error_address[$address_row]['postcode'])) { ?>
+                          <div class="text-danger"><?php echo $error_address[$address_row]['postcode']; ?></div>
+                          <?php } ?>
+                        </div>
+                      </div>
+                      
                       <?php foreach ($custom_fields as $custom_field) { ?>
                       <?php if ($custom_field['location'] == 'address') { ?>
                       <?php if ($custom_field['type'] == 'select') { ?>
@@ -692,14 +670,10 @@ function addAddress() {
 	html += '  <input type="hidden" name="address[' + address_row + '][address_id]" value="" />';
 
 	html += '  <div class="form-group required">';
-	html += '    <label class="col-sm-2 control-label" for="input-firstname' + address_row + '"><?php echo $entry_firstname; ?></label>';
-	html += '    <div class="col-sm-10"><input type="text" name="address[' + address_row + '][firstname]" value="" placeholder="<?php echo $entry_firstname; ?>" id="input-firstname' + address_row + '" class="form-control" /></div>';
+	html += '    <label class="col-sm-2 control-label" for="input-fullname' + address_row + '"><?php echo $entry_fullname; ?></label>';
+	html += '    <div class="col-sm-10"><input type="text" name="address[' + address_row + '][fullname]" value="" placeholder="<?php echo $entry_fullname; ?>" id="input-fullname' + address_row + '" class="form-control" /></div>';
 	html += '  </div>';
 
-	html += '  <div class="form-group required">';
-	html += '    <label class="col-sm-2 control-label" for="input-lastname' + address_row + '"><?php echo $entry_lastname; ?></label>';
-	html += '    <div class="col-sm-10"><input type="text" name="address[' + address_row + '][lastname]" value="" placeholder="<?php echo $entry_lastname; ?>" id="input-lastname' + address_row + '" class="form-control" /></div>';
-	html += '  </div>';
 
 	html += '  <div class="form-group">';
 	html += '    <label class="col-sm-2 control-label" for="input-company' + address_row + '"><?php echo $entry_company; ?></label>';
@@ -707,14 +681,10 @@ function addAddress() {
 	html += '  </div>';
 
 	html += '  <div class="form-group required">';
-	html += '    <label class="col-sm-2 control-label" for="input-address-1' + address_row + '"><?php echo $entry_address_1; ?></label>';
-	html += '    <div class="col-sm-10"><input type="text" name="address[' + address_row + '][address_1]" value="" placeholder="<?php echo $entry_address_1; ?>" id="input-address-1' + address_row + '" class="form-control" /></div>';
+	html += '    <label class="col-sm-2 control-label" for="input-address' + address_row + '"><?php echo $entry_address; ?></label>';
+	html += '    <div class="col-sm-10"><input type="text" name="address[' + address_row + '][address]" value="" placeholder="<?php echo $entry_address; ?>" id="input-address' + address_row + '" class="form-control" /></div>';
 	html += '  </div>';
 
-	html += '  <div class="form-group">';
-	html += '    <label class="col-sm-2 control-label" for="input-address-2' + address_row + '"><?php echo $entry_address_2; ?></label>';
-	html += '    <div class="col-sm-10"><input type="text" name="address[' + address_row + '][address_2]" value="" placeholder="<?php echo $entry_address_2; ?>" id="input-address-2' + address_row + '" class="form-control" /></div>';
-	html += '  </div>';
 
 	html += '  <div class="form-group required">';
 	html += '    <label class="col-sm-2 control-label" for="input-city' + address_row + '"><?php echo $entry_city; ?></label>';
@@ -762,7 +732,7 @@ function addAddress() {
 	<?php } ?>
 
 	<?php if ($custom_field['type'] == 'radio') { ?>
-	html += '  	  <div class="form-group custom-field custom-field<?php echo $custom_field['custom_field_id']; ?>">';
+	html += '  	  <div class="form-group custom-field custom-field<?php echo $custom_field['custom_field_id']; ?>" data-sort="<?php echo $custom_field['sort_order'] + 1; ?>">';
 	html += '  		<label class="col-sm-2 control-label"><?php echo addslashes($custom_field['name']); ?></label>';
 	html += '  		<div class="col-sm-10">';
 	html += '  		  <div>';
@@ -878,7 +848,7 @@ function addAddress() {
 	$('.time').datetimepicker({
 		pickDate: false
 	});	
-	
+		
 	$('#tab-address' + address_row + ' .form-group[data-sort]').detach().each(function() {
 		if ($(this).attr('data-sort') >= 0 && $(this).attr('data-sort') <= $('#tab-address' + address_row + ' .form-group').length) {
 			$('#tab-address' + address_row + ' .form-group').eq($(this).attr('data-sort')).before(this);
@@ -1123,7 +1093,7 @@ $('#content').delegate('button[id^=\'button-custom-field\'], button[id^=\'button
 	if (typeof timer != 'undefined') {
     	clearInterval(timer);
 	}
-	
+
 	timer = setInterval(function() {
 		if ($('#form-upload input[name=\'file\']').val() != '') {
 			clearInterval(timer);

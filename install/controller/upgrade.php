@@ -39,10 +39,10 @@ class ControllerUpgrade extends Controller {
 	private function validate() {
 		if (DB_DRIVER == 'mysql') {
 			if (!$connection = @mysql_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD)) {
-				$this->error['warning'] = 'Error: Could not connect to the database please make sure the database server, username and password is correct in the config.php file!';
+				$this->error['warning'] = '错误: 无法链接数据库。请确认 config.php 文件中数据库服务器、用户名以及密码是正确的。';
 			} else {
 				if (!mysql_select_db(DB_DATABASE, $connection)) {
-					$this->error['warning'] = 'Error: Database "' . DB_DATABASE . '" does not exist!';
+					$this->error['warning'] = '错误: 数据库 "' . DB_DATABASE . '" 不存在！';
 				}
 
 				mysql_close($connection);

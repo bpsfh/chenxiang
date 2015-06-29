@@ -39,7 +39,6 @@
             <li><a href="#tab-ftp" data-toggle="tab"><?php echo $tab_ftp; ?></a></li>
             <li><a href="#tab-mail" data-toggle="tab"><?php echo $tab_mail; ?></a></li>
             <li><a href="#tab-server" data-toggle="tab"><?php echo $tab_server; ?></a></li>
-            <li><a href="#tab-google" data-toggle="tab"><?php echo $tab_google; ?></a></li>
           </ul>
           <div class="tab-content">
             <div class="tab-pane active" id="tab-general">
@@ -70,6 +69,31 @@
                   <?php } ?>
                 </div>
               </div>
+              
+              <div class="form-group">
+                <label class="col-sm-2 control-label"><?php echo $entry_map_select; ?></label>
+                <div class="col-sm-10">
+                  <label class="radio-inline">
+                    <?php if ($config_map_select == "baidu") { ?>
+                    <input type="radio" name="config_map_select" value="baidu" checked="checked" />
+                    <?php echo $text_baidu; ?>
+                    <?php } else { ?>
+                    <input type="radio" name="config_map_select" value="baidu" />
+                    <?php echo $text_baidu; ?>
+                    <?php } ?>
+                  </label>
+                  <label class="radio-inline">
+                    <?php if ($config_map_select == "google") { ?>
+                    <input type="radio" name="config_map_select" value="google" checked="checked" />
+                    <?php echo $text_google; ?>
+                    <?php } else { ?>
+                    <input type="radio" name="config_map_select" value="google" />
+                    <?php echo $text_google; ?>
+                    <?php } ?>
+                  </label>
+                </div>
+              </div>
+              
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-geocode"><span data-toggle="tooltip" data-container="#tab-general" title="<?php echo $help_geocode; ?>"><?php echo $entry_geocode; ?></span></label>
                 <div class="col-sm-10">
@@ -605,9 +629,9 @@
                     <input type="text" name="config_login_attempts" value="<?php echo $config_login_attempts; ?>" placeholder="<?php echo $entry_login_attempts; ?>" id="input-login-attempts" class="form-control" />
                     <?php if ($error_login_attempts) { ?>
                     <div class="text-danger"><?php echo $error_login_attempts; ?></div>
-                    <?php } ?>
+                    <?php } ?>                  
                   </div>
-                </div>
+                </div>                
                 <div class="form-group">
                   <label class="col-sm-2 control-label" for="input-account"><span data-toggle="tooltip" title="<?php echo $help_account; ?>"><?php echo $entry_account; ?></span></label>
                   <div class="col-sm-10">
@@ -1525,62 +1549,27 @@
                   <?php } ?>
                 </div>
               </div>
-            </div>
-            <div class="tab-pane" id="tab-google">
-              <fieldset>
-                <legend><?php echo $text_google_analytics; ?></legend>
-                <div class="alert alert-info"><?php echo $help_google_analytics; ?></div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label" for="input-google-analytics"><?php echo $entry_google_analytics; ?></label>
-                  <div class="col-sm-10">
-                    <textarea name="config_google_analytics" rows="5" placeholder="<?php echo $entry_google_analytics; ?>" id="input-google-analytics" class="form-control"><?php echo $config_google_analytics; ?></textarea>
-                  </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-google-analytics"><?php echo $entry_google_analytics; ?></label>
+                <div class="col-sm-10">
+                  <textarea name="config_google_analytics" rows="5" placeholder="<?php echo $entry_google_analytics; ?>" id="input-google-analytics" class="form-control"><?php echo $config_google_analytics; ?></textarea>
                 </div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label" for="input-google-analytics-status"><?php echo $entry_status; ?></label>
-                  <div class="col-sm-10">
-                    <select name="config_google_analytics_status" id="input-google-analytics-status" class="form-control">
-                      <?php if ($config_google_analytics_status) { ?>
-                      <option value="1" selected="selected"><?php echo $text_enabled; ?></option>
-                      <option value="0"><?php echo $text_disabled; ?></option>
-                      <?php } else { ?>
-                      <option value="1"><?php echo $text_enabled; ?></option>
-                      <option value="0" selected="selected"><?php echo $text_disabled; ?></option>
-                      <?php } ?>
-                    </select>
-                  </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-google-analytics-status"><?php echo $entry_status; ?></label>
+                <div class="col-sm-10">
+                  <select name="config_google_analytics_status" id="input-google-analytics-status" class="form-control">
+                    <?php if ($config_google_analytics_status) { ?>
+                    <option value="1" selected="selected"><?php echo $text_enabled; ?></option>
+                    <option value="0"><?php echo $text_disabled; ?></option>
+                    <?php } else { ?>
+                    <option value="1"><?php echo $text_enabled; ?></option>
+                    <option value="0" selected="selected"><?php echo $text_disabled; ?></option>
+                    <?php } ?>
+                  </select>
                 </div>
-              </fieldset>
-              <fieldset>
-                <legend><?php echo $text_google_captcha; ?></legend>
-                <div class="alert alert-info"><?php echo $help_google_captcha; ?></div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label" for="input-google-captcha-public"><?php echo $entry_google_captcha_public; ?></label>
-                  <div class="col-sm-10">
-                    <input type="text" name="config_google_captcha_public" value="<?php echo $config_google_captcha_public; ?>" placeholder="<?php echo $entry_google_captcha_public; ?>" id="input-google-captcha-public" class="form-control" />
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label" for="input-google-captcha-secret"><?php echo $entry_google_captcha_secret; ?></label>
-                  <div class="col-sm-10">
-                    <input type="text" name="config_google_captcha_secret" value="<?php echo $config_google_captcha_secret; ?>" placeholder="<?php echo $entry_google_captcha_secret; ?>" id="input-google-captcha-secret" class="form-control" />
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label" for="input-google-captcha-status"><?php echo $entry_status; ?></label>
-                  <div class="col-sm-10">
-                    <select name="config_google_captcha_status" id="input-google-captcha-status" class="form-control">
-                      <?php if ($config_google_captcha_status) { ?>
-                      <option value="1" selected="selected"><?php echo $text_enabled; ?></option>
-                      <option value="0"><?php echo $text_disabled; ?></option>
-                      <?php } else { ?>
-                      <option value="1"><?php echo $text_enabled; ?></option>
-                      <option value="0" selected="selected"><?php echo $text_disabled; ?></option>
-                      <?php } ?>
-                    </select>
-                  </div>
-                </div>
-              </fieldset>
+              </div>
+                
             </div>
           </div>
         </form>
@@ -1599,6 +1588,8 @@ $('select[name=\'config_template\']').on('change', function() {
 			$('.fa-spin').remove();
 		},
 		success: function(html) {
+     
+
 			$('#template').attr('src', html);
 		},
 		error: function(xhr, ajaxOptions, thrownError) {
@@ -1621,6 +1612,8 @@ $('select[name=\'config_country_id\']').on('change', function() {
 			$('.fa-spin').remove();
 		},
 		success: function(json) {
+      
+
 			html = '<option value=""><?php echo $text_select; ?></option>';
 
 			if (json['zone'] && json['zone'] != '') {

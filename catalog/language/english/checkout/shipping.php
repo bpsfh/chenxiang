@@ -11,6 +11,7 @@ $_['text_shipping_method'] = 'Please select the preferred shipping method to use
 $_['entry_country']        = 'Country';
 $_['entry_zone']           = 'Region / State';
 $_['entry_postcode']       = 'Post Code';
+$_['entry_shipping_telephone']     = 'Shipping Telephone';
 
 // Error
 $_['error_postcode']       = 'Postcode must be between 2 and 10 characters!';

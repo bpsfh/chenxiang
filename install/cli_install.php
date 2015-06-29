@@ -1,7 +1,7 @@
 <?php
 
 //
-// Command line tool for installing opencart
+// Command line tool for installing mycncart
 // Author: Vineet Naik <vineet.naik@kodeplay.com> <naikvin@gmail.com>
 //
 // (Currently tested on linux only)
@@ -12,12 +12,12 @@
 //   php cli_install.php install --db_hostname localhost \
 //                               --db_username root \
 //                               --db_password pass \
-//                               --db_database opencart \
+//                               --db_database mycncart \
 //                               --db_driver mysqli \
 //                               --username admin \
 //                               --password admin \
 //                               --email youremail@example.com \
-//                               --http_server http://localhost/opencart
+//                               --http_server http://localhost/mycncart
 //
 
 ini_set('display_errors', 1);
@@ -26,7 +26,7 @@ error_reporting(E_ALL);
 // DIR
 define('DIR_APPLICATION', str_replace('\\', '/', realpath(dirname(__FILE__))) . '/');
 define('DIR_SYSTEM', str_replace('\\', '/', realpath(dirname(__FILE__) . '/../')) . '/system/');
-define('DIR_OPENCART', str_replace('\\', '/', realpath(DIR_APPLICATION . '../')) . '/');
+define('DIR_MYCNCART', str_replace('\\', '/', realpath(DIR_APPLICATION . '../')) . '/');
 define('DIR_DATABASE', DIR_SYSTEM . 'database/');
 define('DIR_LANGUAGE', DIR_APPLICATION . 'language/');
 define('DIR_TEMPLATE', DIR_APPLICATION . 'view/template/');
@@ -63,12 +63,12 @@ function usage() {
 		'--db_hostname', 'localhost',
 		'--db_username', 'root',
 		'--db_password', 'pass',
-		'--db_database', 'opencart',
+		'--db_database', 'mycncart',
 		'--db_driver', 'mysqli',
 		'--username', 'admin',
 		'--password', 'admin',
 		'--email', 'youremail@example.com',
-		'--http_server', 'http://localhost/opencart'
+		'--http_server', 'http://localhost/mycncart'
 	));
 	echo 'php cli_install.php install ' . $options . "\n\n";
 }
@@ -77,8 +77,8 @@ function usage() {
 function get_options($argv) {
 	$defaults = array(
 		'db_hostname' => 'localhost',
-		'db_database' => 'opencart',
-		'db_prefix' => 'oc_',
+		'db_database' => 'mycncart',
+		'db_prefix' => 'mcc_',
 		'db_driver' => 'mysqli',
 		'username' => 'admin',
 	);
@@ -138,35 +138,35 @@ function install($options) {
 function check_requirements() {
 	$error = null;
 	if (phpversion() < '5.0') {
-		$error = 'Warning: You need to use PHP5 or above for OpenCart to work!';
+		$error = '警告: 需要至少PHP5.3 版本！';
 	}
 
 	if (!ini_get('file_uploads')) {
-		$error = 'Warning: file_uploads needs to be enabled!';
+		$error = '警告: 需要服务器允许文件上传(file_uploads)！';
 	}
 
 	if (ini_get('session.auto_start')) {
-		$error = 'Warning: OpenCart will not work with session.auto_start enabled!';
+		$error = '警告: MyCnCart 在 session.auto_start 启用状态下无法工作， 请联系服务器方面解决！';
 	}
 
 	if (!extension_loaded('mysqli')) {
-		$error = 'Warning: MySQLi extension needs to be loaded for OpenCart to work!';
+		$error = '警告: 需要启用 MySQLi 扩展， 请联系服务器方面解决！';
 	}
 
 	if (!extension_loaded('gd')) {
-		$error = 'Warning: GD extension needs to be loaded for OpenCart to work!';
+		$error = '警告: 需要启用 GD 扩展， 请联系服务器方面解决！';
 	}
 
 	if (!extension_loaded('curl')) {
-		$error = 'Warning: CURL extension needs to be loaded for OpenCart to work!';
+		$error = '警告: 需要启用 CURL 扩展， 请联系服务器方面解决！';
 	}
 
 	if (!function_exists('mcrypt_encrypt')) {
-		$error = 'Warning: mCrypt extension needs to be loaded for OpenCart to work!';
+		$error = '警告: 需要启用 mCrypt 扩展， 请联系服务器方面解决！';
 	}
 
 	if (!extension_loaded('zlib')) {
-		$error = 'Warning: ZLIB extension needs to be loaded for OpenCart to work!';
+		$error = '警告: 需要启用 ZLIB 扩展， 请联系服务器方面解决！';
 	}
 
 	return array($error === null, $error);
@@ -193,18 +193,18 @@ function write_config_files($options) {
 	$output .= 'define(\'HTTPS_IMAGE\', \'' . $options['http_server'] . 'image/\');' . "\n\n";
 
 	$output .= '// DIR' . "\n";
-	$output .= 'define(\'DIR_APPLICATION\', \'' . DIR_OPENCART . 'catalog/\');' . "\n";
-	$output .= 'define(\'DIR_SYSTEM\', \'' . DIR_OPENCART . 'system/\');' . "\n";
-	$output .= 'define(\'DIR_DATABASE\', \'' . DIR_OPENCART . 'system/database/\');' . "\n";
-	$output .= 'define(\'DIR_LANGUAGE\', \'' . DIR_OPENCART . 'catalog/language/\');' . "\n";
-	$output .= 'define(\'DIR_TEMPLATE\', \'' . DIR_OPENCART . 'catalog/view/theme/\');' . "\n";
-	$output .= 'define(\'DIR_CONFIG\', \'' . DIR_OPENCART . 'system/config/\');' . "\n";
-	$output .= 'define(\'DIR_IMAGE\', \'' . DIR_OPENCART . 'image/\');' . "\n";
-	$output .= 'define(\'DIR_CACHE\', \'' . DIR_OPENCART . 'system/cache/\');' . "\n";
-	$output .= 'define(\'DIR_DOWNLOAD\', \'' . DIR_OPENCART . 'system/download/\');' . "\n";
-	$output .= 'define(\'DIR_UPLOAD\', \'' . DIR_OPENCART . 'system/upload/\');' . "\n";
-	$output .= 'define(\'DIR_MODIFICATION\', \'' . DIR_OPENCART . 'system/modification/\');' . "\n";
-	$output .= 'define(\'DIR_LOGS\', \'' . DIR_OPENCART . 'system/logs/\');' . "\n\n";
+	$output .= 'define(\'DIR_APPLICATION\', \'' . DIR_MYCNCART . 'catalog/\');' . "\n";
+	$output .= 'define(\'DIR_SYSTEM\', \'' . DIR_MYCNCART . 'system/\');' . "\n";
+	$output .= 'define(\'DIR_DATABASE\', \'' . DIR_MYCNCART . 'system/database/\');' . "\n";
+	$output .= 'define(\'DIR_LANGUAGE\', \'' . DIR_MYCNCART . 'catalog/language/\');' . "\n";
+	$output .= 'define(\'DIR_TEMPLATE\', \'' . DIR_MYCNCART . 'catalog/view/theme/\');' . "\n";
+	$output .= 'define(\'DIR_CONFIG\', \'' . DIR_MYCNCART . 'system/config/\');' . "\n";
+	$output .= 'define(\'DIR_IMAGE\', \'' . DIR_MYCNCART . 'image/\');' . "\n";
+	$output .= 'define(\'DIR_CACHE\', \'' . DIR_MYCNCART . 'system/cache/\');' . "\n";
+	$output .= 'define(\'DIR_DOWNLOAD\', \'' . DIR_MYCNCART . 'system/download/\');' . "\n";
+	$output .= 'define(\'DIR_UPLOAD\', \'' . DIR_MYCNCART . 'system/upload/\');' . "\n";
+	$output .= 'define(\'DIR_MODIFICATION\', \'' . DIR_MYCNCART . 'system/modification/\');' . "\n";
+	$output .= 'define(\'DIR_LOGS\', \'' . DIR_MYCNCART . 'system/logs/\');' . "\n\n";
 
 	$output .= '// DB' . "\n";
 	$output .= 'define(\'DB_DRIVER\', \'' . addslashes($options['db_driver']) . '\');' . "\n";
@@ -215,7 +215,7 @@ function write_config_files($options) {
 	$output .= 'define(\'DB_PREFIX\', \'' . addslashes($options['db_prefix']) . '\');' . "\n";
 	$output .= '?>';
 
-	$file = fopen(DIR_OPENCART . 'config.php', 'w');
+	$file = fopen(DIR_MYCNCART . 'config.php', 'w');
 
 	fwrite($file, $output);
 
@@ -233,19 +233,19 @@ function write_config_files($options) {
 	$output .= 'define(\'HTTPS_IMAGE\', \'' . $options['http_server'] . 'image/\');' . "\n\n";
 
 	$output .= '// DIR' . "\n";
-	$output .= 'define(\'DIR_APPLICATION\', \'' . DIR_OPENCART . 'admin/\');' . "\n";
-	$output .= 'define(\'DIR_SYSTEM\', \'' . DIR_OPENCART . 'system/\');' . "\n";
-	$output .= 'define(\'DIR_DATABASE\', \'' . DIR_OPENCART . 'system/database/\');' . "\n";
-	$output .= 'define(\'DIR_LANGUAGE\', \'' . DIR_OPENCART . 'admin/language/\');' . "\n";
-	$output .= 'define(\'DIR_TEMPLATE\', \'' . DIR_OPENCART . 'admin/view/template/\');' . "\n";
-	$output .= 'define(\'DIR_CONFIG\', \'' . DIR_OPENCART . 'system/config/\');' . "\n";
-	$output .= 'define(\'DIR_IMAGE\', \'' . DIR_OPENCART . 'image/\');' . "\n";
-	$output .= 'define(\'DIR_CACHE\', \'' . DIR_OPENCART . 'system/cache/\');' . "\n";
-	$output .= 'define(\'DIR_DOWNLOAD\', \'' . DIR_OPENCART . 'system/download/\');' . "\n";
-	$output .= 'define(\'DIR_UPLOAD\', \'' . DIR_OPENCART . 'system/upload/\');' . "\n";
-	$output .= 'define(\'DIR_LOGS\', \'' . DIR_OPENCART . 'system/logs/\');' . "\n";
-	$output .= 'define(\'DIR_MODIFICATION\', \'' . DIR_OPENCART . 'system/modification/\');' . "\n";
-	$output .= 'define(\'DIR_CATALOG\', \'' . DIR_OPENCART . 'catalog/\');' . "\n\n";
+	$output .= 'define(\'DIR_APPLICATION\', \'' . DIR_MYCNCART . 'admin/\');' . "\n";
+	$output .= 'define(\'DIR_SYSTEM\', \'' . DIR_MYCNCART . 'system/\');' . "\n";
+	$output .= 'define(\'DIR_DATABASE\', \'' . DIR_MYCNCART . 'system/database/\');' . "\n";
+	$output .= 'define(\'DIR_LANGUAGE\', \'' . DIR_MYCNCART . 'admin/language/\');' . "\n";
+	$output .= 'define(\'DIR_TEMPLATE\', \'' . DIR_MYCNCART . 'admin/view/template/\');' . "\n";
+	$output .= 'define(\'DIR_CONFIG\', \'' . DIR_MYCNCART . 'system/config/\');' . "\n";
+	$output .= 'define(\'DIR_IMAGE\', \'' . DIR_MYCNCART . 'image/\');' . "\n";
+	$output .= 'define(\'DIR_CACHE\', \'' . DIR_MYCNCART . 'system/cache/\');' . "\n";
+	$output .= 'define(\'DIR_DOWNLOAD\', \'' . DIR_MYCNCART . 'system/download/\');' . "\n";
+	$output .= 'define(\'DIR_UPLOAD\', \'' . DIR_MYCNCART . 'system/upload/\');' . "\n";
+	$output .= 'define(\'DIR_LOGS\', \'' . DIR_MYCNCART . 'system/logs/\');' . "\n";
+	$output .= 'define(\'DIR_MODIFICATION\', \'' . DIR_MYCNCART . 'system/modification/\');' . "\n";
+	$output .= 'define(\'DIR_CATALOG\', \'' . DIR_MYCNCART . 'catalog/\');' . "\n\n";
 
 	$output .= '// DB' . "\n";
 	$output .= 'define(\'DB_DRIVER\', \'' . addslashes($options['db_driver']) . '\');' . "\n";
@@ -256,7 +256,7 @@ function write_config_files($options) {
 	$output .= 'define(\'DB_PREFIX\', \'' . addslashes($options['db_prefix']) . '\');' . "\n";
 	$output .= '?>';
 
-	$file = fopen(DIR_OPENCART . 'admin/config.php', 'w');
+	$file = fopen(DIR_MYCNCART . 'admin/config.php', 'w');
 
 	fwrite($file, $output);
 
@@ -266,8 +266,8 @@ function write_config_files($options) {
 
 function dir_permissions() {
 	$dirs = array(
-		DIR_OPENCART . 'image/',
-		DIR_OPENCART . 'system/download/',
+		DIR_MYCNCART . 'image/',
+		DIR_MYCNCART . 'system/download/',
 		DIR_SYSTEM . 'cache/',
 		DIR_SYSTEM . 'logs/',
 	);
@@ -285,19 +285,19 @@ switch ($subcommand) {
 case "install":
 	try {
 		$options = get_options($argv);
-		define('HTTP_OPENCART', $options['http_server']);
+		define('HTTP_MYCNCART', $options['http_server']);
 		$valid = valid($options);
 		if (!$valid[0]) {
-			echo "FAILED! Following inputs were missing or invalid: ";
+			echo "失败! 以下输入项填写无效： ";
 			echo implode(', ', $valid[1]) . "\n\n";
 			exit(1);
 		}
 		install($options);
-		echo "SUCCESS! Opencart successfully installed on your server\n";
-		echo "Store link: " . $options['http_server'] . "\n";
-		echo "Admin link: " . $options['http_server'] . "admin/\n\n";
+		echo "成功! MyCnCart 成功安装于您的服务器\n";
+		echo "网站前台页面链接: " . $options['http_server'] . "\n";
+		echo "网站后台管理链接: " . $options['http_server'] . "admin/\n\n";
 	} catch (ErrorException $e) {
-		echo 'FAILED!: ' . $e->getMessage() . "\n";
+		echo '失败!: ' . $e->getMessage() . "\n";
 		exit(1);
 	}
 	break;

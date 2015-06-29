@@ -9,15 +9,14 @@ class ControllerCheckoutShippingAddress extends Controller {
 		$data['text_none'] = $this->language->get('text_none');
 		$data['text_loading'] = $this->language->get('text_loading');
 
-		$data['entry_firstname'] = $this->language->get('entry_firstname');
-		$data['entry_lastname'] = $this->language->get('entry_lastname');
+		$data['entry_fullname'] = $this->language->get('entry_fullname');
 		$data['entry_company'] = $this->language->get('entry_company');
-		$data['entry_address_1'] = $this->language->get('entry_address_1');
-		$data['entry_address_2'] = $this->language->get('entry_address_2');
+		$data['entry_address'] = $this->language->get('entry_address');
 		$data['entry_postcode'] = $this->language->get('entry_postcode');
 		$data['entry_city'] = $this->language->get('entry_city');
 		$data['entry_country'] = $this->language->get('entry_country');
 		$data['entry_zone'] = $this->language->get('entry_zone');
+		$data['entry_shipping_telephone'] = $this->language->get('entry_shipping_telephone');
 
 		$data['button_continue'] = $this->language->get('button_continue');
 		$data['button_upload'] = $this->language->get('button_upload');
@@ -48,6 +47,12 @@ class ControllerCheckoutShippingAddress extends Controller {
 			$data['zone_id'] = $this->session->data['shipping_address']['zone_id'];
 		} else {
 			$data['zone_id'] = '';
+		}
+		
+		if (isset($this->session->data['shipping_address']['shipping_telephone'])) {
+			$data['shipping_telephone'] = $this->session->data['shipping_address']['shipping_telephone'];
+		} else {
+			$data['shipping_telephone'] = '';
 		}
 
 		$this->load->model('localisation/country');
@@ -131,22 +136,22 @@ class ControllerCheckoutShippingAddress extends Controller {
 					unset($this->session->data['shipping_methods']);
 				}
 			} else {
-				if ((utf8_strlen(trim($this->request->post['firstname'])) < 1) || (utf8_strlen(trim($this->request->post['firstname'])) > 32)) {
-					$json['error']['firstname'] = $this->language->get('error_firstname');
+				if ((utf8_strlen(trim($this->request->post['fullname'])) < 2) || (utf8_strlen(trim($this->request->post['fullname'])) > 32)) {
+					$json['error']['fullname'] = $this->language->get('error_fullname');
+				}
+				
+				if ((utf8_strlen($this->request->post['shipping_telephone']) < 3) || (utf8_strlen($this->request->post['shipping_telephone']) > 32)) {
+					$json['error']['shipping_telephone'] = $this->language->get('error_shipping_telephone');
 				}
 
-				if ((utf8_strlen(trim($this->request->post['lastname'])) < 1) || (utf8_strlen(trim($this->request->post['lastname'])) > 32)) {
-					$json['error']['lastname'] = $this->language->get('error_lastname');
-				}
-
-				if ((utf8_strlen(trim($this->request->post['address_1'])) < 3) || (utf8_strlen(trim($this->request->post['address_1'])) > 128)) {
-					$json['error']['address_1'] = $this->language->get('error_address_1');
+				if ((utf8_strlen(trim($this->request->post['address'])) < 3) || (utf8_strlen(trim($this->request->post['address'])) > 128)) {
+					$json['error']['address'] = $this->language->get('error_address');
 				}
 
 				if ((utf8_strlen(trim($this->request->post['city'])) < 2) || (utf8_strlen(trim($this->request->post['city'])) > 128)) {
 					$json['error']['city'] = $this->language->get('error_city');
 				}
-
+				
 				$this->load->model('localisation/country');
 
 				$country_info = $this->model_localisation_country->getCountry($this->request->post['country_id']);
@@ -189,7 +194,7 @@ class ControllerCheckoutShippingAddress extends Controller {
 
 					$activity_data = array(
 						'customer_id' => $this->customer->getId(),
-						'name'        => $this->customer->getFirstName() . ' ' . $this->customer->getLastName()
+						'name'        => $this->customer->getFullName()
 					);
 
 					$this->model_account_activity->addActivity('address_add', $activity_data);

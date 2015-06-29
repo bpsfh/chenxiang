@@ -758,7 +758,7 @@ $('select[name=\'config_template\']').on('change', function() {
 			$('.fa-spin').remove();
 		},
 		success: function(html) {
-			$('.fa-spin').remove();
+      $('.fa-spin').remove();
 
 			$('#template').attr('src', html);
 		},
@@ -782,6 +782,8 @@ $('select[name=\'config_country_id\']').on('change', function() {
 			$('.fa-spin').remove();
 		},
 		success: function(json) {
+      		$('.fa-spin').remove();
+
 			html = '<option value=""><?php echo $text_select; ?></option>';
 
 			if (json['zone'] && json['zone'] != '') {

@@ -20,7 +20,6 @@ $_['text_payment']                     = 'Payment Address';
 $_['text_mail']                        = 'Mail';
 $_['text_smtp']                        = 'SMTP';
 $_['text_google_analytics']            = 'Google Analytics';
-$_['text_google_captcha']              = 'Google reCAPTCHA';
 
 // Entry
 $_['entry_name']                       = 'Store Name';
@@ -127,10 +126,12 @@ $_['entry_compression']                = 'Output Compression Level';
 $_['entry_error_display']              = 'Display Errors';
 $_['entry_error_log']                  = 'Log Errors';
 $_['entry_error_filename']             = 'Error Log Filename';
-$_['entry_google_analytics']           = 'Google Analytics Code';
-$_['entry_google_captcha_public']      = 'Site key';
-$_['entry_google_captcha_secret']      = 'Secret key';
+$_['entry_google_analytics']           = 'Baidu Or Google Analytics Code';
+$_['entry_map_select']           	   = 'Select Map';
+$_['text_baidu']                       = 'BaiDu';
+$_['text_google']                      = 'Google';
 $_['entry_status']                     = 'Status';
+
 
 // Help
 $_['help_geocode']                     = 'Please enter your store location geocode manually.';
@@ -177,7 +178,7 @@ $_['help_affiliate_mail']              = 'Send an email to the store owner when 
 $_['help_return']                      = 'Forces people to agree to terms before a return can be created.';
 $_['help_return_status']               = 'Set the default return status when a return request is submitted.';
 $_['help_icon']                        = 'The icon should be a PNG that is 16px x 16px.';
-$_['help_ftp_root']                    = 'The directory your OpenCart installation is stored in. Normally \'public_html/\'.';
+$_['help_ftp_root']                    = 'The directory your MyCnCart installation is stored in. Normally \'public_html/\'.';
 $_['help_mail_protocol']               = 'Only choose \'Mail\' unless your host has disabled the php mail function.';
 $_['help_mail_parameter']              = 'When using \'Mail\', additional mail parameters can be added here (e.g. -f email@storeaddress.com).';
 $_['help_mail_smtp_hostname']          = 'Add \'tls://\' prefix if security connection is required. (e.g. tls://smtp.gmail.com).';
@@ -193,8 +194,7 @@ $_['help_maintenance']                 = 'Prevents customers from browsing your 
 $_['help_password']                    = 'Allow forgotten password to be used for the admin. This will be disabled automatically if the system detects a hack attempt.';
 $_['help_encryption']                  = 'Please provide a secret key that will be used to encrypt private information when processing orders.';
 $_['help_compression']                 = 'GZIP for more efficient transfer to requesting clients. Compression level must be between 0 - 9.';
-$_['help_google_analytics']            = 'Login to your <a href="http://www.google.com/analytics/" target="_blank"><u>Google Analytics</u></a> account and after creating your website profile copy and paste the analytics code into this field.';
-$_['help_google_captcha']              = 'Go to <a href="https://www.google.com/recaptcha/intro/index.html" target="_blank"><u>Google reCAPTCHA page</u></a> and register your website.';
+$_['help_google_analytics']            = 'Login to your <a href="http://www.google.com/analytics/" target="_blank"><u>Google Analytics</u></a> account or login to your<a onclick="window.open(\'http：//tongji.baidu.coms/\');"><u>Baidu Analytics</u></a> account， and after creating your website profile copy and paste the analytics code into this field.';
 
 // Error
 $_['error_warning']                    = 'Warning: Please check the form carefully for errors!';
@@ -227,5 +227,5 @@ $_['error_ftp_port']                   = 'FTP Port required!';
 $_['error_ftp_username']               = 'FTP Username required!';
 $_['error_ftp_password']               = 'FTP Password required!';
 $_['error_error_filename']             = 'Error Log Filename required!';
-$_['error_malformed_filename']	        = 'Error Malformed Log Filename!';
+$_['error_malformed_filename']	       = 'Error Malformed Log Filename!';
 $_['error_encryption']                 = 'Encryption Key must be between 3 and 32 characters!';

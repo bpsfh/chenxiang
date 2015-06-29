@@ -2,10 +2,10 @@
 <div class="container">
   <header>
     <div class="row">
-      <div class="col-sm-12"><img src="view/image/logo.png" alt="OpenCart" title="OpenCart" /></div>
+      <div class="col-sm-12"><img src="view/image/logo.png" alt="MyCnCart" title="MyCnCart" /></div>
     </div>
   </header>
-  <h1>Upgrade</h1>
+  <h1>升级</h1>
   <div class="row">
     <div class="col-sm-9">
       <?php if ($error_warning) { ?>
@@ -15,27 +15,27 @@
       <?php } ?>
       <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data">
         <fieldset>
-          <p><b>Follow these steps carefully!</b></p>
+          <p><b>请小心进行如下升级步骤！</b></p>
           <ol>
-            <li>Post any upgrade script errors problems in the forums</li>
-            <li>After upgrade, clear any cookies in your browser to avoid getting token errors.</li>
-            <li>Load the admin page & press Ctrl+F5 twice to force the browser to update the css changes.</li>
-            <li>Goto Admin -> Users -> User Groups and Edit the Top Adminstrator group. Check All boxes.</li>
-            <li>Goto Admin and Edit the main System Settings. Update all fields and click save, even if nothing changed.</li>
-            <li>Load the store front & press Ctrl+F5 twice to force the browser to update the css changes.</li>
+            <li>在论坛中提交遇到的相关升级错误</li>
+            <li>升级后，清除浏览器Cookies避免token错误。</li>
+            <li>按下Ctrl + F5键至少两次，加载后台管理页面以强制浏览器更新css的修改。</li>
+            <li>访问并编辑后台网站管理员分组，选择所有。</li>
+            <li>访问并编辑后台系统设置，更新所有并保存。即时没有做任何修改，也要保存。</li>
+            <li>访问网站前台，按下 Ctrl + F5 至少两次，强制浏览器加载新的CSS。</li>
           </ol>
         </fieldset>
         <div class="buttons">
           <div class="text-right">
-            <input type="submit" value="Continue" class="button" />
+            <input type="submit" value="继续" class="button" />
           </div>
         </div>
       </form>
     </div>
     <div class="col-sm-3">
       <ul class="list-group">
-        <li class="list-group-item"><b>Upgrade</b></li>
-        <li class="list-group-item">Finished</li>
+        <li class="list-group-item"><b>升级</b></li>
+        <li class="list-group-item">完成</li>
       </ul>
     </div>
   </div>

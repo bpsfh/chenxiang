@@ -47,7 +47,7 @@ class ControllerCommonMenu extends Controller {
 		$data['text_option'] = $this->language->get('text_option');
 		$data['text_order'] = $this->language->get('text_order');
 		$data['text_order_status'] = $this->language->get('text_order_status');
-		$data['text_opencart'] = $this->language->get('text_opencart');
+		$data['text_mycncart'] = $this->language->get('text_mycncart');
 		$data['text_payment'] = $this->language->get('text_payment');
 		$data['text_product'] = $this->language->get('text_product');
 		$data['text_reports'] = $this->language->get('text_reports');
@@ -74,6 +74,7 @@ class ControllerCommonMenu extends Controller {
 		$data['text_return_status'] = $this->language->get('text_return_status');
 		$data['text_shipping'] = $this->language->get('text_shipping');
 		$data['text_setting'] = $this->language->get('text_setting');
+		$data['text_sms'] = $this->language->get('text_sms');
 		$data['text_stock_status'] = $this->language->get('text_stock_status');
 		$data['text_system'] = $this->language->get('text_system');
 		$data['text_tax'] = $this->language->get('text_tax');
@@ -93,18 +94,7 @@ class ControllerCommonMenu extends Controller {
 		$data['text_zone'] = $this->language->get('text_zone');
 		$data['text_recurring'] = $this->language->get('text_recurring');
 		$data['text_order_recurring'] = $this->language->get('text_order_recurring');
-		$data['text_openbay_extension'] = $this->language->get('text_openbay_extension');
-		$data['text_openbay_dashboard'] = $this->language->get('text_openbay_dashboard');
-		$data['text_openbay_orders'] = $this->language->get('text_openbay_orders');
-		$data['text_openbay_items'] = $this->language->get('text_openbay_items');
-		$data['text_openbay_ebay'] = $this->language->get('text_openbay_ebay');
-		$data['text_openbay_etsy'] = $this->language->get('text_openbay_etsy');
-		$data['text_openbay_amazon'] = $this->language->get('text_openbay_amazon');
-		$data['text_openbay_amazonus'] = $this->language->get('text_openbay_amazonus');
-		$data['text_openbay_settings'] = $this->language->get('text_openbay_settings');
-		$data['text_openbay_links'] = $this->language->get('text_openbay_links');
-		$data['text_openbay_report_price'] = $this->language->get('text_openbay_report_price');
-		$data['text_openbay_order_import'] = $this->language->get('text_openbay_order_import');
+		$data['text_others'] = $this->language->get('text_others');
 
 		$data['home'] = $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], 'SSL');
 		$data['affiliate'] = $this->url->link('marketing/affiliate', 'token=' . $this->session->data['token'], 'SSL');
@@ -166,6 +156,7 @@ class ControllerCommonMenu extends Controller {
 		$data['return_status'] = $this->url->link('localisation/return_status', 'token=' . $this->session->data['token'], 'SSL');
 		$data['shipping'] = $this->url->link('extension/shipping', 'token=' . $this->session->data['token'], 'SSL');
 		$data['setting'] = $this->url->link('setting/store', 'token=' . $this->session->data['token'], 'SSL');
+		$data['sms'] = $this->url->link('extension/sms', 'token=' . $this->session->data['token'], 'SSL');
 		$data['stock_status'] = $this->url->link('localisation/stock_status', 'token=' . $this->session->data['token'], 'SSL');
 		$data['tax_class'] = $this->url->link('localisation/tax_class', 'token=' . $this->session->data['token'], 'SSL');
 		$data['tax_rate'] = $this->url->link('localisation/tax_rate', 'token=' . $this->session->data['token'], 'SSL');
