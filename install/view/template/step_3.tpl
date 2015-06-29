@@ -8,7 +8,7 @@
       </div>
       <div class="col-sm-6">
         <div id="logo" class="pull-right hidden-xs">
-          <img src="view/image/logo.png" alt="OpenCart" title="OpenCart" />
+          <img src="view/image/logo.png" alt="MyCnCart" title="MyCnCart" />
         </div>
       </div>
     </div>
@@ -92,7 +92,7 @@
               <div class="text-danger"><?php echo $error_db_port; ?></div>
               <?php } ?>
             </div>
-          </div>          
+          </div>
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-db-prefix"><?php echo $entry_db_prefix; ?></label>
             <div class="col-sm-10">

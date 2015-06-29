@@ -29,6 +29,15 @@
             <div class="col-sm-10">
               <div class="radio">
                 <label>
+                  <?php if ($payment == 'alipay') { ?>
+                  <input type="radio" name="payment" value="alipay" checked="checked" />
+                  <?php } else { ?>
+                  <input type="radio" name="payment" value="alipay" />
+                  <?php } ?>
+                  <?php echo $text_alipay; ?></label>
+              </div>
+              <div class="radio">
+                <label>
                   <?php if ($payment == 'cheque') { ?>
                   <input type="radio" name="payment" value="cheque" checked="checked" />
                   <?php } else { ?>
@@ -56,6 +65,20 @@
               </div>
             </div>
           </div>
+          <div class="payment" id="payment-alipay">
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="input-alipay-account-name"><?php echo $entry_alipay_account_name; ?></label>
+              <div class="col-sm-10">
+                <input type="text" name="alipay_account_name" value="<?php echo $alipay_account_name; ?>" placeholder="<?php echo $entry_alipay_account_name; ?>" id="input-alipay-account-name" class="form-control" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="input-alipay"><?php echo $entry_alipay; ?></label>
+              <div class="col-sm-10">
+                <input type="text" name="alipay" value="<?php echo $alipay; ?>" placeholder="<?php echo $entry_alipay; ?>" id="input-alipay" class="form-control" />
+              </div>
+            </div>
+          </div>
           <div class="form-group payment" id="payment-cheque">
             <label class="col-sm-2 control-label" for="input-cheque"><?php echo $entry_cheque; ?></label>
             <div class="col-sm-10">
@@ -73,18 +96,6 @@
               <label class="col-sm-2 control-label" for="input-bank-name"><?php echo $entry_bank_name; ?></label>
               <div class="col-sm-10">
                 <input type="text" name="bank_name" value="<?php echo $bank_name; ?>" placeholder="<?php echo $entry_bank_name; ?>" id="input-bank-name" class="form-control" />
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label" for="input-bank-branch-number"><?php echo $entry_bank_branch_number; ?></label>
-              <div class="col-sm-10">
-                <input type="text" name="bank_branch_number" value="<?php echo $bank_branch_number; ?>" placeholder="<?php echo $entry_bank_branch_number; ?>" id="input-bank-branch-number" class="form-control" />
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label" for="input-bank-swift-code"><?php echo $entry_bank_swift_code; ?></label>
-              <div class="col-sm-10">
-                <input type="text" name="bank_swift_code" value="<?php echo $bank_swift_code; ?>" placeholder="<?php echo $entry_bank_swift_code; ?>" id="input-bank-swift-code" class="form-control" />
               </div>
             </div>
             <div class="form-group">
@@ -114,10 +125,10 @@
 <script type="text/javascript"><!--
 $('input[name=\'payment\']').on('change', function() {
     $('.payment').hide();
-
+    
     $('#payment-' + this.value).show();
 });
 
 $('input[name=\'payment\']:checked').trigger('change');
-//--></script>
-<?php echo $footer; ?>
+//--></script> 
+<?php echo $footer; ?> 

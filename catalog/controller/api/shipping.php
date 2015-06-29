@@ -16,11 +16,9 @@ class ControllerApiShipping extends Controller {
 			} else {
 				// Add keys for missing post vars
 				$keys = array(
-					'firstname',
-					'lastname',
+					'fullname',
 					'company',
-					'address_1',
-					'address_2',
+					'address',
 					'postcode',
 					'city',
 					'zone_id',
@@ -33,16 +31,16 @@ class ControllerApiShipping extends Controller {
 					}
 				}
 
-				if ((utf8_strlen(trim($this->request->post['firstname'])) < 1) || (utf8_strlen(trim($this->request->post['firstname'])) > 32)) {
-					$json['error']['firstname'] = $this->language->get('error_firstname');
+				if ((utf8_strlen(trim($this->request->post['fullname'])) < 1) || (utf8_strlen(trim($this->request->post['fullname'])) > 32)) {
+					$json['error']['fullname'] = $this->language->get('error_fullname');
+				}
+				
+				if ((utf8_strlen(trim($this->request->post['shipping_telephone'])) < 3) || (utf8_strlen(trim($this->request->post['shipping_telephone'])) > 32)) {
+					$json['error']['shipping_telephone'] = $this->language->get('error_shipping_telephone');
 				}
 
-				if ((utf8_strlen(trim($this->request->post['lastname'])) < 1) || (utf8_strlen(trim($this->request->post['lastname'])) > 32)) {
-					$json['error']['lastname'] = $this->language->get('error_lastname');
-				}
-
-				if ((utf8_strlen(trim($this->request->post['address_1'])) < 3) || (utf8_strlen(trim($this->request->post['address_1'])) > 128)) {
-					$json['error']['address_1'] = $this->language->get('error_address_1');
+				if ((utf8_strlen(trim($this->request->post['address'])) < 3) || (utf8_strlen(trim($this->request->post['address'])) > 128)) {
+					$json['error']['address'] = $this->language->get('error_address');
 				}
 
 				if ((utf8_strlen($this->request->post['city']) < 2) || (utf8_strlen($this->request->post['city']) > 32)) {
@@ -106,11 +104,10 @@ class ControllerApiShipping extends Controller {
 					}
 
 					$this->session->data['shipping_address'] = array(
-						'firstname'      => $this->request->post['firstname'],
-						'lastname'       => $this->request->post['lastname'],
+						'fullname'      => $this->request->post['fullname'],
+						'shipping_telephone'      => $this->request->post['shipping_telephone'],
 						'company'        => $this->request->post['company'],
-						'address_1'      => $this->request->post['address_1'],
-						'address_2'      => $this->request->post['address_2'],
+						'address'      => $this->request->post['address'],
 						'postcode'       => $this->request->post['postcode'],
 						'city'           => $this->request->post['city'],
 						'zone_id'        => $this->request->post['zone_id'],

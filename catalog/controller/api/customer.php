@@ -15,8 +15,7 @@ class ControllerApiCustomer extends Controller {
 			$keys = array(
 				'customer_id',
 				'customer_group_id',
-				'firstname',
-				'lastname',
+				'fullname',
 				'email',
 				'telephone',
 				'fax'
@@ -39,12 +38,8 @@ class ControllerApiCustomer extends Controller {
 				}
 			}
 
-			if ((utf8_strlen(trim($this->request->post['firstname'])) < 1) || (utf8_strlen(trim($this->request->post['firstname'])) > 32)) {
-				$json['error']['firstname'] = $this->language->get('error_firstname');
-			}
-
-			if ((utf8_strlen(trim($this->request->post['lastname'])) < 1) || (utf8_strlen(trim($this->request->post['lastname'])) > 32)) {
-				$json['error']['lastname'] = $this->language->get('error_lastname');
+			if ((utf8_strlen(trim($this->request->post['fullname'])) < 1) || (utf8_strlen(trim($this->request->post['fullname'])) > 32)) {
+				$json['error']['fullname'] = $this->language->get('error_fullname');
 			}
 
 			if ((utf8_strlen($this->request->post['email']) > 96) || (!preg_match('/^[^\@]+@.*.[a-z]{2,15}$/i', $this->request->post['email']))) {
@@ -77,8 +72,7 @@ class ControllerApiCustomer extends Controller {
 				$this->session->data['customer'] = array(
 					'customer_id'       => $this->request->post['customer_id'],
 					'customer_group_id' => $customer_group_id,
-					'firstname'         => $this->request->post['firstname'],
-					'lastname'          => $this->request->post['lastname'],
+					'fullname'         => $this->request->post['fullname'],
 					'email'             => $this->request->post['email'],
 					'telephone'         => $this->request->post['telephone'],
 					'fax'               => $this->request->post['fax'],

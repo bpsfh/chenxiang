@@ -1,6 +1,6 @@
 <?php
 // Version
-define('VERSION', '2.0.3.1');
+define('VERSION', '1.0.2.0');
 
 // Configuration
 if (is_file('config.php')) {
@@ -120,7 +120,7 @@ $config->set('config_language_id', $languages[$config->get('config_admin_languag
 
 // Language
 $language = new Language($languages[$config->get('config_admin_language')]['directory']);
-$language->load($languages[$config->get('config_admin_language')]['directory']);
+$language->load('default');
 $registry->set('language', $language);
 
 // Document
@@ -137,9 +137,6 @@ $registry->set('length', new Length($registry));
 
 // User
 $registry->set('user', new User($registry));
-
-//OpenBay Pro
-$registry->set('openbay', new Openbay($registry));
 
 // Event
 $event = new Event($registry);

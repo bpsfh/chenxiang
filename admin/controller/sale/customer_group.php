@@ -181,7 +181,7 @@ class ControllerSaleCustomerGroup extends Controller {
 		}
 
 		$data['heading_title'] = $this->language->get('heading_title');
-
+		
 		$data['text_list'] = $this->language->get('text_list');
 		$data['text_no_results'] = $this->language->get('text_no_results');
 		$data['text_confirm'] = $this->language->get('text_confirm');
@@ -367,7 +367,7 @@ class ControllerSaleCustomerGroup extends Controller {
 		}
 
 		foreach ($this->request->post['customer_group_description'] as $language_id => $value) {
-			if ((utf8_strlen($value['name']) < 3) || (utf8_strlen($value['name']) > 32)) {
+			if ((utf8_strlen($value['name']) < 1) || (utf8_strlen($value['name']) > 32)) {
 				$this->error['name'][$language_id] = $this->language->get('error_name');
 			}
 		}

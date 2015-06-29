@@ -29,7 +29,7 @@ class ControllerAccountEdit extends Controller {
 
 			$activity_data = array(
 				'customer_id' => $this->customer->getId(),
-				'name'        => $this->customer->getFirstName() . ' ' . $this->customer->getLastName()
+				'name'        => $this->customer->getFullName()
 			);
 
 			$this->model_account_activity->addActivity('edit', $activity_data);
@@ -59,12 +59,14 @@ class ControllerAccountEdit extends Controller {
 		$data['text_your_details'] = $this->language->get('text_your_details');
 		$data['text_additional'] = $this->language->get('text_additional');
 		$data['text_select'] = $this->language->get('text_select');
+		$data['text_get_sms_code'] = $this->language->get('text_get_sms_code');
+		$data['text_sms_hint'] = $this->language->get('text_sms_hint');
 		$data['text_loading'] = $this->language->get('text_loading');
 
-		$data['entry_firstname'] = $this->language->get('entry_firstname');
-		$data['entry_lastname'] = $this->language->get('entry_lastname');
+		$data['entry_fullname'] = $this->language->get('entry_fullname');
 		$data['entry_email'] = $this->language->get('entry_email');
 		$data['entry_telephone'] = $this->language->get('entry_telephone');
+		$data['entry_sms_code'] = $this->language->get('entry_sms_code');
 		$data['entry_fax'] = $this->language->get('entry_fax');
 
 		$data['button_continue'] = $this->language->get('button_continue');
@@ -77,16 +79,10 @@ class ControllerAccountEdit extends Controller {
 			$data['error_warning'] = '';
 		}
 
-		if (isset($this->error['firstname'])) {
-			$data['error_firstname'] = $this->error['firstname'];
+		if (isset($this->error['fullname'])) {
+			$data['error_fullname'] = $this->error['fullname'];
 		} else {
-			$data['error_firstname'] = '';
-		}
-
-		if (isset($this->error['lastname'])) {
-			$data['error_lastname'] = $this->error['lastname'];
-		} else {
-			$data['error_lastname'] = '';
+			$data['error_fullname'] = '';
 		}
 
 		if (isset($this->error['email'])) {
@@ -99,6 +95,12 @@ class ControllerAccountEdit extends Controller {
 			$data['error_telephone'] = $this->error['telephone'];
 		} else {
 			$data['error_telephone'] = '';
+		}
+		
+		if (isset($this->error['sms_code'])) {
+			$data['error_sms_code'] = $this->error['sms_code'];
+		} else {
+			$data['error_sms_code'] = '';
 		}
 
 		if (isset($this->error['custom_field'])) {
@@ -113,20 +115,12 @@ class ControllerAccountEdit extends Controller {
 			$customer_info = $this->model_account_customer->getCustomer($this->customer->getId());
 		}
 
-		if (isset($this->request->post['firstname'])) {
-			$data['firstname'] = $this->request->post['firstname'];
+		if (isset($this->request->post['fullname'])) {
+			$data['fullname'] = $this->request->post['fullname'];
 		} elseif (!empty($customer_info)) {
-			$data['firstname'] = $customer_info['firstname'];
+			$data['fullname'] = $customer_info['fullname'];
 		} else {
-			$data['firstname'] = '';
-		}
-
-		if (isset($this->request->post['lastname'])) {
-			$data['lastname'] = $this->request->post['lastname'];
-		} elseif (!empty($customer_info)) {
-			$data['lastname'] = $customer_info['lastname'];
-		} else {
-			$data['lastname'] = '';
+			$data['fullname'] = '';
 		}
 
 		if (isset($this->request->post['email'])) {
@@ -151,6 +145,25 @@ class ControllerAccountEdit extends Controller {
 			$data['fax'] = $customer_info['fax'];
 		} else {
 			$data['fax'] = '';
+		}
+		
+		//SMS
+		if($this->smsgateway()) {
+			
+			$sms_gateway = $this->smsgateway();
+			
+			$data['sms_gateway'] = $sms_gateway[0];
+			
+		}else{
+			
+			$data['sms_gateway'] = '';
+			
+		}
+		
+		if (isset($this->request->post['sms_code'])) {
+			$data['sms_code'] = $this->request->post['sms_code'];
+		} else {
+			$data['sms_code'] = '';
 		}
 
 		// Custom Fields
@@ -183,13 +196,10 @@ class ControllerAccountEdit extends Controller {
 	}
 
 	protected function validate() {
-		if ((utf8_strlen(trim($this->request->post['firstname'])) < 1) || (utf8_strlen(trim($this->request->post['firstname'])) > 32)) {
-			$this->error['firstname'] = $this->language->get('error_firstname');
+		if ((utf8_strlen(trim($this->request->post['fullname'])) < 2) || (utf8_strlen(trim($this->request->post['fullname'])) > 32)) {
+			$this->error['fullname'] = $this->language->get('error_fullname');
 		}
 
-		if ((utf8_strlen(trim($this->request->post['lastname'])) < 1) || (utf8_strlen(trim($this->request->post['lastname'])) > 32)) {
-			$this->error['lastname'] = $this->language->get('error_lastname');
-		}
 
 		if ((utf8_strlen($this->request->post['email']) > 96) || !preg_match('/^[^\@]+@.*.[a-z]{2,15}$/i', $this->request->post['email'])) {
 			$this->error['email'] = $this->language->get('error_email');
@@ -201,6 +211,21 @@ class ControllerAccountEdit extends Controller {
 
 		if ((utf8_strlen($this->request->post['telephone']) < 3) || (utf8_strlen($this->request->post['telephone']) > 32)) {
 			$this->error['telephone'] = $this->language->get('error_telephone');
+		}else{
+			if($this->customer->getTelephone() == trim($this->request->post['telephone'])) {
+			
+			}else{
+				// if sms code is not correct
+				// if sms code is not correct
+				if (isset($this->request->post['sms_code'])) {
+					$this->load->model('account/smsmobile');
+					if($this->model_account_smsmobile->verifySmsCode($this->request->post['telephone'], $this->request->post['sms_code']) == 0) {
+						$this->error['sms_code'] = $this->language->get('error_sms_code');
+					}
+				}
+			}
+			
+			
 		}
 
 		// Custom field validation
@@ -215,5 +240,26 @@ class ControllerAccountEdit extends Controller {
 		}
 
 		return !$this->error;
+	}
+	
+	public function smsgateway() {
+		
+		$sms_gateway = array();
+
+		$this->load->model('extension/extension');
+
+		$results = $this->model_extension_extension->getExtensions('sms');
+
+
+		foreach ($results as $result) {
+			if ($this->config->get($result['code'] . '_status')) {
+
+					$sms_gateway[] = $result['code'];
+
+			}
+		}
+		
+		return $sms_gateway;
+		
 	}
 }

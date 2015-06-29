@@ -78,15 +78,9 @@
                 </div>
               </div>
               <div class="form-group required">
-                <label class="col-sm-2 control-label" for="input-firstname"><?php echo $entry_firstname; ?></label>
+                <label class="col-sm-2 control-label" for="input-fullname"><?php echo $entry_fullname; ?></label>
                 <div class="col-sm-10">
-                  <input type="text" name="firstname" value="<?php echo $firstname; ?>" id="input-firstname" class="form-control" />
-                </div>
-              </div>
-              <div class="form-group required">
-                <label class="col-sm-2 control-label" for="input-lastname"><?php echo $entry_lastname; ?></label>
-                <div class="col-sm-10">
-                  <input type="text" name="lastname" value="<?php echo $lastname; ?>" id="input-lastname" class="form-control" />
+                  <input type="text" name="fullname" value="<?php echo $fullname; ?>" id="input-fullname" class="form-control" />
                 </div>
               </div>
               <div class="form-group required">
@@ -407,21 +401,15 @@
                   <select name="payment_address" id="input-payment-address" class="form-control">
                     <option value="0" selected="selected"><?php echo $text_none; ?></option>
                     <?php foreach ($addresses as $address) { ?>
-                    <option value="<?php echo $address['address_id']; ?>"><?php echo $address['firstname'] . ' ' . $address['lastname'] . ', ' . $address['address_1'] . ', ' . $address['city'] . ', ' . $address['country']; ?></option>
+                    <option value="<?php echo $address['address_id']; ?>"><?php echo $address['fullname'] . ', ' . $address['address'] . ', ' . $address['city'] . ', ' . $address['country']; ?></option>
                     <?php } ?>
                   </select>
                 </div>
               </div>
               <div class="form-group required">
-                <label class="col-sm-2 control-label" for="input-payment-firstname"><?php echo $entry_firstname; ?></label>
+                <label class="col-sm-2 control-label" for="input-payment-fullname"><?php echo $entry_fullname; ?></label>
                 <div class="col-sm-10">
-                  <input type="text" name="firstname" value="<?php echo $payment_firstname; ?>" id="input-payment-firstname" class="form-control" />
-                </div>
-              </div>
-              <div class="form-group required">
-                <label class="col-sm-2 control-label" for="input-payment-lastname"><?php echo $entry_lastname; ?></label>
-                <div class="col-sm-10">
-                  <input type="text" name="lastname" value="<?php echo $payment_lastname; ?>" id="input-payment-lastname" class="form-control" />
+                  <input type="text" name="fullname" value="<?php echo $payment_fullname; ?>" id="input-payment-fullname" class="form-control" />
                 </div>
               </div>
               <div class="form-group">
@@ -431,15 +419,9 @@
                 </div>
               </div>
               <div class="form-group required">
-                <label class="col-sm-2 control-label" for="input-payment-address-1"><?php echo $entry_address_1; ?></label>
+                <label class="col-sm-2 control-label" for="input-payment-address"><?php echo $entry_address; ?></label>
                 <div class="col-sm-10">
-                  <input type="text" name="address_1" value="<?php echo $payment_address_1; ?>" id="input-payment-address-1" class="form-control" />
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-payment-address-2"><?php echo $entry_address_2; ?></label>
-                <div class="col-sm-10">
-                  <input type="text" name="address_2" value="<?php echo $payment_address_2; ?>" id="input-payment-address-2" class="form-control" />
+                  <input type="text" name="address" value="<?php echo $payment_address; ?>" id="input-payment-address" class="form-control" />
                 </div>
               </div>
               <div class="form-group required">
@@ -618,51 +600,27 @@
                   <select name="shipping_address" id="input-shipping-address" class="form-control">
                     <option value="0" selected="selected"><?php echo $text_none; ?></option>
                     <?php foreach ($addresses as $address) { ?>
-                    <option value="<?php echo $address['address_id']; ?>"><?php echo $address['firstname'] . ' ' . $address['lastname'] . ', ' . $address['address_1'] . ', ' . $address['city'] . ', ' . $address['country']; ?></option>
+                    <option value="<?php echo $address['address_id']; ?>"><?php echo $address['fullname'] . ', ' . $address['address'] . ', ' . $address['city'] . ', ' . $address['country']; ?></option>
                     <?php } ?>
                   </select>
                 </div>
               </div>
               <div class="form-group required">
-                <label class="col-sm-2 control-label" for="input-shipping-firstname"><?php echo $entry_firstname; ?></label>
+                <label class="col-sm-2 control-label" for="input-shipping-fullname"><?php echo $entry_fullname; ?></label>
                 <div class="col-sm-10">
-                  <input type="text" name="firstname" value="<?php echo $shipping_firstname; ?>" id="input-shipping-firstname" class="form-control" />
+                  <input type="text" name="fullname" value="<?php echo $shipping_fullname; ?>" id="input-shipping-fullname" class="form-control" />
                 </div>
               </div>
               <div class="form-group required">
-                <label class="col-sm-2 control-label" for="input-shipping-lastname"><?php echo $entry_lastname; ?></label>
+                <label class="col-sm-2 control-label" for="input-shipping-shipping-telephone"><?php echo $entry_shipping_telephone; ?></label>
                 <div class="col-sm-10">
-                  <input type="text" name="lastname" value="<?php echo $shipping_lastname; ?>" id="input-shipping-lastname" class="form-control" />
+                  <input type="text" name="shipping_telephone" value="<?php echo $shipping_telephone; ?>" id="input-shipping-shipping-telephone" class="form-control" />
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-shipping-company"><?php echo $entry_company; ?></label>
                 <div class="col-sm-10">
                   <input type="text" name="company" value="<?php echo $shipping_company; ?>" id="input-shipping-company" class="form-control" />
-                </div>
-              </div>
-              <div class="form-group required">
-                <label class="col-sm-2 control-label" for="input-shipping-address-1"><?php echo $entry_address_1; ?></label>
-                <div class="col-sm-10">
-                  <input type="text" name="address_1" value="<?php echo $shipping_address_1; ?>" id="input-shipping-address-1" class="form-control" />
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-shipping-address-2"><?php echo $entry_address_2; ?></label>
-                <div class="col-sm-10">
-                  <input type="text" name="address_2" value="<?php echo $shipping_address_2; ?>" id="input-shipping-address-2" class="form-control" />
-                </div>
-              </div>
-              <div class="form-group required">
-                <label class="col-sm-2 control-label" for="input-shipping-city"><?php echo $entry_city; ?></label>
-                <div class="col-sm-10">
-                  <input type="text" name="city" value="<?php echo $shipping_city; ?>" id="input-shipping-city" class="form-control" />
-                </div>
-              </div>
-              <div class="form-group required">
-                <label class="col-sm-2 control-label" for="input-shipping-postcode"><?php echo $entry_postcode; ?></label>
-                <div class="col-sm-10">
-                  <input type="text" name="postcode" value="<?php echo $shipping_postcode; ?>" id="input-shipping-postcode" class="form-control" />
                 </div>
               </div>
               <div class="form-group required">
@@ -687,6 +645,26 @@
                   </select>
                 </div>
               </div>
+              <div class="form-group required">
+                <label class="col-sm-2 control-label" for="input-shipping-city"><?php echo $entry_city; ?></label>
+                <div class="col-sm-10">
+                  <input type="text" name="city" value="<?php echo $shipping_city; ?>" id="input-shipping-city" class="form-control" />
+                </div>
+              </div>
+              <div class="form-group required">
+                <label class="col-sm-2 control-label" for="input-shipping-address"><?php echo $entry_address; ?></label>
+                <div class="col-sm-10">
+                  <input type="text" name="address" value="<?php echo $shipping_address; ?>" id="input-shipping-address" class="form-control" />
+                </div>
+              </div>
+              <div class="form-group required">
+                <label class="col-sm-2 control-label" for="input-shipping-postcode"><?php echo $entry_postcode; ?></label>
+                <div class="col-sm-10">
+                  <input type="text" name="postcode" value="<?php echo $shipping_postcode; ?>" id="input-shipping-postcode" class="form-control" />
+                </div>
+              </div>
+              
+              
               <?php foreach ($custom_fields as $custom_field) { ?>
               <?php if ($custom_field['location'] == 'address') { ?>
               <?php if ($custom_field['type'] == 'select') { ?>
@@ -1176,8 +1154,7 @@ $('input[name=\'customer\']').autocomplete({
 					customer_group_id: '<?php echo $customer_group_id; ?>',						
 					name: '<?php echo $text_none; ?>',
 					customer_group: '',
-					firstname: '',
-					lastname: '',
+					fullname: '',
 					email: '',
 					telephone: '',
 					fax: '',
@@ -1191,8 +1168,7 @@ $('input[name=\'customer\']').autocomplete({
 						label: item['name'],
 						value: item['customer_id'],
 						customer_group_id: item['customer_group_id'],						
-						firstname: item['firstname'],
-						lastname: item['lastname'],
+						fullname: item['fullname'],
 						email: item['email'],
 						telephone: item['telephone'],
 						fax: item['fax'],
@@ -1212,8 +1188,7 @@ $('input[name=\'customer\']').autocomplete({
 		$('#tab-customer input[name=\'customer\']').val(item['label']);
 		$('#tab-customer input[name=\'customer_id\']').val(item['value']);
 		$('#tab-customer select[name=\'customer_group_id\']').val(item['customer_group_id']);
-		$('#tab-customer input[name=\'firstname\']').val(item['firstname']);
-		$('#tab-customer input[name=\'lastname\']').val(item['lastname']);
+		$('#tab-customer input[name=\'fullname\']').val(item['fullname']);
 		$('#tab-customer input[name=\'email\']').val(item['email']);
 		$('#tab-customer input[name=\'telephone\']').val(item['telephone']);
 		$('#tab-customer input[name=\'fax\']').val(item['fax']);		
@@ -1237,7 +1212,7 @@ $('input[name=\'customer\']').autocomplete({
 		html = '<option value="0"><?php echo $text_none; ?></option>'; 
 			
 		for (i in  item['address']) {
-			html += '<option value="' + item['address'][i]['address_id'] + '">' + item['address'][i]['firstname'] + ' ' + item['address'][i]['lastname'] + ', ' + item['address'][i]['address_1'] + ', ' + item['address'][i]['city'] + ', ' + item['address'][i]['country'] + '</option>';
+			html += '<option value="' + item['address'][i]['address_id'] + '">' + item['address'][i]['fullname'] + ', ' + item['address'][i]['address'] + ', ' + item['address'][i]['city'] + ', ' + item['address'][i]['country'] + '</option>';
 		}
 		
 		$('select[name=\'payment_address\']').html(html);
@@ -1718,11 +1693,9 @@ $('select[name=\'payment_address\']').on('change', function() {
 			$('#tab-payment select option').not('#tab-payment select[name=\'payment_address\']').removeAttr('selected');
 			$('#tab-payment input[type=\'checkbox\'], #tab-payment input[type=\'radio\']').removeAttr('checked');
 					
-			$('#tab-payment input[name=\'firstname\']').val(json['firstname']);
-			$('#tab-payment input[name=\'lastname\']').val(json['lastname']);
+			$('#tab-payment input[name=\'fullname\']').val(json['fullname']);
 			$('#tab-payment input[name=\'company\']').val(json['company']);
-			$('#tab-payment input[name=\'address_1\']').val(json['address_1']);
-			$('#tab-payment input[name=\'address_2\']').val(json['address_2']);
+			$('#tab-payment input[name=\'address\']').val(json['address']);
 			$('#tab-payment input[name=\'city\']').val(json['city']);
 			$('#tab-payment input[name=\'postcode\']').val(json['postcode']);
 			$('#tab-payment select[name=\'country_id\']').val(json['country_id']);
@@ -1902,11 +1875,9 @@ $('select[name=\'shipping_address\']').on('change', function() {
 			$('#tab-shipping select option').not('#tab-shipping select[name=\'shipping_address\']').removeAttr('selected');
 			$('#tab-shipping input[type=\'checkbox\'], #tab-shipping input[type=\'radio\']').removeAttr('checked');
 					
-			$('#tab-shipping input[name=\'firstname\']').val(json['firstname']);
-			$('#tab-shipping input[name=\'lastname\']').val(json['lastname']);
+			$('#tab-shipping input[name=\'fullname\']').val(json['fullname']);
 			$('#tab-shipping input[name=\'company\']').val(json['company']);
-			$('#tab-shipping input[name=\'address_1\']').val(json['address_1']);
-			$('#tab-shipping input[name=\'address_2\']').val(json['address_2']);
+			$('#tab-shipping input[name=\'address\']').val(json['address']);
 			$('#tab-shipping input[name=\'city\']').val(json['city']);
 			$('#tab-shipping input[name=\'postcode\']').val(json['postcode']);
 			$('#tab-shipping select[name=\'country_id\']').val(json['country_id']);
@@ -2341,7 +2312,7 @@ $('#content').delegate('button[id^=\'button-upload\'], button[id^=\'button-custo
 	if (typeof timer != 'undefined') {
     	clearInterval(timer);
 	}
-	
+
 	timer = setInterval(function() {
 		if ($('#form-upload input[name=\'file\']').val() != '') {
 			clearInterval(timer);
@@ -2395,7 +2366,7 @@ $('.datetime').datetimepicker({
 $('.time').datetimepicker({
 	pickDate: false
 });	
-//--></script> 
+//--></script>
   <script type="text/javascript">
 // Sort the custom fields
 $('#tab-customer .form-group[data-sort]').detach().each(function() {

@@ -45,8 +45,10 @@ class ControllerSettingSetting extends Controller {
 		$data['text_payment'] = $this->language->get('text_payment');
 		$data['text_mail'] = $this->language->get('text_mail');
 		$data['text_smtp'] = $this->language->get('text_smtp');
+		$data['text_baidu'] = $this->language->get('text_baidu');
+		$data['text_google'] = $this->language->get('text_google');
 		$data['text_google_analytics'] = $this->language->get('text_google_analytics');
-		$data['text_google_captcha'] = $this->language->get('text_google_captcha');
+
 
 		$data['entry_name'] = $this->language->get('entry_name');
 		$data['entry_owner'] = $this->language->get('entry_owner');
@@ -153,8 +155,7 @@ class ControllerSettingSetting extends Controller {
 		$data['entry_error_log'] = $this->language->get('entry_error_log');
 		$data['entry_error_filename'] = $this->language->get('entry_error_filename');
 		$data['entry_google_analytics'] = $this->language->get('entry_google_analytics');
-		$data['entry_google_captcha_public'] = $this->language->get('entry_google_captcha_public');
-		$data['entry_google_captcha_secret'] = $this->language->get('entry_google_captcha_secret');
+		$data['entry_map_select'] = $this->language->get('entry_map_select');
 		$data['entry_status'] = $this->language->get('entry_status');
 
 		$data['help_geocode'] = $this->language->get('help_geocode');
@@ -178,7 +179,7 @@ class ControllerSettingSetting extends Controller {
 		$data['help_customer_group'] = $this->language->get('help_customer_group');
 		$data['help_customer_group_display'] = $this->language->get('help_customer_group_display');
 		$data['help_customer_price'] = $this->language->get('help_customer_price');
-		$data['help_login_attempts'] = $this->language->get('help_login_attempts');
+		$data['help_login_attempts'] = $this->language->get('help_login_attempts');		
 		$data['help_account'] = $this->language->get('help_account');
 		$data['help_account_mail'] = $this->language->get('help_account_mail');
 		$data['help_api'] = $this->language->get('help_api');
@@ -219,7 +220,6 @@ class ControllerSettingSetting extends Controller {
 		$data['help_encryption'] = $this->language->get('help_encryption');
 		$data['help_compression'] = $this->language->get('help_compression');
 		$data['help_google_analytics'] = $this->language->get('help_google_analytics');
-		$data['help_google_captcha'] = $this->language->get('help_google_captcha');
 
 		$data['button_save'] = $this->language->get('button_save');
 		$data['button_cancel'] = $this->language->get('button_cancel');
@@ -232,7 +232,6 @@ class ControllerSettingSetting extends Controller {
 		$data['tab_ftp'] = $this->language->get('tab_ftp');
 		$data['tab_mail'] = $this->language->get('tab_mail');
 		$data['tab_server'] = $this->language->get('tab_server');
-		$data['tab_google'] = $this->language->get('tab_google');
 
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
@@ -287,19 +286,19 @@ class ControllerSettingSetting extends Controller {
 		} else {
 			$data['error_zone'] = '';
 		}
-
+	
 		if (isset($this->error['customer_group_display'])) {
 			$data['error_customer_group_display'] = $this->error['customer_group_display'];
 		} else {
 			$data['error_customer_group_display'] = '';
 		}
-
+		
 		if (isset($this->error['login_attempts'])) {
 			$data['error_login_attempts'] = $this->error['login_attempts'];
 		} else {
 			$data['error_login_attempts'] = '';
-		}
-
+		}	
+		
 		if (isset($this->error['voucher_min'])) {
 			$data['error_voucher_min'] = $this->error['voucher_min'];
 		} else {
@@ -485,6 +484,14 @@ class ControllerSettingSetting extends Controller {
 			$data['config_address'] = $this->request->post['config_address'];
 		} else {
 			$data['config_address'] = $this->config->get('config_address');
+		}
+		
+		if (isset($this->request->post['config_map_select'])) {
+			$data['config_map_select'] = $this->request->post['config_map_select'];
+		} elseif ($this->config->get('config_map_select')) {
+			$data['config_map_select'] = $this->config->get('config_map_select');
+		} else {
+			$data['config_map_select'] = 'baidu';
 		}
 
 		if (isset($this->request->post['config_geocode'])) {
@@ -764,7 +771,7 @@ class ControllerSettingSetting extends Controller {
 		} else {
 			$data['config_customer_price'] = $this->config->get('config_customer_price');
 		}
-
+		
 		if (isset($this->request->post['config_login_attempts'])) {
 			$data['config_login_attempts'] = $this->request->post['config_login_attempts'];
 		} elseif ($this->config->has('config_login_attempts')) {
@@ -772,7 +779,7 @@ class ControllerSettingSetting extends Controller {
 		} else {
 			$data['config_login_attempts'] = 5;
 		}
-
+		
 		if (isset($this->request->post['config_account_id'])) {
 			$data['config_account_id'] = $this->request->post['config_account_id'];
 		} else {
@@ -1260,29 +1267,11 @@ class ControllerSettingSetting extends Controller {
 		} else {
 			$data['config_google_analytics'] = $this->config->get('config_google_analytics');
 		}
-
+		
 		if (isset($this->request->post['config_google_analytics_status'])) {
 			$data['config_google_analytics_status'] = $this->request->post['config_google_analytics_status'];
 		} else {
 			$data['config_google_analytics_status'] = $this->config->get('config_google_analytics_status');
-		}
-
-		if (isset($this->request->post['config_google_captcha_public'])) {
-			$data['config_google_captcha_public'] = $this->request->post['config_google_captcha_public'];
-		} else {
-			$data['config_google_captcha_public'] = $this->config->get('config_google_captcha_public');
-		}
-
-		if (isset($this->request->post['config_google_captcha_secret'])) {
-			$data['config_google_captcha_secret'] = $this->request->post['config_google_captcha_secret'];
-		} else {
-			$data['config_google_captcha_secret'] = $this->config->get('config_google_captcha_secret');
-		}
-
-		if (isset($this->request->post['config_google_captcha_status'])) {
-			$data['config_google_captcha_status'] = $this->request->post['config_google_captcha_status'];
-		} else {
-			$data['config_google_captcha_status'] = $this->config->get('config_google_captcha_status');
 		}
 
 		$data['header'] = $this->load->controller('common/header');
@@ -1320,15 +1309,15 @@ class ControllerSettingSetting extends Controller {
 		if (!$this->request->post['config_meta_title']) {
 			$this->error['meta_title'] = $this->language->get('error_meta_title');
 		}
-
+		
 		if (!empty($this->request->post['config_customer_group_display']) && !in_array($this->request->post['config_customer_group_id'], $this->request->post['config_customer_group_display'])) {
 			$this->error['customer_group_display'] = $this->language->get('error_customer_group_display');
 		}
-
+		
 		if ($this->request->post['config_login_attempts'] < 1) {
 			$this->error['login_attempts'] = $this->language->get('error_login_attempts');
 		}
-
+		
 		if (!$this->request->post['config_voucher_min']) {
 			$this->error['voucher_min'] = $this->language->get('error_voucher_min');
 		}

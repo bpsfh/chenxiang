@@ -21,12 +21,8 @@
         <?php } ?>
       </div>
       <div class="form-group required">
-        <label class="control-label" for="input-payment-firstname"><?php echo $entry_firstname; ?></label>
-        <input type="text" name="firstname" value="" placeholder="<?php echo $entry_firstname; ?>" id="input-payment-firstname" class="form-control" />
-      </div>
-      <div class="form-group required">
-        <label class="control-label" for="input-payment-lastname"><?php echo $entry_lastname; ?></label>
-        <input type="text" name="lastname" value="" placeholder="<?php echo $entry_lastname; ?>" id="input-payment-lastname" class="form-control" />
+        <label class="control-label" for="input-payment-fullname"><?php echo $entry_fullname; ?></label>
+        <input type="text" name="fullname" value="" placeholder="<?php echo $entry_fullname; ?>" id="input-payment-fullname" class="form-control" />
       </div>
       <div class="form-group required">
         <label class="control-label" for="input-payment-email"><?php echo $entry_email; ?></label>
@@ -154,22 +150,6 @@
         <input type="text" name="company" value="" placeholder="<?php echo $entry_company; ?>" id="input-payment-company" class="form-control" />
       </div>
       <div class="form-group required">
-        <label class="control-label" for="input-payment-address-1"><?php echo $entry_address_1; ?></label>
-        <input type="text" name="address_1" value="" placeholder="<?php echo $entry_address_1; ?>" id="input-payment-address-1" class="form-control" />
-      </div>
-      <div class="form-group">
-        <label class="control-label" for="input-payment-address-2"><?php echo $entry_address_2; ?></label>
-        <input type="text" name="address_2" value="" placeholder="<?php echo $entry_address_2; ?>" id="input-payment-address-2" class="form-control" />
-      </div>
-      <div class="form-group required">
-        <label class="control-label" for="input-payment-city"><?php echo $entry_city; ?></label>
-        <input type="text" name="city" value="" placeholder="<?php echo $entry_city; ?>" id="input-payment-city" class="form-control" />
-      </div>
-      <div class="form-group required">
-        <label class="control-label" for="input-payment-postcode"><?php echo $entry_postcode; ?></label>
-        <input type="text" name="postcode" value="<?php echo $postcode; ?>" placeholder="<?php echo $entry_postcode; ?>" id="input-payment-postcode" class="form-control" />
-      </div>
-      <div class="form-group required">
         <label class="control-label" for="input-payment-country"><?php echo $entry_country; ?></label>
         <select name="country_id" id="input-payment-country" class="form-control">
           <option value=""><?php echo $text_select; ?></option>
@@ -187,6 +167,20 @@
         <select name="zone_id" id="input-payment-zone" class="form-control">
         </select>
       </div>
+      <div class="form-group required">
+        <label class="control-label" for="input-payment-city"><?php echo $entry_city; ?></label>
+        <input type="text" name="city" value="" placeholder="<?php echo $entry_city; ?>" id="input-payment-city" class="form-control" />
+      </div>
+      <div class="form-group required">
+        <label class="control-label" for="input-payment-address"><?php echo $entry_address; ?></label>
+        <input type="text" name="address" value="" placeholder="<?php echo $entry_address; ?>" id="input-payment-address" class="form-control" />
+      </div>
+      
+      <div class="form-group required">
+        <label class="control-label" for="input-payment-postcode"><?php echo $entry_postcode; ?></label>
+        <input type="text" name="postcode" value="<?php echo $postcode; ?>" placeholder="<?php echo $entry_postcode; ?>" id="input-payment-postcode" class="form-control" />
+      </div>
+      
       <?php foreach ($custom_fields as $custom_field) { ?>
       <?php if ($custom_field['location'] == 'address') { ?>
       <?php if ($custom_field['type'] == 'select') { ?>
@@ -314,12 +308,12 @@
 $('#account .form-group[data-sort]').detach().each(function() {
 	if ($(this).attr('data-sort') >= 0 && $(this).attr('data-sort') <= $('#account .form-group').length) {
 		$('#account .form-group').eq($(this).attr('data-sort')).before(this);
-	}
-
+	} 
+	
 	if ($(this).attr('data-sort') > $('#account .form-group').length) {
 		$('#account .form-group:last').after(this);
 	}
-
+		
 	if ($(this).attr('data-sort') < -$('#account .form-group').length) {
 		$('#account .form-group:first').before(this);
 	}
@@ -328,12 +322,12 @@ $('#account .form-group[data-sort]').detach().each(function() {
 $('#address .form-group[data-sort]').detach().each(function() {
 	if ($(this).attr('data-sort') >= 0 && $(this).attr('data-sort') <= $('#address .form-group').length) {
 		$('#address .form-group').eq($(this).attr('data-sort')).before(this);
-	}
-
+	} 
+	
 	if ($(this).attr('data-sort') > $('#address .form-group').length) {
 		$('#address .form-group:last').after(this);
 	}
-
+		
 	if ($(this).attr('data-sort') < -$('#address .form-group').length) {
 		$('#address .form-group:first').before(this);
 	}
@@ -364,7 +358,7 @@ $('#collapse-payment-address input[name=\'customer_group_id\']').on('change', fu
 });
 
 $('#collapse-payment-address input[name=\'customer_group_id\']:checked').trigger('change');
-//--></script>
+//--></script> 
 <script type="text/javascript"><!--
 $('#collapse-payment-address button[id^=\'button-payment-custom-field\']').on('click', function() {
 	var node = this;
@@ -374,7 +368,7 @@ $('#collapse-payment-address button[id^=\'button-payment-custom-field\']').on('c
 	$('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file" /></form>');
 
 	$('#form-upload input[name=\'file\']').trigger('click');
-
+	
 	if (typeof timer != 'undefined') {
     	clearInterval(timer);
 	}
@@ -382,7 +376,7 @@ $('#collapse-payment-address button[id^=\'button-payment-custom-field\']').on('c
 	timer = setInterval(function() {
 		if ($('#form-upload input[name=\'file\']').val() != '') {
 			clearInterval(timer);
-
+		
 			$.ajax({
 				url: 'index.php?route=tool/upload',
 				type: 'post',
@@ -399,14 +393,14 @@ $('#collapse-payment-address button[id^=\'button-payment-custom-field\']').on('c
 				},
 				success: function(json) {
 					$('.text-danger').remove();
-
+					
 					if (json['error']) {
 						$(node).parent().find('input[name^=\'custom_field\']').after('<div class="text-danger">' + json['error'] + '</div>');
 					}
-
+	
 					if (json['success']) {
 						alert(json['success']);
-
+	
 						$(node).parent().find('input[name^=\'custom_field\']').attr('value', json['code']);
 					}
 				},
@@ -417,7 +411,7 @@ $('#collapse-payment-address button[id^=\'button-payment-custom-field\']').on('c
 		}
 	}, 500);
 });
-//--></script>
+//--></script> 
 <script type="text/javascript"><!--
 $('.date').datetimepicker({
 	pickTime: false
@@ -431,7 +425,7 @@ $('.datetime').datetimepicker({
 	pickDate: true,
 	pickTime: true
 });
-//--></script>
+//--></script> 
 <script type="text/javascript"><!--
 $('#collapse-payment-address select[name=\'country_id\']').on('change', function() {
 	$.ajax({
@@ -444,28 +438,30 @@ $('#collapse-payment-address select[name=\'country_id\']').on('change', function
 			$('.fa-spin').remove();
 		},
 		success: function(json) {
+			
+			
 			if (json['postcode_required'] == '1') {
 				$('#collapse-payment-address input[name=\'postcode\']').parent().parent().addClass('required');
 			} else {
 				$('#collapse-payment-address input[name=\'postcode\']').parent().parent().removeClass('required');
 			}
-
+			
 			html = '<option value=""><?php echo $text_select; ?></option>';
-
+			
 			if (json['zone'] && json['zone'] != '') {
 				for (i = 0; i < json['zone'].length; i++) {
 					html += '<option value="' + json['zone'][i]['zone_id'] + '"';
-
+					
 					if (json['zone'][i]['zone_id'] == '<?php echo $zone_id; ?>') {
 						html += ' selected="selected"';
 					}
-
+					
 					html += '>' + json['zone'][i]['name'] + '</option>';
 				}
 			} else {
 				html += '<option value="0" selected="selected"><?php echo $text_none; ?></option>';
 			}
-
+			
 			$('#collapse-payment-address select[name=\'zone_id\']').html(html);
 		},
 		error: function(xhr, ajaxOptions, thrownError) {

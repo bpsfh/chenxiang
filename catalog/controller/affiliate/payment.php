@@ -25,7 +25,7 @@ class ControllerAffiliatePayment extends Controller {
 
 			$activity_data = array(
 				'affiliate_id' => $this->affiliate->getId(),
-				'name'         => $this->affiliate->getFirstName() . ' ' . $this->affiliate->getLastName()
+				'name'         => $this->affiliate->getFullName()
 			);
 
 			$this->model_affiliate_activity->addActivity('payment', $activity_data);
@@ -55,6 +55,7 @@ class ControllerAffiliatePayment extends Controller {
 		$data['text_your_payment'] = $this->language->get('text_your_payment');
 		$data['text_cheque'] = $this->language->get('text_cheque');
 		$data['text_paypal'] = $this->language->get('text_paypal');
+		$data['text_alipay'] = $this->language->get('text_alipay');
 		$data['text_bank'] = $this->language->get('text_bank');
 
 		$data['entry_tax'] = $this->language->get('entry_tax');
@@ -62,10 +63,10 @@ class ControllerAffiliatePayment extends Controller {
 		$data['entry_cheque'] = $this->language->get('entry_cheque');
 		$data['entry_paypal'] = $this->language->get('entry_paypal');
 		$data['entry_bank_name'] = $this->language->get('entry_bank_name');
-		$data['entry_bank_branch_number'] = $this->language->get('entry_bank_branch_number');
-		$data['entry_bank_swift_code'] = $this->language->get('entry_bank_swift_code');
 		$data['entry_bank_account_name'] = $this->language->get('entry_bank_account_name');
 		$data['entry_bank_account_number'] = $this->language->get('entry_bank_account_number');
+		$data['entry_alipay_account_name'] = $this->language->get('entry_alipay_account_name');
+		$data['entry_alipay'] = $this->language->get('entry_alipay');
 
 		$data['button_continue'] = $this->language->get('button_continue');
 		$data['button_back'] = $this->language->get('button_back');
@@ -89,7 +90,7 @@ class ControllerAffiliatePayment extends Controller {
 		} elseif (!empty($affiliate_info)) {
 			$data['payment'] = $affiliate_info['payment'];
 		} else {
-			$data['payment'] = 'cheque';
+			$data['payment'] = 'alipay';
 		}
 
 		if (isset($this->request->post['cheque'])) {
@@ -116,21 +117,6 @@ class ControllerAffiliatePayment extends Controller {
 			$data['bank_name'] = '';
 		}
 
-		if (isset($this->request->post['bank_branch_number'])) {
-			$data['bank_branch_number'] = $this->request->post['bank_branch_number'];
-		} elseif (!empty($affiliate_info)) {
-			$data['bank_branch_number'] = $affiliate_info['bank_branch_number'];
-		} else {
-			$data['bank_branch_number'] = '';
-		}
-
-		if (isset($this->request->post['bank_swift_code'])) {
-			$data['bank_swift_code'] = $this->request->post['bank_swift_code'];
-		} elseif (!empty($affiliate_info)) {
-			$data['bank_swift_code'] = $affiliate_info['bank_swift_code'];
-		} else {
-			$data['bank_swift_code'] = '';
-		}
 
 		if (isset($this->request->post['bank_account_name'])) {
 			$data['bank_account_name'] = $this->request->post['bank_account_name'];
@@ -146,6 +132,22 @@ class ControllerAffiliatePayment extends Controller {
 			$data['bank_account_number'] = $affiliate_info['bank_account_number'];
 		} else {
 			$data['bank_account_number'] = '';
+		}
+		
+		if (isset($this->request->post['alipay_account_name'])) {
+			$data['alipay_account_name'] = $this->request->post['alipay_account_name'];
+		} elseif (!empty($affiliate_info)) {
+			$data['alipay_account_name'] = $affiliate_info['alipay_account_name'];
+		} else {
+			$data['alipay_account_name'] = '';
+		}
+
+		if (isset($this->request->post['alipay'])) {
+			$data['alipay'] = $this->request->post['alipay'];
+		} elseif (!empty($affiliate_info)) {
+			$data['alipay'] = $affiliate_info['alipay'];
+		} else {
+			$data['alipay'] = '';
 		}
 
 		$data['back'] = $this->url->link('affiliate/account', '', 'SSL');

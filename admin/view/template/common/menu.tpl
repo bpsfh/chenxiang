@@ -27,54 +27,9 @@
       <li><a href="<?php echo $shipping; ?>"><?php echo $text_shipping; ?></a></li>
       <li><a href="<?php echo $payment; ?>"><?php echo $text_payment; ?></a></li>
       <li><a href="<?php echo $total; ?>"><?php echo $text_total; ?></a></li>
+      <li><a href="<?php echo $sms; ?>"><?php echo $text_sms; ?></a></li>
       <li><a href="<?php echo $feed; ?>"><?php echo $text_feed; ?></a></li>
       <li><a href="<?php echo $fraud; ?>"><?php echo $text_fraud; ?></a></li>
-      <?php if ($openbay_show_menu == 1) { ?>
-      <li><a class="parent"><?php echo $text_openbay_extension; ?></a>
-        <ul>
-          <li><a href="<?php echo $openbay_link_extension; ?>"><?php echo $text_openbay_dashboard; ?></a></li>
-          <li><a href="<?php echo $openbay_link_orders; ?>"><?php echo $text_openbay_orders; ?></a></li>
-          <li><a href="<?php echo $openbay_link_items; ?>"><?php echo $text_openbay_items; ?></a></li>
-          <?php if ($openbay_markets['ebay'] == 1) { ?>
-          <li><a class="parent"><?php echo $text_openbay_ebay; ?></a>
-            <ul>
-              <li><a href="<?php echo $openbay_link_ebay; ?>"><?php echo $text_openbay_dashboard; ?></a></li>
-              <li><a href="<?php echo $openbay_link_ebay_settings; ?>"><?php echo $text_openbay_settings; ?></a></li>
-              <li><a href="<?php echo $openbay_link_ebay_links; ?>"><?php echo $text_openbay_links; ?></a></li>
-              <li><a href="<?php echo $openbay_link_ebay_orderimport; ?>"><?php echo $text_openbay_order_import; ?></a></li>
-            </ul>
-          </li>
-          <?php } ?>
-          <?php if ($openbay_markets['amazon'] == 1) { ?>
-          <li><a class="parent"><?php echo $text_openbay_amazon; ?></a>
-            <ul>
-              <li><a href="<?php echo $openbay_link_amazon; ?>"><?php echo $text_openbay_dashboard; ?></a></li>
-              <li><a href="<?php echo $openbay_link_amazon_settings; ?>"><?php echo $text_openbay_settings; ?></a></li>
-              <li><a href="<?php echo $openbay_link_amazon_links; ?>"><?php echo $text_openbay_links; ?></a></li>
-            </ul>
-          </li>
-          <?php } ?>
-          <?php if ($openbay_markets['amazonus'] == 1) { ?>
-          <li><a class="parent"><?php echo $text_openbay_amazonus; ?></a>
-            <ul>
-              <li><a href="<?php echo $openbay_link_amazonus; ?>"><?php echo $text_openbay_dashboard; ?></a></li>
-              <li><a href="<?php echo $openbay_link_amazonus_settings; ?>"><?php echo $text_openbay_settings; ?></a></li>
-              <li><a href="<?php echo $openbay_link_amazonus_links; ?>"><?php echo $text_openbay_links; ?></a></li>
-            </ul>
-          </li>
-          <?php } ?>
-          <?php if ($openbay_markets['etsy'] == 1) { ?>
-          <li><a class="parent"><?php echo $text_openbay_etsy; ?></a>
-            <ul>
-              <li><a href="<?php echo $openbay_link_etsy; ?>"><?php echo $text_openbay_dashboard; ?></a></li>
-              <li><a href="<?php echo $openbay_link_etsy_settings; ?>"><?php echo $text_openbay_settings; ?></a></li>
-              <li><a href="<?php echo $openbay_link_etsy_links; ?>"><?php echo $text_openbay_links; ?></a></li>
-            </ul>
-          </li>
-          <?php } ?>
-        </ul>
-      </li>
-      <?php } ?>
     </ul>
   </li>
   <li id="sale"><a class="parent"><i class="fa fa-shopping-cart fa-fw"></i> <span><?php echo $text_sale; ?></span></a>
@@ -197,5 +152,7 @@
         </ul>
       </li>
     </ul>
+  </li>
+  <li id="others"><a class="parent"><i class="fa fa-key fa-fw"></i> <span><?php echo $text_others; ?></span></a>
   </li>
 </ul>

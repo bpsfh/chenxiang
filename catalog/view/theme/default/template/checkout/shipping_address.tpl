@@ -9,9 +9,9 @@
     <select name="address_id" class="form-control">
       <?php foreach ($addresses as $address) { ?>
       <?php if ($address['address_id'] == $address_id) { ?>
-      <option value="<?php echo $address['address_id']; ?>" selected="selected"><?php echo $address['firstname']; ?> <?php echo $address['lastname']; ?>, <?php echo $address['address_1']; ?>, <?php echo $address['city']; ?>, <?php echo $address['zone']; ?>, <?php echo $address['country']; ?></option>
+      <option value="<?php echo $address['address_id']; ?>" selected="selected"><?php echo $address['fullname']; ?>, <?php echo $address['country']; ?><?php echo $address['zone']; ?><?php echo $address['city']; ?><?php echo $address['address']; ?>, <?php echo $address['shipping_telephone']; ?></option>
       <?php } else { ?>
-      <option value="<?php echo $address['address_id']; ?>"><?php echo $address['firstname']; ?> <?php echo $address['lastname']; ?>, <?php echo $address['address_1']; ?>, <?php echo $address['city']; ?>, <?php echo $address['zone']; ?>, <?php echo $address['country']; ?></option>
+      <option value="<?php echo $address['address_id']; ?>"><?php echo $address['fullname']; ?>, <?php echo $address['country']; ?><?php echo $address['zone']; ?><?php echo $address['city']; ?><?php echo $address['address']; ?>, <?php echo $address['shipping_telephone']; ?></option>
       <?php } ?>
       <?php } ?>
     </select>
@@ -25,45 +25,23 @@
   <br />
   <div id="shipping-new" style="display: <?php echo ($addresses ? 'none' : 'block'); ?>;">
     <div class="form-group required">
-      <label class="col-sm-2 control-label" for="input-shipping-firstname"><?php echo $entry_firstname; ?></label>
+      <label class="col-sm-2 control-label" for="input-shipping-fullname"><?php echo $entry_fullname; ?></label>
       <div class="col-sm-10">
-        <input type="text" name="firstname" value="" placeholder="<?php echo $entry_firstname; ?>" id="input-shipping-firstname" class="form-control" />
+        <input type="text" name="fullname" value="" placeholder="<?php echo $entry_fullname; ?>" id="input-shipping-fullname" class="form-control" />
       </div>
     </div>
+    
     <div class="form-group required">
-      <label class="col-sm-2 control-label" for="input-shipping-lastname"><?php echo $entry_lastname; ?></label>
+      <label class="col-sm-2 control-label" for="input-shipping-shipping-telephone"><?php echo $entry_shipping_telephone; ?></label>
       <div class="col-sm-10">
-        <input type="text" name="lastname" value="" placeholder="<?php echo $entry_lastname; ?>" id="input-shipping-lastname" class="form-control" />
+        <input type="text" name="shipping_telephone" value="" placeholder="<?php echo $entry_shipping_telephone; ?>" id="input-shipping-shipping-telephone" class="form-control" />
       </div>
     </div>
+    
     <div class="form-group">
       <label class="col-sm-2 control-label" for="input-shipping-company"><?php echo $entry_company; ?></label>
       <div class="col-sm-10">
         <input type="text" name="company" value="" placeholder="<?php echo $entry_company; ?>" id="input-shipping-company" class="form-control" />
-      </div>
-    </div>
-    <div class="form-group required">
-      <label class="col-sm-2 control-label" for="input-shipping-address-1"><?php echo $entry_address_1; ?></label>
-      <div class="col-sm-10">
-        <input type="text" name="address_1" value="" placeholder="<?php echo $entry_address_1; ?>" id="input-shipping-address-1" class="form-control" />
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-2 control-label" for="input-shipping-address-2"><?php echo $entry_address_2; ?></label>
-      <div class="col-sm-10">
-        <input type="text" name="address_2" value="" placeholder="<?php echo $entry_address_2; ?>" id="input-shipping-address-2" class="form-control" />
-      </div>
-    </div>
-    <div class="form-group required">
-      <label class="col-sm-2 control-label" for="input-shipping-city"><?php echo $entry_city; ?></label>
-      <div class="col-sm-10">
-        <input type="text" name="city" value="" placeholder="<?php echo $entry_city; ?>" id="input-shipping-city" class="form-control" />
-      </div>
-    </div>
-    <div class="form-group required">
-      <label class="col-sm-2 control-label" for="input-shipping-postcode"><?php echo $entry_postcode; ?></label>
-      <div class="col-sm-10">
-        <input type="text" name="postcode" value="<?php echo $postcode; ?>" placeholder="<?php echo $entry_postcode; ?>" id="input-shipping-postcode" class="form-control" />
       </div>
     </div>
     <div class="form-group required">
@@ -88,6 +66,26 @@
         </select>
       </div>
     </div>
+    <div class="form-group required">
+      <label class="col-sm-2 control-label" for="input-shipping-city"><?php echo $entry_city; ?></label>
+      <div class="col-sm-10">
+        <input type="text" name="city" value="" placeholder="<?php echo $entry_city; ?>" id="input-shipping-city" class="form-control" />
+      </div>
+    </div>
+    <div class="form-group required">
+      <label class="col-sm-2 control-label" for="input-shipping-address"><?php echo $entry_address; ?></label>
+      <div class="col-sm-10">
+        <input type="text" name="address" value="" placeholder="<?php echo $entry_address; ?>" id="input-shipping-address" class="form-control" />
+      </div>
+    </div>
+    
+    <div class="form-group required">
+      <label class="col-sm-2 control-label" for="input-shipping-postcode"><?php echo $entry_postcode; ?></label>
+      <div class="col-sm-10">
+        <input type="text" name="postcode" value="<?php echo $postcode; ?>" placeholder="<?php echo $entry_postcode; ?>" id="input-shipping-postcode" class="form-control" />
+      </div>
+    </div>
+    
     <?php foreach ($custom_fields as $custom_field) { ?>
     <?php if ($custom_field['location'] == 'address') { ?>
     <?php if ($custom_field['type'] == 'select') { ?>
@@ -220,12 +218,12 @@ $('input[name=\'shipping_address\']').on('change', function() {
 $('#collapse-shipping-address .form-group[data-sort]').detach().each(function() {
 	if ($(this).attr('data-sort') >= 0 && $(this).attr('data-sort') <= $('#collapse-shipping-address .form-group').length) {
 		$('#collapse-shipping-address .form-group').eq($(this).attr('data-sort')).before(this);
-	}
-
+	} 
+	
 	if ($(this).attr('data-sort') > $('#collapse-shipping-address .form-group').length) {
 		$('#collapse-shipping-address .form-group:last').after(this);
 	}
-
+		
 	if ($(this).attr('data-sort') < -$('#collapse-shipping-address .form-group').length) {
 		$('#collapse-shipping-address .form-group:first').before(this);
 	}
@@ -240,7 +238,7 @@ $('#collapse-shipping-address button[id^=\'button-shipping-custom-field\']').on(
 	$('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file" /></form>');
 
 	$('#form-upload input[name=\'file\']').trigger('click');
-
+	
 	if (typeof timer != 'undefined') {
     	clearInterval(timer);
 	}
@@ -248,7 +246,7 @@ $('#collapse-shipping-address button[id^=\'button-shipping-custom-field\']').on(
 	timer = setInterval(function() {
 		if ($('#form-upload input[name=\'file\']').val() != '') {
 			clearInterval(timer);
-
+		
 			$.ajax({
 				url: 'index.php?route=tool/upload',
 				type: 'post',
@@ -265,14 +263,14 @@ $('#collapse-shipping-address button[id^=\'button-shipping-custom-field\']').on(
 				},
 				success: function(json) {
 					$(node).parent().find('.text-danger').remove();
-
+					
 					if (json['error']) {
 						$(node).parent().find('input[name^=\'custom_field\']').after('<div class="text-danger">' + json['error'] + '</div>');
 					}
-
+	
 					if (json['success']) {
 						alert(json['success']);
-
+	
 						$(node).parent().find('input[name^=\'custom_field\']').attr('value', json['code']);
 					}
 				},
@@ -310,6 +308,8 @@ $('#collapse-shipping-address select[name=\'country_id\']').on('change', functio
 			$('.fa-spin').remove();
 		},
 		success: function(json) {
+			
+
 			if (json['postcode_required'] == '1') {
 				$('#collapse-shipping-address input[name=\'postcode\']').parent().parent().addClass('required');
 			} else {

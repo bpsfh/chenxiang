@@ -932,6 +932,7 @@ class ModelShippingRoyalMail extends Model {
 					$quote_data['international_tracked_signed'] = array(
 						'code'         => 'royal_mail.international_tracked_signed',
 						'title'        => $title,
+
 						'cost'         => $cost,
 						'tax_class_id' => $this->config->get('royal_mail_tax_class_id'),
 						'text'         => $this->currency->format($this->tax->calculate($cost, $this->config->get('royal_mail_tax_class_id'), $this->config->get('config_tax')))

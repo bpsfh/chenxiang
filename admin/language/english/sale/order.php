@@ -32,11 +32,9 @@ $_['text_user_agent']          = 'User Agent:';
 $_['text_accept_language']     = 'Accept Language:';
 $_['text_date_added']          = 'Date Added:';
 $_['text_date_modified']       = 'Date Modified:';
-$_['text_firstname']           = 'First Name:';
-$_['text_lastname']            = 'Last Name:';
+$_['text_fullname']            = 'Full Name:';
 $_['text_company']             = 'Company:';
-$_['text_address_1']           = 'Address 1:';
-$_['text_address_2']           = 'Address 2:';
+$_['text_address']             = 'Address:';
 $_['text_postcode']            = 'Postcode:';
 $_['text_city']                = 'City:';
 $_['text_zone']                = 'Region / State:';
@@ -68,6 +66,7 @@ $_['text_restock']             = 'Success: Products have been restocked!';
 $_['text_upload']              = 'Your file was successfully uploaded!';
 $_['text_picklist']            = 'Dispatch note';
 $_['text_history']             = 'Add Order History';
+$_['text_shipping_telephone']  = 'Shipping Telephone';
 
 // Column
 $_['column_order_id']          = 'Order ID';
@@ -91,15 +90,13 @@ $_['column_weight']            = 'Product weight';
 $_['entry_store']              = 'Store';
 $_['entry_customer']           = 'Customer';
 $_['entry_customer_group']     = 'Customer Group';
-$_['entry_firstname']          = 'First Name';
-$_['entry_lastname']           = 'Last Name';
+$_['entry_fullname']           = 'Full Name';
 $_['entry_email']              = 'E-Mail';
 $_['entry_telephone']          = 'Telephone';
 $_['entry_fax']                = 'Fax';
 $_['entry_address']            = 'Choose Address';
 $_['entry_company']            = 'Company';
-$_['entry_address_1']          = 'Address 1';
-$_['entry_address_2']          = 'Address 2';
+$_['entry_address']            = 'Address';
 $_['entry_city']               = 'City';
 $_['entry_postcode']           = 'Postcode';
 $_['entry_country']            = 'Country';
@@ -129,6 +126,7 @@ $_['entry_order_id']           = 'Order ID';
 $_['entry_total']              = 'Total';
 $_['entry_date_added']         = 'Date Added';
 $_['entry_date_modified']      = 'Date Modified';
+$_['entry_shipping_telephone'] = 'Shipping Telephone';
 
 // Error
 $_['error_warning']            = 'Warning: Please check the form carefully for errors!';

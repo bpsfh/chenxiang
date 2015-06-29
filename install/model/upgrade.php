@@ -1,14 +1,14 @@
 <?php
 class ModelUpgrade extends Model {
 	public function mysql() {
-		// Upgrade script to opgrade opencart to the latest version.
+		// Upgrade script to upgrade mycncart to the latest version.
 		// Oldest version supported is 1.3.2
 
 		// Load the sql file
-		$file = DIR_APPLICATION . 'opencart.sql';
+		$file = DIR_APPLICATION . 'mycncart.sql';
 
 		if (!file_exists($file)) {
-			exit('Could not load sql file: ' . $file);
+			exit('无法加载 sql 文件: ' . $file);
 		}
 
 		$string = '';
@@ -20,7 +20,7 @@ class ModelUpgrade extends Model {
 		// Get only the create statements
 		foreach($lines as $line) {
 			// Set any prefix
-			$line = str_replace("CREATE TABLE IF NOT EXISTS `oc_", "CREATE TABLE IF NOT EXISTS `" . DB_PREFIX, $line);
+			$line = str_replace("CREATE TABLE IF NOT EXISTS `mcc_", "CREATE TABLE IF NOT EXISTS `" . DB_PREFIX, $line);
 
 			// If line begins with create table we want to start recording
 			if (substr($line, 0, 12) == 'CREATE TABLE') {

@@ -25,7 +25,7 @@ class ControllerAffiliateEdit extends Controller {
 
 			$activity_data = array(
 				'affiliate_id' => $this->affiliate->getId(),
-				'name'         => $this->affiliate->getFirstName() . ' ' . $this->affiliate->getLastName()
+				'name'         => $this->affiliate->getFullName()
 			);
 
 			$this->model_affiliate_activity->addActivity('edit', $activity_data);
@@ -57,15 +57,13 @@ class ControllerAffiliateEdit extends Controller {
 		$data['text_your_details'] = $this->language->get('text_your_details');
 		$data['text_your_address'] = $this->language->get('text_your_address');
 
-		$data['entry_firstname'] = $this->language->get('entry_firstname');
-		$data['entry_lastname'] = $this->language->get('entry_lastname');
+		$data['entry_fullname'] = $this->language->get('entry_fullname');
 		$data['entry_email'] = $this->language->get('entry_email');
 		$data['entry_telephone'] = $this->language->get('entry_telephone');
 		$data['entry_fax'] = $this->language->get('entry_fax');
 		$data['entry_company'] = $this->language->get('entry_company');
 		$data['entry_website'] = $this->language->get('entry_website');
-		$data['entry_address_1'] = $this->language->get('entry_address_1');
-		$data['entry_address_2'] = $this->language->get('entry_address_2');
+		$data['entry_address'] = $this->language->get('entry_address');
 		$data['entry_postcode'] = $this->language->get('entry_postcode');
 		$data['entry_city'] = $this->language->get('entry_city');
 		$data['entry_country'] = $this->language->get('entry_country');
@@ -80,16 +78,10 @@ class ControllerAffiliateEdit extends Controller {
 			$data['error_warning'] = '';
 		}
 
-		if (isset($this->error['firstname'])) {
-			$data['error_firstname'] = $this->error['firstname'];
+		if (isset($this->error['fullname'])) {
+			$data['error_fullname'] = $this->error['fullname'];
 		} else {
-			$data['error_firstname'] = '';
-		}
-
-		if (isset($this->error['lastname'])) {
-			$data['error_lastname'] = $this->error['lastname'];
-		} else {
-			$data['error_lastname'] = '';
+			$data['error_fullname'] = '';
 		}
 
 		if (isset($this->error['email'])) {
@@ -103,10 +95,10 @@ class ControllerAffiliateEdit extends Controller {
 		} else {
 			$data['error_telephone'] = '';
 		}
-		if (isset($this->error['address_1'])) {
-			$data['error_address_1'] = $this->error['address_1'];
+		if (isset($this->error['address'])) {
+			$data['error_address'] = $this->error['address'];
 		} else {
-			$data['error_address_1'] = '';
+			$data['error_address'] = '';
 		}
 
 		if (isset($this->error['city'])) {
@@ -139,20 +131,12 @@ class ControllerAffiliateEdit extends Controller {
 			$affiliate_info = $this->model_affiliate_affiliate->getAffiliate($this->affiliate->getId());
 		}
 
-		if (isset($this->request->post['firstname'])) {
-			$data['firstname'] = $this->request->post['firstname'];
+		if (isset($this->request->post['fullname'])) {
+			$data['fullname'] = $this->request->post['fullname'];
 		} elseif (!empty($affiliate_info)) {
-			$data['firstname'] = $affiliate_info['firstname'];
+			$data['fullname'] = $affiliate_info['fullname'];
 		} else {
-			$data['firstname'] = '';
-		}
-
-		if (isset($this->request->post['lastname'])) {
-			$data['lastname'] = $this->request->post['lastname'];
-		} elseif (!empty($affiliate_info)) {
-			$data['lastname'] = $affiliate_info['lastname'];
-		} else {
-			$data['lastname'] = '';
+			$data['fullname'] = '';
 		}
 
 		if (isset($this->request->post['email'])) {
@@ -195,20 +179,12 @@ class ControllerAffiliateEdit extends Controller {
 			$data['website'] = '';
 		}
 
-		if (isset($this->request->post['address_1'])) {
-			$data['address_1'] = $this->request->post['address_1'];
+		if (isset($this->request->post['address'])) {
+			$data['address'] = $this->request->post['address'];
 		} elseif (!empty($affiliate_info)) {
-			$data['address_1'] = $affiliate_info['address_1'];
+			$data['address'] = $affiliate_info['address'];
 		} else {
-			$data['address_1'] = '';
-		}
-
-		if (isset($this->request->post['address_2'])) {
-			$data['address_2'] = $this->request->post['address_2'];
-		} elseif (!empty($affiliate_info)) {
-			$data['address_2'] = $affiliate_info['address_2'];
-		} else {
-			$data['address_2'] = '';
+			$data['address'] = '';
 		}
 
 		if (isset($this->request->post['postcode'])) {
@@ -264,12 +240,8 @@ class ControllerAffiliateEdit extends Controller {
 	}
 
 	protected function validate() {
-		if ((utf8_strlen(trim($this->request->post['firstname'])) < 1) || (utf8_strlen(trim($this->request->post['firstname'])) > 32)) {
-			$this->error['firstname'] = $this->language->get('error_firstname');
-		}
-
-		if ((utf8_strlen(trim($this->request->post['lastname'])) < 1) || (utf8_strlen(trim($this->request->post['lastname'])) > 32)) {
-			$this->error['lastname'] = $this->language->get('error_lastname');
+		if ((utf8_strlen(trim($this->request->post['fullname'])) < 2) || (utf8_strlen(trim($this->request->post['fullname'])) > 32)) {
+			$this->error['fullname'] = $this->language->get('error_fullname');
 		}
 
 		if ((utf8_strlen($this->request->post['email']) > 96) || !preg_match('/^[^\@]+@.*.[a-z]{2,15}$/i', $this->request->post['email'])) {
@@ -283,8 +255,8 @@ class ControllerAffiliateEdit extends Controller {
 		if ((utf8_strlen($this->request->post['telephone']) < 3) || (utf8_strlen($this->request->post['telephone']) > 32)) {
 			$this->error['telephone'] = $this->language->get('error_telephone');
 		}
-		if ((utf8_strlen(trim($this->request->post['address_1'])) < 3) || (utf8_strlen(trim($this->request->post['address_1'])) > 128)) {
-			$this->error['address_1'] = $this->language->get('error_address_1');
+		if ((utf8_strlen(trim($this->request->post['address'])) < 3) || (utf8_strlen(trim($this->request->post['address'])) > 128)) {
+			$this->error['address'] = $this->language->get('error_address');
 		}
 
 		if ((utf8_strlen(trim($this->request->post['city'])) < 2) || (utf8_strlen(trim($this->request->post['city'])) > 128)) {

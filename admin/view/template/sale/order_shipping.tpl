@@ -49,14 +49,13 @@
       <thead>
         <tr>
           <td style="width: 50%;"><b><?php echo $text_to; ?></b></td>
-          <td style="width: 50%;"><b><?php echo $text_contact; ?></b></td>
+          <td style="width: 50%;"><b><?php echo $text_shipping_telephone; ?></b></td>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td><?php echo $order['shipping_address']; ?></td>
-          <td><?php echo $order['email']; ?><br/>
-            <?php echo $order['telephone']; ?></td>
+          <td><?php echo $order['shipping_telephone']; ?></td>
         </tr>
       </tbody>
     </table>

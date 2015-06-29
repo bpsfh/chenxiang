@@ -21,9 +21,9 @@ class ControllerStep4 extends Controller {
 		$data['text_openbay'] = $this->language->get('text_openbay');
 		$data['text_maxmind'] = $this->language->get('text_maxmind');
 		$data['text_more_info'] = $this->language->get('text_more_info');
-		$data['text_facebook'] = $this->language->get('text_facebook');
-		$data['text_facebook_info'] = $this->language->get('text_facebook_info');
-		$data['text_facebook_link'] = $this->language->get('text_facebook_link');
+		$data['text_weibo'] = $this->language->get('text_weibo');
+		$data['text_weibo_info'] = $this->language->get('text_weibo_info');
+		$data['text_weibo_link'] = $this->language->get('text_weibo_link');
 		$data['text_forum'] = $this->language->get('text_forum');
 		$data['text_forum_info'] = $this->language->get('text_forum_info');
 		$data['text_forum_link'] = $this->language->get('text_forum_link');
@@ -39,8 +39,6 @@ class ControllerStep4 extends Controller {
 		$data['button_join'] = $this->language->get('button_join');
 		$data['button_setup'] = $this->language->get('button_setup');
 
-		$data['link_maxmind'] = $this->url->link('maxmind');
-		$data['link_openbay'] = $this->url->link('openbay');
 
 		if (isset($this->session->data['success'])) {
 			$data['success'] = $this->session->data['success'];
@@ -81,53 +79,4 @@ class ControllerStep4 extends Controller {
 		$this->response->setOutput($this->load->view('step_4.tpl', $data));
 	}
 
-	public function extensions() {
-		$defaults = array(
-			CURLOPT_POST => 1,
-			CURLOPT_HEADER => 0,
-			CURLOPT_URL => 'http://www.opencart.com/index.php?route=extension/json/extensions',
-			CURLOPT_USERAGENT => "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.1) Gecko/20061204 Firefox/2.0.0.1",
-			CURLOPT_FRESH_CONNECT => 1,
-			CURLOPT_RETURNTRANSFER => 1,
-			CURLOPT_FORBID_REUSE => 1,
-			CURLOPT_TIMEOUT => 30,
-			CURLOPT_SSL_VERIFYPEER => 0,
-			CURLOPT_SSL_VERIFYHOST => 0,
-			CURLOPT_POSTFIELDS => array(),
-		);
-
-		$ch = curl_init();
-		curl_setopt_array($ch, ($defaults));
-		$result = curl_exec($ch);
-		curl_close($ch);
-
-		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput($result);
-	}
-
-	public function language() {
-		$language = $this->request->post['language'];
-
-		$defaults = array(
-			CURLOPT_POST => 1,
-			CURLOPT_HEADER => 0,
-			CURLOPT_URL => 'http://www.opencart.com/index.php?route=extension/json/languages',
-			CURLOPT_USERAGENT => "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.1) Gecko/20061204 Firefox/2.0.0.1",
-			CURLOPT_FRESH_CONNECT => 1,
-			CURLOPT_RETURNTRANSFER => 1,
-			CURLOPT_FORBID_REUSE => 1,
-			CURLOPT_TIMEOUT => 30,
-			CURLOPT_SSL_VERIFYPEER => 0,
-			CURLOPT_SSL_VERIFYHOST => 0,
-			CURLOPT_POSTFIELDS => array('language' => $language),
-		);
-
-		$ch = curl_init();
-		curl_setopt_array($ch, ($defaults));
-		$result = curl_exec($ch);
-		curl_close($ch);
-
-		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput($result);
-	}
 }

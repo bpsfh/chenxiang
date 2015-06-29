@@ -60,12 +60,12 @@
               <?php if ($customer) { ?>
               <tr>
                 <td><?php echo $text_customer; ?></td>
-                <td><a href="<?php echo $customer; ?>" target="_blank"><?php echo $firstname; ?> <?php echo $lastname; ?></a></td>
+                <td><a href="<?php echo $customer; ?>" target="_blank"><?php echo $fullname; ?></a></td>
               </tr>
               <?php } else { ?>
               <tr>
                 <td><?php echo $text_customer; ?></td>
-                <td><?php echo $firstname; ?> <?php echo $lastname; ?></td>
+                <td><?php echo $fullname; ?></td>
               </tr>
               <?php } ?>
               <?php if ($customer_group) { ?>
@@ -124,7 +124,7 @@
               <?php if ($affiliate) { ?>
               <tr>
                 <td><?php echo $text_affiliate; ?></td>
-                <td><a href="<?php echo $affiliate; ?>"><?php echo $affiliate_firstname; ?> <?php echo $affiliate_lastname; ?></a></td>
+                <td><a href="<?php echo $affiliate; ?>"><?php echo $affiliate_fullname; ?></a></td>
               </tr>
               <tr>
                 <td><?php echo $text_commission; ?></td>
@@ -173,12 +173,8 @@
           <div class="tab-pane" id="tab-payment">
             <table class="table table-bordered">
               <tr>
-                <td><?php echo $text_firstname; ?></td>
-                <td><?php echo $payment_firstname; ?></td>
-              </tr>
-              <tr>
-                <td><?php echo $text_lastname; ?></td>
-                <td><?php echo $payment_lastname; ?></td>
+                <td><?php echo $text_fullname; ?></td>
+                <td><?php echo $payment_fullname; ?></td>
               </tr>
               <?php if ($payment_company) { ?>
               <tr>
@@ -187,25 +183,9 @@
               </tr>
               <?php } ?>
               <tr>
-                <td><?php echo $text_address_1; ?></td>
-                <td><?php echo $payment_address_1; ?></td>
+                <td><?php echo $text_country; ?></td>
+                <td><?php echo $payment_country; ?></td>
               </tr>
-              <?php if ($payment_address_2) { ?>
-              <tr>
-                <td><?php echo $text_address_2; ?></td>
-                <td><?php echo $payment_address_2; ?></td>
-              </tr>
-              <?php } ?>
-              <tr>
-                <td><?php echo $text_city; ?></td>
-                <td><?php echo $payment_city; ?></td>
-              </tr>
-              <?php if ($payment_postcode) { ?>
-              <tr>
-                <td><?php echo $text_postcode; ?></td>
-                <td><?php echo $payment_postcode; ?></td>
-              </tr>
-              <?php } ?>
               <tr>
                 <td><?php echo $text_zone; ?></td>
                 <td><?php echo $payment_zone; ?></td>
@@ -217,9 +197,22 @@
               </tr>
               <?php } ?>
               <tr>
-                <td><?php echo $text_country; ?></td>
-                <td><?php echo $payment_country; ?></td>
+                <td><?php echo $text_city; ?></td>
+                <td><?php echo $payment_city; ?></td>
               </tr>
+              <tr>
+                <td><?php echo $text_address; ?></td>
+                <td><?php echo $payment_address; ?></td>
+              </tr>
+              
+              <?php if ($payment_postcode) { ?>
+              <tr>
+                <td><?php echo $text_postcode; ?></td>
+                <td><?php echo $payment_postcode; ?></td>
+              </tr>
+              <?php } ?>
+              
+              
               <?php foreach ($payment_custom_fields as $custom_field) { ?>
               <tr data-sort="<?php echo $custom_field['sort_order'] + 1; ?>">
                 <td><?php echo $custom_field['name']; ?>:</td>
@@ -236,12 +229,12 @@
           <div class="tab-pane" id="tab-shipping">
             <table class="table table-bordered">
               <tr>
-                <td><?php echo $text_firstname; ?></td>
-                <td><?php echo $shipping_firstname; ?></td>
+                <td><?php echo $text_fullname; ?></td>
+                <td><?php echo $shipping_fullname; ?></td>
               </tr>
               <tr>
-                <td><?php echo $text_lastname; ?></td>
-                <td><?php echo $shipping_lastname; ?></td>
+                <td><?php echo $text_shipping_telephone; ?></td>
+                <td><?php echo $shipping_telephone; ?></td>
               </tr>
               <?php if ($shipping_company) { ?>
               <tr>
@@ -250,15 +243,9 @@
               </tr>
               <?php } ?>
               <tr>
-                <td><?php echo $text_address_1; ?></td>
-                <td><?php echo $shipping_address_1; ?></td>
+                <td><?php echo $text_address; ?></td>
+                <td><?php echo $shipping_address; ?></td>
               </tr>
-              <?php if ($shipping_address_2) { ?>
-              <tr>
-                <td><?php echo $text_address_2; ?></td>
-                <td><?php echo $shipping_address_2; ?></td>
-              </tr>
-              <?php } ?>
               <tr>
                 <td><?php echo $text_city; ?></td>
                 <td><?php echo $shipping_city; ?></td>
@@ -295,6 +282,7 @@
                 <td><?php echo $shipping_method; ?></td>
               </tr>
               <?php } ?>
+              
             </table>
           </div>
           <?php } ?>

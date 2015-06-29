@@ -193,7 +193,7 @@ $('#button-filter').on('click', function() {
 
 	location = url;
 });
-//--></script>
+//--></script> 
   <script type="text/javascript"><!--
 $('input[name=\'filter_name\']').autocomplete({
 	'source': function(request, response) {

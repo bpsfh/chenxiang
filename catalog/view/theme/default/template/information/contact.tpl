@@ -27,7 +27,11 @@
               <?php echo $address; ?>
               </address>
               <?php if ($geocode) { ?>
-              <a href="https://maps.google.com/maps?q=<?php echo urlencode($geocode); ?>&hl=en&t=m&z=15" target="_blank" class="btn btn-info"><i class="fa fa-map-marker"></i> <?php echo $button_map; ?></a>
+              	<?php if($map_select == 'google') { ?>
+              		<a href="https://maps.google.com/maps?q=<?php echo urlencode($geocode); ?>&hl=en&t=m&z=15" target="_blank" class="btn btn-info"><i class="fa fa-map-marker"></i> <?php echo $button_map; ?></a>
+              	<?php }else{ ?>
+              	 	<a href="<?php echo $baidu_map ?>" target="_blank" class="btn btn-info"><i class="fa fa-map-marker"></i> <?php echo $button_baidu_map; ?></a>
+              	<?php } ?>
               <?php } ?>
             </div>
             <div class="col-sm-3"><strong><?php echo $text_telephone; ?></strong><br>
@@ -130,16 +134,20 @@
               <?php } ?>
             </div>
           </div>
-          <?php if ($site_key) { ?>
-            <div class="form-group">
-              <div class="col-sm-offset-2 col-sm-10">
-                <div class="g-recaptcha" data-sitekey="<?php echo $site_key; ?>"></div>
-                <?php if ($error_captcha) { ?>
-                  <div class="text-danger"><?php echo $error_captcha; ?></div>
-                <?php } ?>
-              </div>
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-captcha"><?php echo $entry_captcha; ?></label>
+            <div class="col-sm-10">
+              <input type="text" name="captcha" id="input-captcha" class="form-control" />
             </div>
-          <?php } ?>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-10 pull-right">
+              <img src="index.php?route=tool/captcha" alt="" />
+              <?php if ($error_captcha) { ?>
+                <div class="text-danger"><?php echo $error_captcha; ?></div>
+              <?php } ?>
+            </div>
+          </div>
         </fieldset>
         <div class="buttons">
           <div class="pull-right">

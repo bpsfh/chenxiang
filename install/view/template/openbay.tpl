@@ -7,7 +7,7 @@
       </div>
       <div class="col-sm-6">
         <div id="logo" class="pull-right hidden-xs">
-          <img src="view/image/logo.png" alt="OpenCart" title="OpenCart" />
+          <img src="view/image/logo.png" alt="MyCnCart" title="MyCnCart" />
         </div>
       </div>
     </div>
@@ -20,13 +20,13 @@
               <div class="col-sm-6 text-center">
                 <img src="view/image/ebay.png">
                 <p><?php echo $text_ebay_about; ?></p>
-                <a href="https://account.openbaypro.com/ebay/apiRegister?utm_source=opencart_install&utm_medium=register_button&utm_campaign=opencart_install" class="btn btn-primary" target="_blank"><?php echo $button_register; ?></a>
+                <a href="https://account.openbaypro.com/ebay/apiRegister?utm_source=mycncart_install&utm_medium=register_button&utm_campaign=mycncart_install" class="btn btn-primary" target="_blank"><?php echo $button_register; ?></a>
               </div>
               <div class="col-sm-6 text-center">
                 <img src="view/image/amazon.png">
                 <p><?php echo $text_amazon_about; ?></p>
-                <a href="https://account.openbaypro.com/amazon/apiRegister?utm_source=opencart_install&utm_medium=register_button&utm_campaign=opencart_install" class="btn btn-primary" target="_blank"><?php echo $button_register_eu; ?></a>
-                <a href="https://account.openbaypro.com/amazonus/apiRegister?utm_source=opencart_install&utm_medium=register_button&utm_campaign=opencart_install" class="btn btn-primary" target="_blank"><?php echo $button_register_us; ?></a>
+                <a href="https://account.openbaypro.com/amazon/apiRegister?utm_source=mycncart_install&utm_medium=register_button&utm_campaign=mycncart_install" class="btn btn-primary" target="_blank"><?php echo $button_register_eu; ?></a>
+                <a href="https://account.openbaypro.com/amazonus/apiRegister?utm_source=mycncart_install&utm_medium=register_button&utm_campaign=mycncart_install" class="btn btn-primary" target="_blank"><?php echo $button_register_us; ?></a>
               </div>
             </div>
         </fieldset>

@@ -22,20 +22,11 @@
         <fieldset>
           <legend><?php echo $text_your_details; ?></legend>
           <div class="form-group required">
-            <label class="col-sm-2 control-label" for="input-firstname"><?php echo $entry_firstname; ?> </label>
+            <label class="col-sm-2 control-label" for="input-fullname"><?php echo $entry_fullname; ?> </label>
             <div class="col-sm-10">
-              <input type="text" name="firstname" value="<?php echo $firstname; ?>" placeholder="<?php echo $entry_firstname; ?>" id="input-firstname" class="form-control" />
-              <?php if ($error_firstname) { ?>
-              <div class="text-danger"><?php echo $error_firstname; ?></div>
-              <?php } ?>
-            </div>
-          </div>
-          <div class="form-group required">
-            <label class="col-sm-2 control-label" for="input-lastname"><?php echo $entry_lastname; ?></label>
-            <div class="col-sm-10">
-              <input type="text" name="lastname" value="<?php echo $lastname; ?>" placeholder="<?php echo $entry_lastname; ?>" id="input-lastname" class="form-control" />
-              <?php if ($error_lastname) { ?>
-              <div class="text-danger"><?php echo $error_lastname; ?></div>
+              <input type="text" name="fullname" value="<?php echo $fullname; ?>" placeholder="<?php echo $entry_fullname; ?>" id="input-fullname" class="form-control" />
+              <?php if ($error_fullname) { ?>
+              <div class="text-danger"><?php echo $error_fullname; ?></div>
               <?php } ?>
             </div>
           </div>
@@ -52,11 +43,33 @@
             <label class="col-sm-2 control-label" for="input-telephone"><?php echo $entry_telephone; ?></label>
             <div class="col-sm-10">
               <input type="tel" name="telephone" value="<?php echo $telephone; ?>" placeholder="<?php echo $entry_telephone; ?>" id="input-telephone" class="form-control" />
+              
+              <?php if($sms_gateway) { ?>
+              <br />
+              <input type="button" class="btn btn-long" id="mobile_code" value="<?php echo $text_get_sms_code; ?>" />
+              <?php } ?>
+              
               <?php if ($error_telephone) { ?>
               <div class="text-danger"><?php echo $error_telephone; ?></div>
               <?php } ?>
             </div>
           </div>
+          
+          <?php if($sms_gateway) { ?>
+          
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-sms"><?php echo $entry_sms_code; ?></label>
+            <div class="col-sm-10">
+              <input type="text" name="sms_code" value="<?php echo $sms_code; ?>" placeholder="<?php echo $entry_sms_code; ?>" id="input-sms-code" class="form-control" />
+              <?php echo $text_sms_hint; ?>
+              <?php if ($error_sms_code) { ?>
+              <div class="text-danger"><?php echo $error_sms_code; ?></div>
+              <?php } ?>
+            </div>
+          </div>
+          
+          <?php } ?>
+          
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-fax"><?php echo $entry_fax; ?></label>
             <div class="col-sm-10">
@@ -232,27 +245,27 @@
 $('.form-group[data-sort]').detach().each(function() {
 	if ($(this).attr('data-sort') >= 0 && $(this).attr('data-sort') <= $('.form-group').length) {
 		$('.form-group').eq($(this).attr('data-sort')).before(this);
-	}
-
+	} 
+	
 	if ($(this).attr('data-sort') > $('.form-group').length) {
 		$('.form-group:last').after(this);
 	}
-
+		
 	if ($(this).attr('data-sort') < -$('.form-group').length) {
 		$('.form-group:first').before(this);
 	}
 });
-//--></script>
+//--></script> 
 <script type="text/javascript"><!--
 $('button[id^=\'button-custom-field\']').on('click', function() {
 	var node = this;
-
+	
 	$('#form-upload').remove();
-
+	
 	$('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file" /></form>');
 
 	$('#form-upload input[name=\'file\']').trigger('click');
-
+	
 	if (typeof timer != 'undefined') {
     	clearInterval(timer);
 	}
@@ -260,34 +273,34 @@ $('button[id^=\'button-custom-field\']').on('click', function() {
 	timer = setInterval(function() {
 		if ($('#form-upload input[name=\'file\']').val() != '') {
 			clearInterval(timer);
-
+			
 			$.ajax({
 				url: 'index.php?route=tool/upload',
-				type: 'post',
+				type: 'post',		
 				dataType: 'json',
 				data: new FormData($('#form-upload')[0]),
 				cache: false,
 				contentType: false,
-				processData: false,
+				processData: false,		
 				beforeSend: function() {
 					$(node).button('loading');
 				},
 				complete: function() {
-					$(node).button('reset');
-				},
+					$(node).button('reset');			
+				},		
 				success: function(json) {
 					$(node).parent().find('.text-danger').remove();
-
+					
 					if (json['error']) {
 						$(node).parent().find('input').after('<div class="text-danger">' + json['error'] + '</div>');
 					}
-
+								
 					if (json['success']) {
 						alert(json['success']);
-
+						
 						$(node).parent().find('input').attr('value', json['code']);
 					}
-				},
+				},			
 				error: function(xhr, ajaxOptions, thrownError) {
 					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
 				}
@@ -295,7 +308,7 @@ $('button[id^=\'button-custom-field\']').on('click', function() {
 		}
 	}, 500);
 });
-//--></script>
+//--></script> 
 <script type="text/javascript"><!--
 $('.date').datetimepicker({
 	pickTime: false
@@ -309,5 +322,45 @@ $('.datetime').datetimepicker({
 $('.time').datetimepicker({
 	pickDate: false
 });
-//--></script>
+//--></script> 
+
+
+<?php if($sms_gateway) { ?>
+<script type="text/javascript"><!--
+$('#mobile_code').on('click', function() {
+	$.ajax({
+		url: 'index.php?route=sms/<?php echo $sms_gateway; ?>/create_mobile_code',
+		type: 'post',
+		dataType: 'json',
+		data: 'telephone=' + encodeURIComponent($('input[name=\'telephone\']').val()),
+		beforeSend: function() {
+			$('.alert-success, .alert-danger').remove();
+			$('#mobile_code').attr('disabled', true);
+			
+		},
+		complete: function() {
+			//$('#mobile_code').attr('disabled', false);
+			//$('.attention').remove();
+		},
+		success: function(data) {
+			if (data['error']) {
+				$('#mobile_code').after('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> ' + data['error'] + '</div>');
+				$('#mobile_code').attr('disabled', false);
+			}
+			
+			if (data['success']) {
+				$('#mobile_code').after('<div class="alert alert-success"><i class="fa fa-check-circle"></i> ' + data['success'] + '</div>');
+				
+				setTimeout(function(){
+					$('#mobile_code').attr('disabled', false);
+				}, 60000);
+								
+			}
+		}
+	});
+});
+
+//--></script> 
+<?php } ?>
+
 <?php echo $footer; ?>

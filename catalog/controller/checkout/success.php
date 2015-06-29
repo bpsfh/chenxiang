@@ -12,14 +12,14 @@ class ControllerCheckoutSuccess extends Controller {
 			if ($this->customer->isLogged()) {
 				$activity_data = array(
 					'customer_id' => $this->customer->getId(),
-					'name'        => $this->customer->getFirstName() . ' ' . $this->customer->getLastName(),
+					'name'        => $this->customer->getFullName(),
 					'order_id'    => $this->session->data['order_id']
 				);
 
 				$this->model_account_activity->addActivity('order_account', $activity_data);
 			} else {
 				$activity_data = array(
-					'name'     => $this->session->data['guest']['firstname'] . ' ' . $this->session->data['guest']['lastname'],
+					'name'     => $this->session->data['guest']['fullname'],
 					'order_id' => $this->session->data['order_id']
 				);
 

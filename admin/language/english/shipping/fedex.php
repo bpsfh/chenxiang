@@ -67,6 +67,7 @@ $_['entry_status']                             = 'Status';
 $_['entry_sort_order']                         = 'Sort Order';
 
 // Help
+
 $_['help_length_class']                        = 'Set to inches or centimeters.';
 $_['help_display_time']                        = 'Do you want to display the shipping time? (e.g. Ships within 3 to 5 days)';
 $_['help_display_weight']                      = 'Do you want to display the shipping weight? (e.g. Delivery Weight : 2.7674 kg)';

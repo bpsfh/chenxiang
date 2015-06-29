@@ -69,7 +69,7 @@ class ControllerReportCustomerOnline extends Controller {
 			$customer_info = $this->model_sale_customer->getCustomer($result['customer_id']);
 
 			if ($customer_info) {
-				$customer = $customer_info['firstname'] . ' ' . $customer_info['lastname'];
+				$customer = $customer_info['fullname'];
 			} else {
 				$customer = $this->language->get('text_guest');
 			}
@@ -86,7 +86,7 @@ class ControllerReportCustomerOnline extends Controller {
 		}
 
 		$data['heading_title'] = $this->language->get('heading_title');
-
+		
 		$data['text_list'] = $this->language->get('text_list');
 		$data['text_no_results'] = $this->language->get('text_no_results');
 		$data['text_confirm'] = $this->language->get('text_confirm');
