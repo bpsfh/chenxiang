@@ -54,6 +54,9 @@
             <li><a href="<?php echo $download; ?>"><?php echo $text_download; ?></a></li>
             <li><a href="<?php echo $logout; ?>"><?php echo $text_logout; ?></a></li>
             <?php } else { ?>
+            <!-- Add by sangsanghu 2015/06/24 ST -->
+            <li><a href="<?php echo $vip_register; ?>"><?php echo $text_vip_register; ?></a></li>
+            <!-- Add by sangsanghu 2015/06/24 END -->
             <li><a href="<?php echo $register; ?>"><?php echo $text_register; ?></a></li>
             <li><a href="<?php echo $login; ?>"><?php echo $text_login; ?></a></li>
             <?php } ?>

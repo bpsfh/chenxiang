@@ -1,6 +1,16 @@
 <div class="list-group">
+  <!-- Add sangsanghu 2015/06/17 ST -->
+  <?php if ($logged) { ?>
+  <a href="<?php echo $vip; ?>" class="list-group-item"><?php echo $text_vip; ?></a>
+  <?php } ?>
+  <!-- Add sangsanghu 2015/06/17 END -->
   <?php if (!$logged) { ?>
-  <a href="<?php echo $login; ?>" class="list-group-item"><?php echo $text_login; ?></a> <a href="<?php echo $register; ?>" class="list-group-item"><?php echo $text_register; ?></a> <a href="<?php echo $forgotten; ?>" class="list-group-item"><?php echo $text_forgotten; ?></a>
+  <a href="<?php echo $login; ?>" class="list-group-item"><?php echo $text_login; ?></a>
+  <!-- Add sangsanghu 2015/06/26 ST -->
+  <a href="<?php echo $vip_register; ?>" class="list-group-item"><?php echo $text_vip_register; ?></a>
+  <!-- Add sangsanghu 2015/06/26 ST -->
+  <a href="<?php echo $register; ?>" class="list-group-item"><?php echo $text_register; ?></a>
+  <a href="<?php echo $forgotten; ?>" class="list-group-item"><?php echo $text_forgotten; ?></a>
   <?php } ?>
   <a href="<?php echo $account; ?>" class="list-group-item"><?php echo $text_account; ?></a>
   <?php if ($logged) { ?>

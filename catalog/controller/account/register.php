@@ -16,6 +16,18 @@ class ControllerAccountRegister extends Controller {
 		$this->document->addStyle('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css');
 
 		$this->load->model('account/customer');
+		// Add by sangsanghu 2015/06/24 ST
+		$this->load->model('account/vip_card');
+		
+		if (isset($this->session->data['vip_card_num'])) {
+			$data['vip_card_num'] = $this->session->data['vip_card_num'];
+			
+			unset($this->session->data['vip_card_num']);
+		}
+		else {
+			$data['vip_card_num'] = '';
+		}
+		// Add by sangsanghu 2015/06/24 END
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			$customer_id = $this->model_account_customer->addCustomer($this->request->post);
@@ -24,6 +36,12 @@ class ControllerAccountRegister extends Controller {
 			$this->model_account_customer->deleteLoginAttempts($this->request->post['email']);
 			
 			$this->customer->login($this->request->post['email'], $this->request->post['password']);
+
+			// Add by sangsanghu 2015/06/24 ST
+			if (isset($this->request->post['vip_card_num']) && $this->request->post['vip_card_num'] != '') {
+				$this->model_account_vip_card->editVipCard($this->request->post['vip_card_num']);
+			}
+			// Add by sangsanghu 2015/06/24 END
 
 			unset($this->session->data['guest']);
 
