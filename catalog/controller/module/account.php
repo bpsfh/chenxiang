@@ -21,6 +21,10 @@ class ControllerModuleAccount extends Controller {
 		$data['text_transaction'] = $this->language->get('text_transaction');
 		$data['text_newsletter'] = $this->language->get('text_newsletter');
 		$data['text_recurring'] = $this->language->get('text_recurring');
+		// Add sangsanghu 2015/06/17 ST
+		$data['text_vip'] = $this->language->get('text_vip');
+		$data['text_vip_register'] = $this->language->get('text_vip_register');
+		// Add sangsanghu 2015/06/17 END
 
 		$data['logged'] = $this->customer->isLogged();
 		$data['register'] = $this->url->link('account/register', '', 'SSL');
@@ -39,6 +43,20 @@ class ControllerModuleAccount extends Controller {
 		$data['transaction'] = $this->url->link('account/transaction', '', 'SSL');
 		$data['newsletter'] = $this->url->link('account/newsletter', '', 'SSL');
 		$data['recurring'] = $this->url->link('account/recurring', '', 'SSL');
+		// Add sangsanghu 2015/06/17 ST
+		$data['vip'] = $this->url->link('account/vip_card', '', 'SSL');
+		$data['vip_register'] = $this->url->link('account/vip_register', '', 'SSL');
+		
+		// 查看已登录的用户是否为vip会员
+		$this->load->model('account/vip_card');
+		if ($data['logged']) {
+			$vip_card_info = $this->model_account_vip_card->getVipCardNum();
+			
+			if (!empty($vip_card_info)) {
+				$data['text_vip'] = $this->language->get('text_vip_info');
+			}
+		}
+		// Add sangsanghu 2015/06/17 END
 
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/module/account.tpl')) {
 			return $this->load->view($this->config->get('config_template') . '/template/module/account.tpl', $data);

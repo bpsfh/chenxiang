@@ -615,3 +615,11 @@ input[type="checkbox"]:checked::after, .checkbox input[type="checkbox"]:checked:
     visibility: unset;
 }
 /* Menu Fix For System -> Layout -> Banner */
+
+/* Add by sangsanghu 2015/07/01 ST */
+.form-horizontal .control-value {
+	text-align: left;
+	margin-bottom: 0;
+	padding-top: 9px;
+}
+/* Add by sangsanghu 2015/07/01 END */

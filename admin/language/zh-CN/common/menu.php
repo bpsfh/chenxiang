@@ -88,3 +88,7 @@ $_['text_order_recurring']             = '分期付款订单';
 $_['text_paypal_manage']               = 'PayPal';
 $_['text_paypal_search']               = '检索';
 $_['text_others']               	   = '其它';
+// Add by sangsanghu 2015/06/24 ST
+$_['text_salesman']                    = '业务员管理';
+$_['text_salesman_vip_card']           = 'VIP卡申请一览';
+// Add by sangsanghu 2015/06/24 END 

@@ -15,3 +15,6 @@ $_['text_logout']        = '退出登录';
 $_['text_checkout']      = '去结账';
 $_['text_search']        = '搜索';
 $_['text_all']           = '显示全部';
+// Add by sangsanghu 2015/06/24 ST
+$_['text_vip_register']  = 'VIP注册';
+// Add by sangsanghu 2015/06/24 END
