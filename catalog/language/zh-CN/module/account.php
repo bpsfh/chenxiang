@@ -20,3 +20,8 @@ $_['text_return']      = '商品退换';
 $_['text_transaction'] = '账户余额';
 $_['text_newsletter']  = '新闻订阅';
 $_['text_recurring']   = '分期付款';
+// Add sangsanghu 2015/06/17 ST
+$_['text_vip']         = '升级VIP';
+$_['text_vip_info']    = 'VIP信息';
+$_['text_vip_register']  = 'VIP注册';
+// Add sangsanghu 2015/06/17 END

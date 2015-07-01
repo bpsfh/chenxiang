@@ -53,6 +53,9 @@ class ControllerCommonHeader extends Controller {
 		$data['text_checkout'] = $this->language->get('text_checkout');
 		$data['text_category'] = $this->language->get('text_category');
 		$data['text_all'] = $this->language->get('text_all');
+		// Add by sangsanghu 2015/06/24 ST
+		$data['text_vip_register'] = $this->language->get('text_vip_register');
+		// Add by sangsanghu 2015/06/24 END
 
 		$data['home'] = $this->url->link('common/home');
 		$data['wishlist'] = $this->url->link('account/wishlist', '', 'SSL');
@@ -68,6 +71,9 @@ class ControllerCommonHeader extends Controller {
 		$data['checkout'] = $this->url->link('checkout/checkout', '', 'SSL');
 		$data['contact'] = $this->url->link('information/contact');
 		$data['telephone'] = $this->config->get('config_telephone');
+		// Add by sangsanghu 2015/06/24 ST
+		$data['vip_register'] = $this->url->link('account/vip_register', '', 'SSL');
+		// Add by sangsanghu 2015/06/24 END
 
 		$status = true;
 

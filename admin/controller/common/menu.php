@@ -95,6 +95,10 @@ class ControllerCommonMenu extends Controller {
 		$data['text_recurring'] = $this->language->get('text_recurring');
 		$data['text_order_recurring'] = $this->language->get('text_order_recurring');
 		$data['text_others'] = $this->language->get('text_others');
+		// Add by sangsanghu 2015/06/29 ST
+		$data['text_salesman'] = $this->language->get('text_salesman');
+		$data['text_salesman_vip_card'] = $this->language->get('text_salesman_vip_card');
+		// Add by sangsanghu 2015/06/29 END
 
 		$data['home'] = $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], 'SSL');
 		$data['affiliate'] = $this->url->link('marketing/affiliate', 'token=' . $this->session->data['token'], 'SSL');
@@ -171,6 +175,9 @@ class ControllerCommonMenu extends Controller {
 		$data['zone'] = $this->url->link('localisation/zone', 'token=' . $this->session->data['token'], 'SSL');
 		$data['recurring'] = $this->url->link('catalog/recurring', 'token=' . $this->session->data['token'], 'SSL');
 		$data['order_recurring'] = $this->url->link('sale/recurring', 'token=' . $this->session->data['token'], 'SSL');
+		// Add by sangsanghu 2015/06/29 ST
+		$data['salesman_vip_card'] = $this->url->link('salesman/vip_card', 'token=' . $this->session->data['token'], 'SSL');
+		// Add by sangsanghu 2015/06/29 END
 
 		$data['openbay_show_menu'] = $this->config->get('openbaypro_menu');
 		$data['openbay_link_extension'] = $this->url->link('extension/openbay', 'token=' . $this->session->data['token'], 'SSL');
