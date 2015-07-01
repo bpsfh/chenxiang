@@ -6,42 +6,78 @@
     <div id="vmap" style="width: 100%; height: 260px;"></div>
   </div>
 </div>
-<link type="text/css" href="view/javascript/jquery/jqvmap/jqvmap.css" rel="stylesheet" media="screen" />
-<script type="text/javascript" src="view/javascript/jquery/jqvmap/jquery.vmap.js"></script> 
-<script type="text/javascript" src="view/javascript/jquery/jqvmap/maps/jquery.vmap.world.js"></script> 
+<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="view/javascript/jquery/flot/excanvas.min.js"></script><![endif]-->
+<script type="text/javascript" src="view/javascript/jquery/flot/jquery.js"></script>
+<!--<script type="text/javascript" src="view/javascript/jquery/flot/jquery.flot.js"></script> -->
+<script type="text/javascript" src="view/javascript/jquery/flot/jquery.flot.pie.js"></script>
+<script type="text/javascript" src="view/javascript/jquery/flot/jquery.flot.resize.min.js"></script>
 <script type="text/javascript"><!--
 $(document).ready(function() {
 	$.ajax({
 		url: 'index.php?route=dashboard/map/map&token=<?php echo $token; ?>',
 		dataType: 'json',
 		success: function(json) {
-			data = [];
-						
-			for (i in json) {
-				data[i] = json[i]['total'];
-			}
-					
-			$('#vmap').vectorMap({
-				map: 'world_en',
-				backgroundColor: '#FFFFFF',
-				borderColor: '#FFFFFF',
-				color: '#9FD5F1',
-				hoverOpacity: 0.7,
-				selectedColor: '#666666',
-				enableZoom: true,
-				showTooltip: true,
-				values: data,
-				normalizeFunction: 'polynomial',
-				onLabelShow: function(event, label, code) {
-					if (json[code]) {
-						label.html('<strong>' + label.text() + '</strong><br />' + '<?php echo $text_order; ?> ' + json[code]['total'] + '<br />' + '<?php echo $text_sale; ?> ' + json[code]['amount']);
-					}
-				}
-			});			
+
+	        var dataSet = [
+	            { label: "Asia", data: 4119630000, color: "#005CDE" },
+	            { label: "Latin America", data: 590950000, color: "#00A36A" },
+	            { label: "Africa", data: 1012960000, color: "#7D0096" },
+	            { label: "Oceania", data: 35100000, color: "#992B00" },
+	            { label: "Europe", data: 727080000, color: "#DE000F" },
+	            { label: "North America", data: 344120000, color: "#ED7B00" }    
+	        ];
+
+	        var options = {
+	        	    series: {
+	        	        pie: {
+	        	            show: true,
+	        	            label: {
+	        	                show: true,
+	        	                radius: 180,
+	        					formatter: function(label, series) {
+	        						return "<div style='font-size:8pt; text-align:center; padding:2px; color:white;'>" + label + "<br/>" + Math.round(series.percent) + "%</div>";
+	        					},
+	        	                background: {
+	        	                    opacity: 0.8,
+	        	                    color: '#000'
+	        	                }
+	        	            }
+	        	        }
+	        	    },
+	        	    legend: {
+	        	        show: true
+	        	    },
+	        	    grid: {
+	        	        hoverable: true
+	        	    }
+	        	};
+	
+	        var option = {
+	          series: {
+	            pie: {
+	              show: true,                
+	              label: {
+	                show:true,
+	                radius: 0.8,
+					formatter: function(label, series) {
+						return "<div style='font-size:8pt; text-align:center; padding:2px; color:white;'>" + label + "<br/>" + Math.round(series.percent) + "%</div>";
+					},
+	                background: {
+	                    opacity: 0.8,
+	                    color: '#000'
+	                },
+	                threshold: 0.03
+	              }
+	            }
+	          }
+	        };
+
+		    $.plot('#vmap', dataSet, options);
+
 		},
         error: function(xhr, ajaxOptions, thrownError) {
             alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
         }
-	});			
+	});
 });
-//--></script> 
+//--></script>

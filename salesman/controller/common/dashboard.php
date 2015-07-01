@@ -35,12 +35,13 @@ class ControllerCommonDashboard extends Controller {
 		
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
-//		$data['order'] = $this->load->controller('dashboard/order');
-//		$data['sale'] = $this->load->controller('dashboard/sale');
-//		$data['customer'] = $this->load->controller('dashboard/customer');
-//		$data['online'] = $this->load->controller('dashboard/online');
-//		$data['map'] = $this->load->controller('dashboard/map');
-//		$data['chart'] = $this->load->controller('dashboard/chart');
+		$data['commission'] = $this->load->controller('dashboard/commission');
+		$data['order'] = $this->load->controller('dashboard/order');
+		$data['sale'] = $this->load->controller('dashboard/sale');
+		$data['customer'] = $this->load->controller('dashboard/customer');
+		$data['card'] = $this->load->controller('dashboard/card');
+		$data['map'] = $this->load->controller('dashboard/map');
+		$data['chart'] = $this->load->controller('dashboard/chart');
 //		$data['activity'] = $this->load->controller('dashboard/activity');
 //		$data['recent'] = $this->load->controller('dashboard/recent');
 		$data['footer'] = $this->load->controller('common/footer');
