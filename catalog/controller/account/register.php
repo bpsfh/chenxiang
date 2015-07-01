@@ -16,6 +16,18 @@ class ControllerAccountRegister extends Controller {
 		$this->document->addStyle('catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css');
 
 		$this->load->model('account/customer');
+		// Add by sangsanghu 2015/06/24 ST
+		$this->load->model('account/vip_card');
+		
+		if (isset($this->session->data['vip_card_num'])) {
+			$data['vip_card_num'] = $this->session->data['vip_card_num'];
+			
+			unset($this->session->data['vip_card_num']);
+		}
+		else {
+			$data['vip_card_num'] = '';
+		}
+		// Add by sangsanghu 2015/06/24 END
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
 			$customer_id = $this->model_account_customer->addCustomer($this->request->post);
@@ -24,6 +36,12 @@ class ControllerAccountRegister extends Controller {
 			$this->model_account_customer->deleteLoginAttempts($this->request->post['email']);
 			
 			$this->customer->login($this->request->post['email'], $this->request->post['password']);
+			
+			// Add by sangsanghu 2015/06/24 ST
+			if (isset($this->request->post['vip_card_num']) && $this->request->post['vip_card_num'] != '') {
+				$this->model_account_vip_card->editVipCard($this->request->post['vip_card_num']);
+			}
+			// Add by sangsanghu 2015/06/24 END
 
 			unset($this->session->data['guest']);
 
@@ -67,16 +85,12 @@ class ControllerAccountRegister extends Controller {
 		$data['text_no'] = $this->language->get('text_no');
 		$data['text_select'] = $this->language->get('text_select');
 		$data['text_none'] = $this->language->get('text_none');
-		$data['text_get_sms_code'] = $this->language->get('text_get_sms_code');
 		$data['text_loading'] = $this->language->get('text_loading');
-		
-		
 
 		$data['entry_customer_group'] = $this->language->get('entry_customer_group');
 		$data['entry_fullname'] = $this->language->get('entry_fullname');
 		$data['entry_email'] = $this->language->get('entry_email');
 		$data['entry_telephone'] = $this->language->get('entry_telephone');
-		$data['entry_sms_code'] = $this->language->get('entry_sms_code');
 		$data['entry_newsletter'] = $this->language->get('entry_newsletter');
 		$data['entry_password'] = $this->language->get('entry_password');
 		$data['entry_confirm'] = $this->language->get('entry_confirm');
@@ -126,12 +140,6 @@ class ControllerAccountRegister extends Controller {
 		} else {
 			$data['error_confirm'] = '';
 		}
-		
-		if (isset($this->error['sms_code'])) {
-			$data['error_sms_code'] = $this->error['sms_code'];
-		} else {
-			$data['error_sms_code'] = '';
-		}
 
 		$data['action'] = $this->url->link('account/register', '', 'SSL');
 
@@ -172,25 +180,6 @@ class ControllerAccountRegister extends Controller {
 			$data['telephone'] = $this->request->post['telephone'];
 		} else {
 			$data['telephone'] = '';
-		}
-		
-		//SMS
-		if($this->smsgateway()) {
-			
-			$sms_gateway = $this->smsgateway();
-			
-			$data['sms_gateway'] = $sms_gateway[0];
-			
-		}else{
-			
-			$data['sms_gateway'] = '';
-			
-		}
-		
-		if (isset($this->request->post['sms_code'])) {
-			$data['sms_code'] = $this->request->post['sms_code'];
-		} else {
-			$data['sms_code'] = '';
 		}
 
 
@@ -285,14 +274,6 @@ class ControllerAccountRegister extends Controller {
 
 		if ((utf8_strlen($this->request->post['telephone']) < 3) || (utf8_strlen($this->request->post['telephone']) > 32)) {
 			$this->error['telephone'] = $this->language->get('error_telephone');
-		}else{
-			// if sms code is not correct
-			if (isset($this->request->post['sms_code'])) {
-				$this->load->model('account/smsmobile');
-				if($this->model_account_smsmobile->verifySmsCode($this->request->post['telephone'], $this->request->post['sms_code']) == 0) {
-					$this->error['sms_code'] = $this->language->get('error_sms_code');
-				}
-			}
 		}
 
 
@@ -360,27 +341,4 @@ class ControllerAccountRegister extends Controller {
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
 	}
-	
-	public function smsgateway() {
-		
-		$sms_gateway = array();
-
-		$this->load->model('extension/extension');
-
-		$results = $this->model_extension_extension->getExtensions('sms');
-
-
-		foreach ($results as $result) {
-			if ($this->config->get($result['code'] . '_status')) {
-
-					$sms_gateway[] = $result['code'];
-
-			}
-		}
-		
-		return $sms_gateway;
-		
-	}
-	
-	
 }

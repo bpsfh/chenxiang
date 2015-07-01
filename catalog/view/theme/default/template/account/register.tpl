@@ -22,6 +22,9 @@
       <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" class="form-horizontal">
         <fieldset id="account">
           <legend><?php echo $text_your_details; ?></legend>
+          <!-- Add by sangsanghu 2015/06/24 ST -->
+		  <input type="text" name="vip_card_num" value="<?php echo $vip_card_num; ?>" style="display:none"/>
+		  <!-- Add by sangsanghu 2015/06/24 END -->
           <div class="form-group required" style="display: <?php echo (count($customer_groups) > 1 ? 'block' : 'none'); ?>;">
             <label class="col-sm-2 control-label"><?php echo $entry_customer_group; ?></label>
             <div class="col-sm-10">
@@ -54,7 +57,7 @@
           <div class="form-group required">
             <label class="col-sm-2 control-label" for="input-email"><?php echo $entry_email; ?></label>
             <div class="col-sm-10">
-              <input type="text" name="email" value="<?php echo $email; ?>" placeholder="<?php echo $entry_email; ?>" id="input-email" class="form-control" />
+              <input type="email" name="email" value="<?php echo $email; ?>" placeholder="<?php echo $entry_email; ?>" id="input-email" class="form-control" />
               <?php if ($error_email) { ?>
               <div class="text-danger"><?php echo $error_email; ?></div>
               <?php } ?>
@@ -63,35 +66,12 @@
           <div class="form-group required">
             <label class="col-sm-2 control-label" for="input-telephone"><?php echo $entry_telephone; ?></label>
             <div class="col-sm-10">
-              <input type="text" name="telephone" value="<?php echo $telephone; ?>" placeholder="<?php echo $entry_telephone; ?>" id="input-telephone" class="form-control" />
-              
-              <?php if($sms_gateway) { ?>
-              <br />
-              <input type="button" class="btn btn-long" id="mobile_code" value="<?php echo $text_get_sms_code; ?>" />
-              <?php } ?>
-              
+              <input type="tel" name="telephone" value="<?php echo $telephone; ?>" placeholder="<?php echo $entry_telephone; ?>" id="input-telephone" class="form-control" />
               <?php if ($error_telephone) { ?>
               <div class="text-danger"><?php echo $error_telephone; ?></div>
               <?php } ?>
             </div>
           </div>
-          
-         
-         
-          <?php if($sms_gateway) { ?>
-          
-          <div class="form-group required">
-            <label class="col-sm-2 control-label" for="input-sms"><?php echo $entry_sms_code; ?></label>
-            <div class="col-sm-10">
-              <input type="text" name="sms_code" value="<?php echo $sms_code; ?>" placeholder="<?php echo $entry_sms_code; ?>" id="input-sms-code" class="form-control" />
-              <?php if ($error_sms_code) { ?>
-              <div class="text-danger"><?php echo $error_sms_code; ?></div>
-              <?php } ?>
-            </div>
-          </div>
-          
-          <?php } ?>
-          
           <?php foreach ($custom_fields as $custom_field) { ?>
           <?php if ($custom_field['location'] == 'account') { ?>
           <?php if ($custom_field['type'] == 'select') { ?>
@@ -399,43 +379,5 @@ $('.datetime').datetimepicker({
 	pickTime: true
 });
 //--></script> 
-
-<?php if($sms_gateway) { ?>
-<script type="text/javascript"><!--
-$('#mobile_code').on('click', function() {
-	$.ajax({
-		url: 'index.php?route=sms/<?php echo $sms_gateway; ?>/create_mobile_code',
-		type: 'post',
-		dataType: 'json',
-		data: 'telephone=' + encodeURIComponent($('input[name=\'telephone\']').val()),
-		beforeSend: function() {
-			$('.alert-success, .alert-danger').remove();
-			$('#mobile_code').attr('disabled', true);
-			
-		},
-		complete: function() {
-			//$('#mobile_code').attr('disabled', false);
-			//$('.attention').remove();
-		},
-		success: function(data) {
-			if (data['error']) {
-				$('#mobile_code').after('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> ' + data['error'] + '</div>');
-				$('#mobile_code').attr('disabled', false);
-			}
-			
-			if (data['success']) {
-				$('#mobile_code').after('<div class="alert alert-success"><i class="fa fa-check-circle"></i> ' + data['success'] + '</div>');
-				
-				setTimeout(function(){
-					$('#mobile_code').attr('disabled', false);
-				}, 60000);
-								
-			}
-		}
-	});
-});
-
-//--></script> 
-<?php } ?>
 
 <?php echo $footer; ?>
