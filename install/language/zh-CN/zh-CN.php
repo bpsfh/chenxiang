@@ -57,6 +57,7 @@ $_['text_missing']           = '丢失';
 $_['text_forget']            = '不要忘记删除安装目录！';
 $_['text_shop']              = '访问我的网店';
 $_['text_login']             = '登录网站后台';
+$_['text_salesman']             = '业务员登录';
 $_['text_project']           = '项目首页';
 $_['text_documentation']     = '文档';
 $_['text_support']           = '支持论坛';

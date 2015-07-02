@@ -2,7 +2,7 @@ SET SQL_MODE = "";
 CREATE TABLE IF NOT EXISTS `mcc_address` (
   `address_id` int(11) NOT NULL AUTO_INCREMENT,
   `customer_id` int(11) NOT NULL,
-  `fullname` varchar(32) NOT NULL,
+  `fullname` varchar(64) NOT NULL,
   `company` varchar(40) NOT NULL,
   `address` varchar(128) NOT NULL,
   `city` varchar(128) NOT NULL,
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `mcc_address` (
 
 CREATE TABLE IF NOT EXISTS `mcc_affiliate` (
   `affiliate_id` int(11) NOT NULL AUTO_INCREMENT,
-  `fullname` varchar(32) NOT NULL,
+  `fullname` varchar(64) NOT NULL,
   `email` varchar(96) NOT NULL,
   `telephone` varchar(32) NOT NULL,
   `fax` varchar(32) NOT NULL,
@@ -977,7 +977,7 @@ CREATE TABLE IF NOT EXISTS `mcc_customer` (
   `customer_id` int(11) NOT NULL AUTO_INCREMENT,
   `customer_group_id` int(11) NOT NULL,
   `store_id` int(11) NOT NULL DEFAULT '0',
-  `fullname` varchar(32) NOT NULL,
+  `fullname` varchar(64) NOT NULL,
   `email` varchar(96) NOT NULL,
   `telephone` varchar(32) NOT NULL,
   `fax` varchar(32) NOT NULL,
@@ -1636,12 +1636,12 @@ CREATE TABLE IF NOT EXISTS `mcc_order` (
   `store_url` varchar(255) NOT NULL,
   `customer_id` int(11) NOT NULL DEFAULT '0',
   `customer_group_id` int(11) NOT NULL DEFAULT '0',
-  `fullname` varchar(32) NOT NULL,
+  `fullname` varchar(64) NOT NULL,
   `email` varchar(96) NOT NULL,
   `telephone` varchar(32) NOT NULL,
   `fax` varchar(32) NOT NULL,
   `custom_field` text NOT NULL,
-  `payment_fullname` varchar(32) NOT NULL,
+  `payment_fullname` varchar(64) NOT NULL,
   `payment_company` varchar(40) NOT NULL,
   `payment_address` varchar(128) NOT NULL,
   `payment_city` varchar(128) NOT NULL,
@@ -1654,7 +1654,7 @@ CREATE TABLE IF NOT EXISTS `mcc_order` (
   `payment_custom_field` text NOT NULL,
   `payment_method` varchar(128) NOT NULL,
   `payment_code` varchar(128) NOT NULL,
-  `shipping_fullname` varchar(32) NOT NULL,
+  `shipping_fullname` varchar(64) NOT NULL,
   `shipping_company` varchar(40) NOT NULL,
   `shipping_address` varchar(128) NOT NULL,
   `shipping_city` varchar(128) NOT NULL,
@@ -2340,7 +2340,7 @@ CREATE TABLE IF NOT EXISTS `mcc_return` (
   `order_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
-  `fullname` varchar(32) NOT NULL,
+  `fullname` varchar(64) NOT NULL,
   `email` varchar(96) NOT NULL,
   `telephone` varchar(32) NOT NULL,
   `product` varchar(255) NOT NULL,
@@ -2796,7 +2796,7 @@ CREATE TABLE IF NOT EXISTS `mcc_user` (
   `username` varchar(20) NOT NULL,
   `password` varchar(40) NOT NULL,
   `salt` varchar(9) NOT NULL,
-  `fullname` varchar(32) NOT NULL,
+  `fullname` varchar(64) NOT NULL,
   `email` varchar(96) NOT NULL,
   `image` varchar(255) NOT NULL,
   `code` varchar(40) NOT NULL,
@@ -7063,3 +7063,144 @@ INSERT INTO `mcc_zone_to_geo_zone` (`zone_to_geo_zone_id`, `country_id`, `zone_i
 (113, 44, 708, 3, '2015-04-01 22:23:18', '0000-00-00 00:00:00'),
 (111, 44, 4225, 4, '2015-04-01 22:11:53', '0000-00-00 00:00:00'),
 (112, 44, 705, 4, '2015-04-01 22:11:53', '0000-00-00 00:00:00');
+
+
+-- --------------------------------------------------------
+-- Customized by Rontech@2015/06
+-- --------------------------------------------------------
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mcc_salesman`
+--
+
+CREATE TABLE IF NOT EXISTS `mcc_salesman` (
+  `salesman_id` int(11) NOT NULL AUTO_INCREMENT,
+  `salesman_group_id` int(11) NOT NULL,
+  `store_id` int(11) NOT NULL DEFAULT '0',
+  `fullname` varchar(64) NOT NULL,
+  `email` varchar(96) NOT NULL,
+  `telephone` varchar(32) NOT NULL,
+  `fax` varchar(32) NOT NULL,
+  `image` varchar(225) NOT NULL,
+  `password` varchar(40) NOT NULL,
+  `salt` varchar(9) NOT NULL,
+  `newsletter` tinyint(1) NOT NULL DEFAULT '0',
+  `address_id` int(11) NOT NULL DEFAULT '0',
+  `custom_field` text NOT NULL,
+  `ip` varchar(40) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `approved` tinyint(1) NOT NULL DEFAULT '0',
+  `safe` tinyint(1) NOT NULL,
+  `code` varchar(40) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `date_added` datetime NOT NULL,
+  `date_approved` datetime NULL,
+  PRIMARY KEY `salesman_id` (`salesman_id`),
+  KEY `email` (`email`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `mcc_salesman`
+--
+
+INSERT INTO `mcc_salesman` (`salesman_group_id`, `store_id`, `fullname`, `email`, `telephone`, `fax`, `image`, `password`, `salt`, `newsletter`, `address_id`, `custom_field`, `ip`, `status`, `approved`, `safe`, `code`, `token`, `date_added`) VALUES ( 
+'1', '0', 'jie zhang', 'jie-zhang@sz-rontech.com', '18662186718', '', '', 'e002c7877aa12eab9baca606f5ed9f52e1bc11ba', '7869d568e', '0', '0', 'a:0:{}', '192.168.0.100', '1', '1', '0', '', '', '2015-05-28 15:13:27');
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mcc_salesman_login`
+--
+
+CREATE TABLE IF NOT EXISTS `mcc_salesman_login` (
+  `salesman_login_id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(96) NOT NULL,
+  `ip` varchar(40) NOT NULL,
+  `total` int(4) NOT NULL,
+  `date_added` datetime NOT NULL,
+  `date_modified` datetime NOT NULL,
+  PRIMARY KEY (`salesman_login_id`),
+  KEY `email` (`email`),
+  KEY `ip` (`ip`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mcc_salesman_ip`
+--
+
+CREATE TABLE IF NOT EXISTS `mcc_salesman_ip` (
+  `salesman_ip_id` int(11) NOT NULL AUTO_INCREMENT,
+  `salesman_id` int(11) NOT NULL,
+  `ip` varchar(40) NOT NULL,
+  `date_added` datetime NOT NULL,
+  PRIMARY KEY (`salesman_ip_id`),
+  KEY `ip` (`ip`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mcc_bank_account`
+--
+
+CREATE TABLE IF NOT EXISTS `mcc_bank_account` (
+  `bank_account_id` int(11) NOT NULL,
+  `bank_account_num` varchar(20) NOT NULL,
+  `salesman_id` int(11) NOT NULL,
+  `bank_name` varchar(32) NOT NULL,
+  `bank_branch_name` varchar(32) DEFAULT NULL,
+  `account_name` varchar(16) NOT NULL,
+  `date_added` datetime NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mcc_vip_card`
+--
+
+CREATE TABLE IF NOT EXISTS `mcc_vip_card` (
+  `vip_card_id` int(11) NOT NULL AUTO_INCREMENT,
+  `vip_card_num` varchar(16) NOT NULL UNIQUE,
+  `customer_id` int(11),
+  `salesman_id` int(11),
+  `date_bind_to_salesman` datetime,
+  `date_bind_to_customer` datetime,
+  `bind_status` tinyint(1) NOT NULL,
+  `date_created` datetime NOT NULL,
+  `date_modified` datetime NOT NULL,
+  PRIMARY KEY (`vip_card_id`),
+  KEY `customer_id` (`customer_id`),
+  KEY `salesman_id` (`salesman_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mcc_vip_card_application`
+--
+
+CREATE TABLE IF NOT EXISTS `mcc_vip_card_application` (
+  `apply_id` int(11) NOT NULL AUTO_INCREMENT,
+  `salesman_id` int(11) NOT NULL,
+  `apply_qty` int(11) DEFAULT '0',
+  `date_applied` datetime NOT NULL,
+  `apply_reason` text,
+  `apply_status` tinyint(1) NOT NULL,
+  `date_processed` datetime,
+  `reject_reason` text,
+  PRIMARY KEY (`apply_id`),
+  KEY `salesman_id` (`salesman_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+
+

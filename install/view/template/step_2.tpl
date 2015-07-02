@@ -274,6 +274,17 @@
                   <?php } ?>
                 </td>
               </tr>
+               <tr>
+                <td><?php echo $config_salesman; ?></td>
+                <td><?php if (!file_exists($config_salesman)) { ?>
+                  <span class="text-danger"><?php echo $text_missing; ?></span>
+                  <?php } elseif (!is_writable($config_salesman)) { ?>
+                  <span class="text-danger"><?php echo $text_unwritable; ?></span>
+                  <?php } else { ?>
+                  <span class="text-success"><?php echo $text_writable; ?></span>
+                  <?php } ?>
+                </td>
+              </tr>
             </tbody>
           </table>
         </fieldset>

@@ -83,6 +83,7 @@ class ControllerStep2 extends Controller {
 
 		$data['config_catalog'] = DIR_MYCNCART . 'config.php';
 		$data['config_admin'] = DIR_MYCNCART . 'admin/config.php';
+		$data['config_salesman'] = DIR_MYCNCART . 'salesman/config.php';
 
 		$data['cache'] = DIR_SYSTEM . 'cache';
 		$data['logs'] = DIR_SYSTEM . 'logs';
@@ -154,6 +155,12 @@ class ControllerStep2 extends Controller {
 			$this->error['warning'] = 'Warning: admin/config.php does not exist. You need to rename admin/config-dist.php to admin/config.php!';
 		} elseif (!is_writable(DIR_MYCNCART . 'admin/config.php')) {
 			$this->error['warning'] = 'Warning: admin/config.php needs to be writable for MyCnCart to be installed!';
+		}
+
+		if (!file_exists(DIR_MYCNCART . 'salesman/config.php')) {
+			$this->error['warning'] = 'Warning: salesman/config.php does not exist. You need to rename salesman/config-dist.php to salesman/config.php!';
+		} elseif (!is_writable(DIR_MYCNCART . 'salesman/config.php')) {
+			$this->error['warning'] = 'Warning: salesman/config.php needs to be writable for MyCnCart to be installed!';
 		}
 
 		if (!is_writable(DIR_SYSTEM . 'cache')) {
