@@ -38,6 +38,22 @@ These instructions are for a manual installation using FTP, cPanel or other web 
 
 		If 0755 does not work try 0777.
 
+		@for example
+		cd /var/www/html/opencart
+		chmod 777 config.php
+		chmod 777 admin/config.php
+		chmod 777 salesman/config.php
+
+		chmod 777 system/cache/
+		chmod 777 system/logs/
+		chmod 777 system/download/
+		chmod 777 system/upload/
+		chmod 777 image/
+		chmod 777 image/cache/
+		chmod 777 image/catalog/
+		chmod 777 system/modification/
+
+
 4. Make sure you have installed a MySQL Database which has a user assigned to it
 	DO NOT USE YOUR ROOT USERNAME AND ROOT PASSWORD
     @login to mysql on local server.

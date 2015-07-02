@@ -19,13 +19,17 @@
   <div class="alert alert-danger"><?php echo $text_forget; ?></div>
   <div class="visit">
     <div class="row">
-      <div class="col-sm-5 col-sm-offset-1 text-center">
+      <div class="col-sm-3 col-sm-offset-1 text-center">
         <img src="view/image/icon-store.png">
         <a class="btn btn-secondary" href="../"><?php echo $text_shop; ?></a>
       </div>
-      <div class="col-sm-5 text-center">
+      <div class="col-sm-4 text-center">
         <img src="view/image/icon-admin.png">
         <a class="btn btn-secondary" href="../admin/"><?php echo $text_login; ?></a>
+      </div>
+      <div class="col-sm-3 text-center">
+        <img src="view/image/icon-salesman.png">
+        <a class="btn btn-secondary" href="../salesman/"><?php echo $text_salesman; ?></a>
       </div>
     </div>
   </div>

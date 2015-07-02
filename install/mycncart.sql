@@ -7073,10 +7073,10 @@ INSERT INTO `mcc_zone_to_geo_zone` (`zone_to_geo_zone_id`, `country_id`, `zone_i
 -- --------------------------------------------------------
 
 --
--- Table structure for table `oc_salesman`
+-- Table structure for table `mcc_salesman`
 --
 
-CREATE TABLE IF NOT EXISTS `oc_salesman` (
+CREATE TABLE IF NOT EXISTS `mcc_salesman` (
   `salesman_id` int(11) NOT NULL AUTO_INCREMENT,
   `salesman_group_id` int(11) NOT NULL,
   `store_id` int(11) NOT NULL DEFAULT '0',
@@ -7103,20 +7103,20 @@ CREATE TABLE IF NOT EXISTS `oc_salesman` (
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `oc_salesman`
+-- Dumping data for table `mcc_salesman`
 --
 
-INSERT INTO oc_salesman (`salesman_group_id`, `store_id`, `fullname`, `email`, `telephone`, `fax`, `image`, `password`, `salt`, `newsletter`, `address_id`, `custom_field`, `ip`, `status`, `approved`, `safe`, `code`, `token`, `date_added`) VALUES ( 
+INSERT INTO `mcc_salesman` (`salesman_group_id`, `store_id`, `fullname`, `email`, `telephone`, `fax`, `image`, `password`, `salt`, `newsletter`, `address_id`, `custom_field`, `ip`, `status`, `approved`, `safe`, `code`, `token`, `date_added`) VALUES ( 
 '1', '0', 'jie zhang', 'jie-zhang@sz-rontech.com', '18662186718', '', '', 'e002c7877aa12eab9baca606f5ed9f52e1bc11ba', '7869d568e', '0', '0', 'a:0:{}', '192.168.0.100', '1', '1', '0', '', '', '2015-05-28 15:13:27');
 
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `oc_salesman_login`
+-- Table structure for table `mcc_salesman_login`
 --
 
-CREATE TABLE IF NOT EXISTS `oc_salesman_login` (
+CREATE TABLE IF NOT EXISTS `mcc_salesman_login` (
   `salesman_login_id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(96) NOT NULL,
   `ip` varchar(40) NOT NULL,
@@ -7131,10 +7131,10 @@ CREATE TABLE IF NOT EXISTS `oc_salesman_login` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `oc_salesman_ip`
+-- Table structure for table `mcc_salesman_ip`
 --
 
-CREATE TABLE IF NOT EXISTS `oc_salesman_ip` (
+CREATE TABLE IF NOT EXISTS `mcc_salesman_ip` (
   `salesman_ip_id` int(11) NOT NULL AUTO_INCREMENT,
   `salesman_id` int(11) NOT NULL,
   `ip` varchar(40) NOT NULL,
@@ -7147,10 +7147,10 @@ CREATE TABLE IF NOT EXISTS `oc_salesman_ip` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `oc_bank_account`
+-- Table structure for table `mcc_bank_account`
 --
 
-CREATE TABLE IF NOT EXISTS `oc_bank_account` (
+CREATE TABLE IF NOT EXISTS `mcc_bank_account` (
   `bank_account_id` int(11) NOT NULL,
   `bank_account_num` varchar(20) NOT NULL,
   `salesman_id` int(11) NOT NULL,
@@ -7164,10 +7164,10 @@ CREATE TABLE IF NOT EXISTS `oc_bank_account` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `oc_vip_card`
+-- Table structure for table `mcc_vip_card`
 --
 
-CREATE TABLE IF NOT EXISTS `oc_vip_card` (
+CREATE TABLE IF NOT EXISTS `mcc_vip_card` (
   `vip_card_id` int(11) NOT NULL AUTO_INCREMENT,
   `vip_card_num` varchar(16) NOT NULL UNIQUE,
   `customer_id` int(11),
@@ -7186,10 +7186,10 @@ CREATE TABLE IF NOT EXISTS `oc_vip_card` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `oc_vip_card_application`
+-- Table structure for table `mcc_vip_card_application`
 --
 
-CREATE TABLE IF NOT EXISTS `oc_vip_card_application` (
+CREATE TABLE IF NOT EXISTS `mcc_vip_card_application` (
   `apply_id` int(11) NOT NULL AUTO_INCREMENT,
   `salesman_id` int(11) NOT NULL,
   `apply_qty` int(11) DEFAULT '0',
