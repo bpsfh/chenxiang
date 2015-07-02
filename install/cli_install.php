@@ -262,8 +262,6 @@ function write_config_files($options) {
 
 	fclose($file);
 
-echo "admin ok";
-
 	$output  = '<?php' . "\n";
 	$output .= '// HTTP' . "\n";
 	$output .= 'define(\'HTTP_SERVER\', \'' . $options['http_server'] . 'salesman/\');' . "\n";
@@ -306,8 +304,6 @@ echo "admin ok";
 	fwrite($file, $output);
 
 	fclose($file);
-echo "salesman ok";
-
 }
 
 

@@ -21,7 +21,7 @@ class ControllerDashboardCommission extends Controller {
 
 		// Customers Online
 		$customer_total = $this->model_vip_card->getBindedVipCards(array('salesman_id' => $this->salesman->getId()));
-		
+		/*		
 		if ($customer_total > 1000000000000) {
 			$data['total'] = round($customer_total / 1000000000000, 1) . 'T';
 		} elseif ($customer_total > 1000000000) {
@@ -33,8 +33,9 @@ class ControllerDashboardCommission extends Controller {
 		} else {
 			$data['total'] = $customer_total;
 		}
+		*/
 	
-		$data['total_formated'] = $this->currency->format($data['total'], $this->config->get('currency_code'));
+		$data['total_formated'] = $this->currency->format($customer_total, $this->config->get('currency_code'));
 	
 		$data['percentage'] = $this->model_vip_card->getBindedRate(array('salesman_id' => $this->salesman->getId()));
 		

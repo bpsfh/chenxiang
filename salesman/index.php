@@ -121,6 +121,8 @@ $config->set('config_language_id', $languages[$config->get('config_admin_languag
 // Language
 $language = new Language($languages[$config->get('config_admin_language')]['directory']);
 $language->load($languages[$config->get('config_admin_language')]['directory']);
+// TODO
+$language->load('default');
 $registry->set('language', $language);
 
 // Document

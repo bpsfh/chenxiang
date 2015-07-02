@@ -147,7 +147,7 @@ class ModelVipOrder extends Model {
 			);
 		}
 		
-		$sql = "SELECT COUNT(*) AS total, TIMESTAMPDIFF(DAY, '" . $this->db->escape($data['filter_date_start']) . "', vc.date_bind_to_salesman) AS day FROM `" . DB_PREFIX . "order` o ";
+		$sql = "SELECT COUNT(*) AS total, TIMESTAMPDIFF(DAY, '" . $this->db->escape($data['filter_date_start']) . "', o.date_added) AS day FROM `" . DB_PREFIX . "order` o ";
 		$sql .= "INNER JOIN `" . DB_PREFIX . "customer` c ON o.customer_id = c.customer_id ";
 		$sql .= "INNER JOIN `" . DB_PREFIX . "vip_card` vc ON o.customer_id = vc.customer_id ";
 		
@@ -169,7 +169,7 @@ class ModelVipOrder extends Model {
 			$sql .= " WHERE " . implode(" AND ", $implode);
 		}
 		
-		$sql .= "GROUP BY DATE(vc.date_bind_to_salesman)";
+		$sql .= "GROUP BY DATE(o.date_added)";
 		
 		$query = $this->db->query($sql);
 
@@ -195,7 +195,7 @@ class ModelVipOrder extends Model {
 			);
 		}
 		
-		$sql = "SELECT SUM(op.total) AS total, TIMESTAMPDIFF(DAY, '" . $this->db->escape($data['filter_date_start']) . "', vc.date_bind_to_salesman) AS day FROM `" . DB_PREFIX . "order_product` op ";
+		$sql = "SELECT SUM(op.total) AS total, TIMESTAMPDIFF(DAY, '" . $this->db->escape($data['filter_date_start']) . "', o.date_added) AS day FROM `" . DB_PREFIX . "order_product` op ";
 		$sql .= "INNER JOIN `" . DB_PREFIX . "order` o ON op.order_id = o.order_id ";
 		$sql .= "INNER JOIN `" . DB_PREFIX . "customer` c ON o.customer_id = c.customer_id ";
 		$sql .= "INNER JOIN `" . DB_PREFIX . "vip_card` vc ON o.customer_id = vc.customer_id ";
@@ -218,7 +218,7 @@ class ModelVipOrder extends Model {
 			$sql .= " WHERE " . implode(" AND ", $implode);
 		}
 		
-		$sql .= "GROUP BY DATE(vc.date_bind_to_salesman)";
+		$sql .= "GROUP BY DATE(o.date_added)";
 		
 		$query = $this->db->query($sql);
 
