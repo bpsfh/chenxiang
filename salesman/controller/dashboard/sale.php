@@ -11,8 +11,8 @@ class ControllerDashboardSale extends Controller {
 
 		$this->load->model('vip/order');
 
-		$sale_total= $this->model_vip_order->getTotalVipOrdersAmount(array('salesman_id' => $this->salesman->getId(), 'filter_date_end' => date('Y-m-d', strtotime('-1 day'))));
-
+		$sale_total= $this->model_vip_order->getTotalVipOrdersAmount(array('salesman_id' => $this->salesman->getId()));
+		/*
 		if ($sale_total > 1000000000000) {
 			$data['total'] = round($sale_total / 1000000000000, 1) . 'T';
 		} elseif ($sale_total > 1000000000) {
@@ -24,8 +24,9 @@ class ControllerDashboardSale extends Controller {
 		} else {
 			$data['total'] = round($sale_total);
 		}
+		*/
 
-		$data['total_formated'] = $this->currency->format($data['total'], $this->config->get('currency_code'));
+		$data['total_formated'] = $this->currency->format($sale_total, $this->config->get('currency_code'));
 
 		$data['sale'] = $this->url->link('vip/sale', 'token=' . $this->session->data['token'], 'SSL');
 

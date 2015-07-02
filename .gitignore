@@ -11,5 +11,6 @@ image/cache/*
 image/*
 system/cache/*
 system/logs/*
+system/download/*
 
 *.swp
