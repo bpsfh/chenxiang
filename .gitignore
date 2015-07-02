@@ -3,8 +3,6 @@
 admin/config.php
 salesman/config.php
 
-config-dist.php
-
 !index.html
 
 download/*
@@ -13,3 +11,5 @@ image/cache/*
 image/*
 system/cache/*
 system/logs/*
+
+*.swp
