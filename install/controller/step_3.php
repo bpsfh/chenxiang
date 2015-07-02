@@ -81,6 +81,46 @@ class ControllerStep3 extends Controller {
 
 			fclose($file);
 
+			$output  = '<?php' . "\n";
+			$output .= '// HTTP' . "\n";
+			$output .= 'define(\'HTTP_SERVER\', \'' . HTTP_MYCNCART . 'salesman/\');' . "\n";
+			$output .= 'define(\'HTTP_ADMIN\', \'' . HTTP_MYCNCART . 'admin/\');' . "\n";
+			$output .= 'define(\'HTTP_CATALOG\', \'' . HTTP_MYCNCART . '\');' . "\n\n";
+
+			$output .= '// HTTPS' . "\n";
+			$output .= 'define(\'HTTPS_SERVER\', \'' . HTTP_MYCNCART . 'salesman/\');' . "\n";
+			$output .= 'define(\'HTTPS_ADMIN\', \'' . HTTP_MYCNCART . 'admin/\');' . "\n";
+			$output .= 'define(\'HTTPS_CATALOG\', \'' . HTTP_MYCNCART . '\');' . "\n\n";
+
+			$output .= '// DIR' . "\n";
+			$output .= 'define(\'DIR_APPLICATION\', \'' . DIR_MYCNCART . 'salesman/\');' . "\n";
+			$output .= 'define(\'DIR_SYSTEM\', \'' . DIR_MYCNCART . 'system/\');' . "\n";
+			$output .= 'define(\'DIR_LANGUAGE\', \'' . DIR_MYCNCART . 'salesman/language/\');' . "\n";
+			$output .= 'define(\'DIR_TEMPLATE\', \'' . DIR_MYCNCART . 'salesman/view/template/\');' . "\n";
+			$output .= 'define(\'DIR_CONFIG\', \'' . DIR_MYCNCART . 'system/config/\');' . "\n";
+			$output .= 'define(\'DIR_IMAGE\', \'' . DIR_MYCNCART . 'image/\');' . "\n";
+			$output .= 'define(\'DIR_CACHE\', \'' . DIR_MYCNCART . 'system/cache/\');' . "\n";
+			$output .= 'define(\'DIR_DOWNLOAD\', \'' . DIR_MYCNCART . 'system/download/\');' . "\n";
+			$output .= 'define(\'DIR_UPLOAD\', \'' . DIR_MYCNCART . 'system/upload/\');' . "\n";
+			$output .= 'define(\'DIR_LOGS\', \'' . DIR_MYCNCART . 'system/logs/\');' . "\n";
+			$output .= 'define(\'DIR_MODIFICATION\', \'' . DIR_MYCNCART . 'system/modification/\');' . "\n";
+			$output .= 'define(\'DIR_CATALOG\', \'' . DIR_MYCNCART . 'catalog/\');' . "\n\n";
+
+			$output .= '// DB' . "\n";
+			$output .= 'define(\'DB_DRIVER\', \'' . addslashes($this->request->post['db_driver']) . '\');' . "\n";
+			$output .= 'define(\'DB_HOSTNAME\', \'' . addslashes($this->request->post['db_hostname']) . '\');' . "\n";
+			$output .= 'define(\'DB_USERNAME\', \'' . addslashes($this->request->post['db_username']) . '\');' . "\n";
+			$output .= 'define(\'DB_PASSWORD\', \'' . addslashes(html_entity_decode($this->request->post['db_password'], ENT_QUOTES, 'UTF-8')) . '\');' . "\n";
+			$output .= 'define(\'DB_DATABASE\', \'' . addslashes($this->request->post['db_database']) . '\');' . "\n";
+			$output .= 'define(\'DB_PORT\', \'' . addslashes($this->request->post['db_port']) . '\');' . "\n";
+			$output .= 'define(\'DB_PREFIX\', \'' . addslashes($this->request->post['db_prefix']) . '\');' . "\n";
+
+			$file = fopen(DIR_MYCNCART . 'salesman/config.php', 'w');
+
+			fwrite($file, $output);
+
+			fclose($file);
+
 			$this->response->redirect($this->url->link('step_4'));
 		}
 
