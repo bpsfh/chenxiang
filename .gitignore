@@ -14,3 +14,7 @@ system/logs/*
 system/download/*
 
 *.swp
+
+system/download/*
+.buildpath
+.project

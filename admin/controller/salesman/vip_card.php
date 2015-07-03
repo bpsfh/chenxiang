@@ -37,8 +37,8 @@ class ControllerSalesmanVipCard extends Controller {
 				$url .= '&filter_status=' . urlencode(html_entity_decode($this->request->get['filter_status'], ENT_QUOTES, 'UTF-8'));
 			}
 			
-			if (isset($this->request->get['filter_apply_date'])) {
-				$url .= '&filter_apply_date=' . urlencode(html_entity_decode($this->request->get['filter_apply_date'], ENT_QUOTES, 'UTF-8'));
+			if (isset($this->request->get['filter_date_applied'])) {
+				$url .= '&filter_date_applied=' . urlencode(html_entity_decode($this->request->get['filter_date_applied'], ENT_QUOTES, 'UTF-8'));
 			}
 			
 			if (isset($this->request->get['sort'])) {
@@ -78,8 +78,8 @@ class ControllerSalesmanVipCard extends Controller {
 			$url .= '&filter_status=' . urlencode(html_entity_decode($this->request->get['filter_status'], ENT_QUOTES, 'UTF-8'));
 		}
 			
-		if (isset($this->request->get['filter_apply_date'])) {
-			$url .= '&filter_apply_date=' . urlencode(html_entity_decode($this->request->get['filter_apply_date'], ENT_QUOTES, 'UTF-8'));
+		if (isset($this->request->get['filter_date_applied'])) {
+			$url .= '&filter_date_applied=' . urlencode(html_entity_decode($this->request->get['filter_date_applied'], ENT_QUOTES, 'UTF-8'));
 		}
 			
 		if (isset($this->request->get['sort'])) {
@@ -139,10 +139,10 @@ class ControllerSalesmanVipCard extends Controller {
 		}
 		
 		// 筛选条件-申请日期
-		if (isset($this->request->get['filter_apply_date'])) {
-			$filter_apply_date = $this->request->get['filter_apply_date'];
+		if (isset($this->request->get['filter_date_applied'])) {
+			$filter_date_applied = $this->request->get['filter_date_applied'];
 		} else {
-			$filter_apply_date = null;
+			$filter_date_applied = null;
 		}
 		
 		if (isset($this->request->get['sort'])) {
@@ -173,8 +173,8 @@ class ControllerSalesmanVipCard extends Controller {
 			$url .= '&filter_status=' . urlencode(html_entity_decode($this->request->get['filter_status'], ENT_QUOTES, 'UTF-8'));
 		}
 		
-		if (isset($this->request->get['filter_apply_date'])) {
-			$url .= '&filter_apply_date=' . urlencode(html_entity_decode($this->request->get['filter_apply_date'], ENT_QUOTES, 'UTF-8'));
+		if (isset($this->request->get['filter_date_applied'])) {
+			$url .= '&filter_date_applied=' . urlencode(html_entity_decode($this->request->get['filter_date_applied'], ENT_QUOTES, 'UTF-8'));
 		}
 		
 		if (isset($this->request->get['sort'])) {
@@ -204,7 +204,7 @@ class ControllerSalesmanVipCard extends Controller {
 		$filter_data = array(
 			'filter_fullname'   => $filter_fullname,
 			'filter_status'     => $filter_status,
-			'filter_apply_date'	=> $filter_apply_date,
+			'filter_date_applied'	=> $filter_date_applied,
 			'sort'              => $sort,
 			'order'             => $order,
 			'start'             => ($page - 1) * $this->config->get('config_limit_admin'),
@@ -234,7 +234,7 @@ class ControllerSalesmanVipCard extends Controller {
 				'salesman_id'    => $result['salesman_id'],
 				'fullname'       => $result['fullname'],
 				'apply_qty'      => $result['apply_qty'],
-				'apply_date'     => $result['apply_date'],
+				'date_applied'     => $result['date_applied'],
 				'apply_reason'   => $result['apply_reason'],
 				'apply_status'   => $result['apply_status'],
 				'date_processed' => $result['date_processed'],
@@ -253,7 +253,7 @@ class ControllerSalesmanVipCard extends Controller {
 		$data['column_salesman_id'] = $this->language->get('column_salesman_id');
 		$data['column_fullname'] = $this->language->get('column_fullname');
 		$data['column_apply_qty'] = $this->language->get('column_apply_qty');
-		$data['column_apply_date'] = $this->language->get('column_apply_date');
+		$data['column_date_applied'] = $this->language->get('column_date_applied');
 		$data['column_apply_reason'] = $this->language->get('column_apply_reason');
 		$data['column_apply_status'] = $this->language->get('column_apply_status');
 		$data['column_date_processed'] = $this->language->get('column_date_processed');
@@ -261,7 +261,7 @@ class ControllerSalesmanVipCard extends Controller {
 		$data['column_action'] = $this->language->get('column_action');
 		
 		$data['entry_fullname'] = $this->language->get('entry_fullname');
-		$data['entry_apply_date'] = $this->language->get('entry_apply_date');
+		$data['entry_date_applied'] = $this->language->get('entry_date_applied');
 		$data['entry_apply_status'] = $this->language->get('entry_apply_status');
 		$data['entry_apply_status_0'] = $this->language->get('entry_apply_status_0');
 		$data['entry_apply_status_1'] = $this->language->get('entry_apply_status_1');
@@ -301,8 +301,8 @@ class ControllerSalesmanVipCard extends Controller {
 			$url .= '&filter_status=' . urlencode(html_entity_decode($this->request->get['filter_status'], ENT_QUOTES, 'UTF-8'));
 		}
 		
-		if (isset($this->request->get['filter_apply_date'])) {
-			$url .= '&filter_apply_date=' . urlencode(html_entity_decode($this->request->get['filter_apply_date'], ENT_QUOTES, 'UTF-8'));
+		if (isset($this->request->get['filter_date_applied'])) {
+			$url .= '&filter_date_applied=' . urlencode(html_entity_decode($this->request->get['filter_date_applied'], ENT_QUOTES, 'UTF-8'));
 		}
 		
 		if ($order == 'ASC') {
@@ -317,7 +317,7 @@ class ControllerSalesmanVipCard extends Controller {
 		
 		$data['sort_fullname'] = $this->url->link('salesman/vip_card', 'token=' . $this->session->data['token'] . '&sort=s.fullname' . $url, 'SSL');
 		$data['sort_apply_id'] = $this->url->link('salesman/vip_card', 'token=' . $this->session->data['token'] . '&sort=apply_id' . $url, 'SSL');
-		$data['sort_apply_date'] = $this->url->link('salesman/vip_card', 'token=' . $this->session->data['token'] . '&sort=apply_date' . $url, 'SSL');
+		$data['sort_date_applied'] = $this->url->link('salesman/vip_card', 'token=' . $this->session->data['token'] . '&sort=date_applied' . $url, 'SSL');
 		$data['sort_date_processed'] = $this->url->link('salesman/vip_card', 'token=' . $this->session->data['token'] . '&sort=date_processed' . $url, 'SSL');
 		
 		// 分页
@@ -331,8 +331,8 @@ class ControllerSalesmanVipCard extends Controller {
 			$url .= '&filter_status=' . urlencode(html_entity_decode($this->request->get['filter_status'], ENT_QUOTES, 'UTF-8'));
 		}
 		
-		if (isset($this->request->get['filter_apply_date'])) {
-			$url .= '&filter_apply_date=' . urlencode(html_entity_decode($this->request->get['filter_apply_date'], ENT_QUOTES, 'UTF-8'));
+		if (isset($this->request->get['filter_date_applied'])) {
+			$url .= '&filter_date_applied=' . urlencode(html_entity_decode($this->request->get['filter_date_applied'], ENT_QUOTES, 'UTF-8'));
 		}
 		
 		if (isset($this->request->get['sort'])) {
@@ -357,7 +357,7 @@ class ControllerSalesmanVipCard extends Controller {
 		
 		$data['filter_fullname'] = $filter_fullname;
 		$data['filter_status'] = $filter_status;
-		$data['filter_apply_date'] = $filter_apply_date;
+		$data['filter_date_applied'] = $filter_date_applied;
 		
 		$data['sort'] = $sort;
 		$data['order'] = $order;
@@ -366,7 +366,7 @@ class ControllerSalesmanVipCard extends Controller {
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
 		
-		$this->response->setOutput($this->load->view('salesman/application_list.tpl', $data));
+		$this->response->setOutput($this->load->view('salesman/vip_card_application_list.tpl', $data));
 	}
 
 	/**
@@ -388,7 +388,7 @@ class ControllerSalesmanVipCard extends Controller {
 		$data['entry_salesman_id'] = $this->language->get('entry_salesman_id');
 		$data['entry_fullname'] = $this->language->get('entry_fullname');
 		$data['entry_apply_qty'] = $this->language->get('entry_apply_qty');
-		$data['entry_apply_date'] = $this->language->get('entry_apply_date');
+		$data['entry_date_applied'] = $this->language->get('entry_date_applied');
 		$data['entry_apply_reason'] = $this->language->get('entry_apply_reason');
 		$data['entry_apply_status'] = $this->language->get('entry_apply_status');
 		$data['entry_last_date_processed'] = $this->language->get('entry_last_date_processed');
@@ -411,8 +411,8 @@ class ControllerSalesmanVipCard extends Controller {
 			$url .= '&filter_status=' . urlencode(html_entity_decode($this->request->get['filter_status'], ENT_QUOTES, 'UTF-8'));
 		}
 		
-		if (isset($this->request->get['filter_apply_date'])) {
-			$url .= '&filter_apply_date=' . urlencode(html_entity_decode($this->request->get['filter_apply_date'], ENT_QUOTES, 'UTF-8'));
+		if (isset($this->request->get['filter_date_applied'])) {
+			$url .= '&filter_date_applied=' . urlencode(html_entity_decode($this->request->get['filter_date_applied'], ENT_QUOTES, 'UTF-8'));
 		}
 		
 		if (isset($this->request->get['sort'])) {
@@ -449,7 +449,7 @@ class ControllerSalesmanVipCard extends Controller {
 			$data['salesman_id'] = $application['salesman_id'];
 			$data['fullname'] = $application['fullname'];
 			$data['apply_qty'] = $application['apply_qty'];
-			$data['apply_date'] = $application['apply_date'];
+			$data['date_applied'] = $application['date_applied'];
 			$data['apply_reason'] = $application['apply_reason'];
 			$data['apply_status'] = $application['apply_status'];
 			$data['date_processed'] = $application['date_processed'];
@@ -459,7 +459,7 @@ class ControllerSalesmanVipCard extends Controller {
 			$data['salesman_id'] = '';
 			$data['fullname'] = '';
 			$data['apply_qty'] = '';
-			$data['apply_date'] = '';
+			$data['date_applied'] = '';
 			$data['apply_reason'] = '';
 			$data['apply_status'] = '';
 			$data['date_processed'] = '';
@@ -470,7 +470,7 @@ class ControllerSalesmanVipCard extends Controller {
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
 		
-		$this->response->setOutput($this->load->view('salesman/application_form.tpl', $data));
+		$this->response->setOutput($this->load->view('salesman/vip_card_application_form.tpl', $data));
 	}
 	
 	/**

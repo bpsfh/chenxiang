@@ -1,22 +1,22 @@
 <?php
 
 // Heading
-$_['heading_title']         = '会员';
+$_['heading_title']         = '业务员';
 
 // Text
-$_['text_success']          = '成功: 已修改会员！';
-$_['text_list']             = '会员列表';
-$_['text_add']              = '添加会员';
-$_['text_edit']             = '编辑会员';
+$_['text_success']          = '成功: 已修改业务员！';
+$_['text_list']             = '业务员列表';
+$_['text_add']              = '添加业务员';
+$_['text_edit']             = '编辑业务员';
 $_['text_default']          = '默认';
 $_['text_balance']          = '账户';
 $_['text_add_ban_ip']       = '添加禁止 IP';
 $_['text_remove_ban_ip']    = '移除禁止 IP';
 
 // Column
-$_['column_name']           = '会员姓名';
+$_['column_name']           = '业务员姓名';
 $_['column_email']          = 'E-Mail';
-$_['column_customer_group'] = '会员等级';
+$_['column_customer_group'] = '业务员等级';
 $_['column_status']         = '状态';
 $_['column_date_added']     = '添加日期';
 $_['column_comment']        = '备注';
@@ -28,7 +28,7 @@ $_['column_total']          = '账户总数量';
 $_['column_action']         = '操作';
 
 // Entry
-$_['entry_customer_group']  = '会员等级';
+$_['entry_customer_group']  = '业务员等级';
 $_['entry_fullname']       = '姓名';
 $_['entry_email']           = 'E-Mail';
 $_['entry_telephone']       = '电话';
@@ -50,17 +50,13 @@ $_['entry_comment']         = '备注';
 $_['entry_description']     = '描述';
 $_['entry_amount']          = '金额';
 $_['entry_points']          = '奖励积分';
-$_['entry_name']            = '会员姓名';
+$_['entry_name']            = '业务员姓名';
 $_['entry_ip']              = 'IP';
 $_['entry_date_added']      = '添加日期';
 
-// Help
-$_['help_safe']             = 'Set to true to avoid this customer from being caught by the anti-fraud system';
-$_['help_points']           = '适用减号-以减少奖励积分';
-
 // Error
 $_['error_warning']         = '警告: 详细检查相关错误！';
-$_['error_permission']      = '警告: 无权限修改会员！';
+$_['error_permission']      = '警告: 无权限修改业务员！';
 $_['error_exists']          = '警告: E-Mail 已被注册使用了！';
 $_['error_fullname']        = '姓名必须为1-32字符！';
 $_['error_email']           = 'E-Mail 无效！';
