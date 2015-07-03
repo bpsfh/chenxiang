@@ -17,4 +17,3 @@ system/logs/*
 system/download/*
 .buildpath
 .project
-.gitignore
