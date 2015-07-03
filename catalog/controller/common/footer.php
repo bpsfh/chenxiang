@@ -12,6 +12,9 @@ class ControllerCommonFooter extends Controller {
 		$data['text_manufacturer'] = $this->language->get('text_manufacturer');
 		$data['text_voucher'] = $this->language->get('text_voucher');
 		$data['text_affiliate'] = $this->language->get('text_affiliate');
+		// add by jie-z@2015/07/03 st
+		$data['text_salesman'] = $this->language->get('text_salesman');
+		// add by jie-z@2015/07/03 end 
 		$data['text_special'] = $this->language->get('text_special');
 		$data['text_account'] = $this->language->get('text_account');
 		$data['text_order'] = $this->language->get('text_order');
@@ -37,6 +40,9 @@ class ControllerCommonFooter extends Controller {
 		$data['manufacturer'] = $this->url->link('product/manufacturer');
 		$data['voucher'] = $this->url->link('account/voucher', '', 'SSL');
 		$data['affiliate'] = $this->url->link('affiliate/account', '', 'SSL');
+		// add by jie-z@2015/07/03 st
+		$data['salesman'] = HTTP_SALESMAN; 
+		// add by jie-z@2015/07/03 end 
 		$data['special'] = $this->url->link('product/special');
 		$data['account'] = $this->url->link('account/account', '', 'SSL');
 		$data['order'] = $this->url->link('account/order', '', 'SSL');

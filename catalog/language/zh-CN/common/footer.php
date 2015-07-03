@@ -10,6 +10,9 @@ $_['text_sitemap']      = '网站地图';
 $_['text_manufacturer'] = '品牌专区';
 $_['text_voucher']      = '礼品券';
 $_['text_affiliate']    = '推广会员';
+// add by jie-z@2015/07/03 st
+$_['text_salesman']     = '业务人员';
+// add by jie-z@2015/07/03 end 
 $_['text_special']      = '优惠商品';
 $_['text_account']      = '会员中心';
 $_['text_order']        = '历史订单';
