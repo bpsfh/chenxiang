@@ -3,11 +3,12 @@
  * $Author: http://www.opencartchina.com
 **/
 // Heading
-$_['heading_title']     = '业务员';
-$_['text_home']     = '主页';
+$_['heading_title']     = '基本信息';
+$_['text_home']         = '主页';
 
 // Text
 $_['text_edit']         = '编辑基本信息';
+$_['text_success']      = '更新成功';
 
 // Column
 $_['column_username']   = '用户名';
@@ -33,3 +34,25 @@ $_['error_password']   	= '密码必须为4-20字符！';
 $_['error_confirm']    	= '密码和确认密码不一致！';
 $_['error_firstname']  	= '名称必须为1-32字符！';
 $_['error_lastname']   	= '姓氏必须为1-32字符！';
+
+// Address
+// Entry
+$_['entry_address']        = '地址';
+$_['entry_postcode']       = '邮政编码';
+$_['entry_city']           = '所在城市';
+$_['entry_country']        = '国家';
+$_['entry_zone']           = '州/省/地区';
+$_['entry_default']        = '默认地址';
+$_['entry_telephone'] 	   = '收件人电话';
+$_['entry_fax'] 	       = '传真';
+
+
+// Error
+$_['error_vat']            = 'VAT 号码无效！';
+$_['error_address']        = '地址必须为 3-128字符！';
+$_['error_postcode']       = '邮政编码必须为 2-10字符！';
+$_['error_city']           = '所在城市必须为 2-128字符！';
+$_['error_country']        = '请选择国家';
+$_['error_zone']           = '请选择州/省/地区！';
+$_['error_custom_field']   = '%s 必须！';
+$_['error_telephone']      = '收件人电话必须为3到32字节！';
