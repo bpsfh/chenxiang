@@ -13,14 +13,14 @@ class ControllerCommonProfile extends Controller {
 			$data['email'] = $user_info['email'];
 //			$data['user_group'] = $user_info['user_group'] ;
 
-			/*
+
 			if (is_file(DIR_IMAGE . $user_info['image'])) {
 				$data['image'] = $this->model_tool_image->resize($user_info['image'], 45, 45);
 			} else {
 				$data['image'] = $this->model_tool_image->resize('no_image.png', 45, 45);
 			}
-			*/
-			$data['image'] = $this->model_tool_image->resize('no_image.png', 45, 45);
+
+// 			$data['image'] = $this->model_tool_image->resize('no_image.png', 45, 45);
 		} else {
 			$data['email'] = '';
 //			$data['image'] = '';
