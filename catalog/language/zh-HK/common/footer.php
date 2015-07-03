@@ -10,6 +10,9 @@ $_['text_sitemap']      = '網站地圖';
 $_['text_manufacturer'] = '品牌專區';
 $_['text_voucher']      = '禮品券';
 $_['text_affiliate']    = '推广會員';
+// add by jie-z@2015/07/03 st
+$_['text_salesman']     = '業務會員';
+// add by jie-z@2015/07/03 end 
 $_['text_special']      = '優惠商品';
 $_['text_account']      = '會員中心';
 $_['text_order']        = '曆史訂單';

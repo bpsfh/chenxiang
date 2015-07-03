@@ -11,9 +11,15 @@ class ControllerStep3 extends Controller {
 			$output  = '<?php' . "\n";
 			$output .= '// HTTP' . "\n";
 			$output .= 'define(\'HTTP_SERVER\', \'' . HTTP_MYCNCART . '\');' . "\n\n";
+			// add by jie-z@2015/07/03 st
+			$output .= 'define(\'HTTP_SALESMAN\', \'' . HTTP_MYCNCART . 'salesman\');' . "\n\n";
+			// add by jie-z@2015/07/03 end 
 
 			$output .= '// HTTPS' . "\n";
 			$output .= 'define(\'HTTPS_SERVER\', \'' . HTTP_MYCNCART . '\');' . "\n\n";
+			// add by jie-z@2015/07/03 st
+			$output .= 'define(\'HTTPS_SALESMAN\', \'' . HTTP_MYCNCART . 'salesman/\');' . "\n\n";
+			// add by jie-z@2015/07/03 end 
 
 			$output .= '// DIR' . "\n";
 			$output .= 'define(\'DIR_APPLICATION\', \'' . DIR_MYCNCART . 'catalog/\');' . "\n";
@@ -81,6 +87,7 @@ class ControllerStep3 extends Controller {
 
 			fclose($file);
 
+			// add by jie-z@2015/07/02 st
 			$output  = '<?php' . "\n";
 			$output .= '// HTTP' . "\n";
 			$output .= 'define(\'HTTP_SERVER\', \'' . HTTP_MYCNCART . 'salesman/\');' . "\n";
@@ -120,6 +127,7 @@ class ControllerStep3 extends Controller {
 			fwrite($file, $output);
 
 			fclose($file);
+			// add by jie-z@2015/07/02 end 
 
 			$this->response->redirect($this->url->link('step_4'));
 		}

@@ -9,6 +9,9 @@ $_['text_sitemap']      = 'Site Map';
 $_['text_manufacturer'] = 'Brands';
 $_['text_voucher']      = 'Gift Vouchers';
 $_['text_affiliate']    = 'Affiliates';
+// add by jie-z@2015/07/03 st
+$_['text_salesman']     = 'Salesman';
+// add by jie-z@2015/07/03 end 
 $_['text_special']      = 'Specials';
 $_['text_account']      = 'My Account';
 $_['text_order']        = 'Order History';
