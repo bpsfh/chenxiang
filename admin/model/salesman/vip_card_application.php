@@ -22,8 +22,8 @@ class ModelSalesmanVipCardApplication extends Model {
 		}
 		
 		// 申请日期
-		if (!empty($data['filter_apply_date'])) {
-			$implode[] = "DATE(vca.apply_date) = DATE('" . $this->db->escape($data['filter_apply_date']) . "')";
+		if (!empty($data['filter_date_applied'])) {
+			$implode[] = "DATE(vca.date_applied) = DATE('" . $this->db->escape($data['filter_date_applied']) . "')";
 		}
 		
 		if ($implode) {
@@ -33,7 +33,7 @@ class ModelSalesmanVipCardApplication extends Model {
 		$sort_data = array(
 				's.fullname',
 				'apply_id',
-				'apply_date',
+				'date_applied',
 				'apply_status',
 				'date_processed'
 		);
@@ -88,8 +88,8 @@ class ModelSalesmanVipCardApplication extends Model {
 		}
 		
 		// 申请日期
-		if (!empty($data['filter_apply_date'])) {
-			$implode[] = "DATE(apply_date) = DATE('" . $this->db->escape($data['filter_apply_date']) . "')";
+		if (!empty($data['filter_date_applied'])) {
+			$implode[] = "DATE(date_applied) = DATE('" . $this->db->escape($data['filter_date_applied']) . "')";
 		}
 		
 		if ($implode) {
@@ -116,7 +116,7 @@ class ModelSalesmanVipCardApplication extends Model {
 	 */
 	public function getApplication($apply_id) {
 		$sql = "SELECT *, s.fullname FROM " . DB_PREFIX . "vip_card_application vca LEFT JOIN "
-				 . DB_PREFIX . "salesman s ON (vca.salesman_id = s.salesman_id) WHERE vca.apply_id = '" . $apply_id . "'";
+				 . DB_PREFIX . "salesman s ON (vca.salesman_id = s.salesman_id) WHERE vca.apply_id = '" . (int)$apply_id . "'";
 		
 		$query = $this->db->query($sql);
 		return $query->row;

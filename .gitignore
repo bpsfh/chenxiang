@@ -13,3 +13,8 @@ system/cache/*
 system/logs/*
 
 *.swp
+
+system/download/*
+.buildpath
+.project
+.gitignore

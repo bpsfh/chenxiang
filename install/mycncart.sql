@@ -7074,6 +7074,8 @@ INSERT INTO `mcc_zone_to_geo_zone` (`zone_to_geo_zone_id`, `country_id`, `zone_i
 
 --
 -- Table structure for table `mcc_salesman`
+-- status(申请状态):
+-- 0：未申请； 1：申请中； 2：已批准； 3：已拒绝； 4.再申请；
 --
 
 CREATE TABLE IF NOT EXISTS `mcc_salesman` (
@@ -7091,12 +7093,13 @@ CREATE TABLE IF NOT EXISTS `mcc_salesman` (
   `address_id` int(11) NOT NULL DEFAULT '0',
   `custom_field` text NOT NULL,
   `ip` varchar(40) NOT NULL,
-  `status` tinyint(1) NOT NULL,
-  `approved` tinyint(1) NOT NULL DEFAULT '0',
+  `status` tinyint(1) NOT NULL DEFAULT '0',
+  `is_valid` tinyint(1) NOT NULL,
   `safe` tinyint(1) NOT NULL,
   `code` varchar(40) NOT NULL,
   `token` varchar(255) NOT NULL,
   `date_added` datetime NOT NULL,
+  `date_first_applied` datetime,
   `date_approved` datetime NULL,
   PRIMARY KEY `salesman_id` (`salesman_id`),
   KEY `email` (`email`)
@@ -7165,6 +7168,8 @@ CREATE TABLE IF NOT EXISTS `mcc_bank_account` (
 
 --
 -- Table structure for table `mcc_vip_card`
+-- bind_status（vip绑定状态）：
+-- 0：已创建； 1：已指派； 2：已发送； 3：已绑定；
 --
 
 CREATE TABLE IF NOT EXISTS `mcc_vip_card` (
@@ -7187,6 +7192,8 @@ CREATE TABLE IF NOT EXISTS `mcc_vip_card` (
 
 --
 -- Table structure for table `mcc_vip_card_application`
+-- apply_status（申请时间）：
+-- 0：待审批； 1：已批准； 2：已拒绝；
 --
 
 CREATE TABLE IF NOT EXISTS `mcc_vip_card_application` (
@@ -7203,4 +7210,20 @@ CREATE TABLE IF NOT EXISTS `mcc_vip_card_application` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mcc_salesman_apply_record`
+-- status(申请状态):
+-- 0：未申请； 1：申请中； 2：已批准； 3：已拒绝； 4.再申请；
+--
+
+CREATE TABLE IF NOT EXISTS `mcc_salesman_apply_record` (
+  `record_id` int(11) NOT NULL AUTO_INCREMENT,
+  `salesman_id` int(11) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `reject_reason` text,
+  `date_processed` datetime NOT NULL,
+  PRIMARY KEY (`record_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 

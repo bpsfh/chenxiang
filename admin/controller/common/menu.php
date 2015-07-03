@@ -98,6 +98,8 @@ class ControllerCommonMenu extends Controller {
 		// Add by sangsanghu 2015/06/29 ST
 		$data['text_salesman'] = $this->language->get('text_salesman');
 		$data['text_salesman_vip_card'] = $this->language->get('text_salesman_vip_card');
+		$data['text_salesman_user'] = $this->language->get('text_salesman_user');
+		$data['text_salesman_application'] = $this->language->get('text_salesman_application');
 		// Add by sangsanghu 2015/06/29 END
 
 		$data['home'] = $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], 'SSL');
@@ -177,6 +179,8 @@ class ControllerCommonMenu extends Controller {
 		$data['order_recurring'] = $this->url->link('sale/recurring', 'token=' . $this->session->data['token'], 'SSL');
 		// Add by sangsanghu 2015/06/29 ST
 		$data['salesman_vip_card'] = $this->url->link('salesman/vip_card', 'token=' . $this->session->data['token'], 'SSL');
+		$data['salesman'] = $this->url->link('salesman/user', 'token=' . $this->session->data['token'], 'SSL');
+		$data['salesman_application'] = $this->url->link('salesman/application', 'token=' . $this->session->data['token'] . "&filter_status=5", 'SSL');
 		// Add by sangsanghu 2015/06/29 END
 
 		$data['openbay_show_menu'] = $this->config->get('openbaypro_menu');
