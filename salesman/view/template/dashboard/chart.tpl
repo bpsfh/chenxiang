@@ -10,10 +10,9 @@
 <script type="text/javascript" src="view/javascript/jquery/flot/jquery.flot.resize.min.js"></script>
 <script type="text/javascript"><!--
 $(document).ready(function() {
-
 	$.ajax({
 		type: 'get',
-		url: 'index.php?route=dashboard/chart/chart&token=<?php echo $token; ?>', 
+		url: 'index.php?route=dashboard/chart/chart&token=<?php echo $token; ?>&salesman_id=<?php echo $salesman_id?>', 
 		dataType: 'json',
 		success: function(json) {
        		     	if (typeof json['order'] == 'undefined') { return false; }

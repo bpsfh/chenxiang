@@ -30,6 +30,7 @@ class ControllerCommonLogin extends Controller {
 		$data['entry_password'] = $this->language->get('entry_password');
 
 		$data['button_login'] = $this->language->get('button_login');
+		$data['button_register'] = $this->language->get('button_register');
 
 		if ((isset($this->session->data['token']) && !isset($this->request->get['token'])) || ((isset($this->request->get['token']) && (isset($this->session->data['token']) && ($this->request->get['token'] != $this->session->data['token']))))) {
 			$this->error['warning'] = $this->language->get('error_token');
@@ -50,6 +51,7 @@ class ControllerCommonLogin extends Controller {
 		}
 
 		$data['action'] = $this->url->link('common/login', '', 'SSL');
+		$data['register'] = $this->url->link('salesman/register', '', 'SSL');
 
 		if (isset($this->request->post['username'])) {
 			$data['username'] = $this->request->post['username'];
