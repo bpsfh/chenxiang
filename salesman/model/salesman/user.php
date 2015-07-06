@@ -2,7 +2,6 @@
 class ModelSalesmanUser extends Model {
 	public function addSalesman($data) {
 		$this->event->trigger('pre.salesman.add', $data);
-
 //		if (isset($data['salesman_group_id']) && is_array($this->config->get('config_salesman_group_display')) && in_array($data['salesman_group_id'], $this->config->get('config_salesman_group_display'))) {
 //			$salesman_group_id = $data['salesman_group_id'];
 //		} else {
@@ -13,11 +12,11 @@ class ModelSalesmanUser extends Model {
 //
 //		$salesman_group_info = $this->model_salesman_user_group->getSalesmanGroup($salesman_group_id);
 
-// 		$this->db->query("INSERT INTO " . DB_PREFIX . "salesman SET salesman_group_id = '" . (int)$salesman_group_id . "', store_id = '" . (int)$this->config->get('config_store_id') . "', firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', email = '" . $this->db->escape($data['email']) . "', image = '" . $this->db->escape($data['image']) . "',telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "', custom_field = '" . $this->db->escape(isset($data['custom_field']['account']) ? serialize($data['custom_field']['account']) : '') . "', salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "', newsletter = '" . (isset($data['newsletter']) ? (int)$data['newsletter'] : 0) . "', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "', status = '1', approved = '" . (int)!$salesman_group_info['approval'] . "', date_added = NOW()");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "salesman SET store_id = '" . (int)$this->config->get('config_store_id') . "', fullname = '" . $this->db->escape($data['fullname']) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "', salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "', newsletter = '0', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "', status = '1', approved = '0', date_added = NOW()");
 
 		$salesman_id = $this->db->getLastId();
 
-		$this->db->query("INSERT INTO " . DB_PREFIX . "address SET salesman_id = '" . (int)$salesman_id . "', fullname = '" . $this->db->escape($data['fullname']) . "', company = '" . $this->db->escape($data['company']) . "', address_1 = '" . $this->db->escape($data['address_1']) . "', address_2 = '" . $this->db->escape($data['address_2']) . "', city = '" . $this->db->escape($data['city']) . "', postcode = '" . $this->db->escape($data['postcode']) . "', country_id = '" . (int)$data['country_id'] . "', zone_id = '" . (int)$data['zone_id'] . "', custom_field = '" . $this->db->escape(isset($data['custom_field']['address']) ? serialize($data['custom_field']['address']) : '') . "'");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "address SET customer_id = '" . (int)$salesman_id . "', fullname = '" . $this->db->escape($data['fullname']) . "', company = '" . $this->db->escape($data['company']) . "', address = '" . $this->db->escape($data['address']) . "', city = '" . $this->db->escape($data['city']) . "', postcode = '" . $this->db->escape($data['postcode']) . "', country_id = '" . (int)$data['country_id'] . "', zone_id = '" . (int)$data['zone_id'] . "', custom_field = '" . $this->db->escape(isset($data['custom_field']['address']) ? serialize($data['custom_field']['address']) : '') . "'");
 
 		$address_id = $this->db->getLastId();
 
@@ -29,11 +28,13 @@ class ModelSalesmanUser extends Model {
 
 		$message = sprintf($this->language->get('text_welcome'), $this->config->get('config_name')) . "\n\n";
 
+		/*
 		if (!$salesman_group_info['approval']) {
 			$message .= $this->language->get('text_login') . "\n";
 		} else {
 			$message .= $this->language->get('text_approval') . "\n";
 		}
+		*/
 
 		$message .= $this->url->link('account/login', '', 'SSL') . "\n\n";
 		$message .= $this->language->get('text_services') . "\n\n";
@@ -61,7 +62,7 @@ class ModelSalesmanUser extends Model {
 			$message  = $this->language->get('text_signup') . "\n\n";
 			$message .= $this->language->get('text_website') . ' ' . $this->config->get('config_name') . "\n";
 			$message .= $this->language->get('text_fullname') . ' ' . $data['fullname'] . "\n";
-			$message .= $this->language->get('text_salesman_group') . ' ' . $salesman_group_info['name'] . "\n";
+			//$message .= $this->language->get('text_salesman_group') . ' ' . $salesman_group_info['name'] . "\n";
 			$message .= $this->language->get('text_email') . ' '  .  $data['email'] . "\n";
 			$message .= $this->language->get('text_telephone') . ' ' . $data['telephone'] . "\n";
 
@@ -156,11 +157,11 @@ class ModelSalesmanUser extends Model {
 		return $query->rows;
 	}
 
-//	public function isBanIp($ip) {
-//		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "salesman_ban_ip` WHERE ip = '" . $this->db->escape($ip) . "'");
-//
-//		return $query->num_rows;
-//	}
+	public function isBanIp($ip) {
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "salesman_ban_ip` WHERE ip = '" . $this->db->escape($ip) . "'");
+
+		return $query->num_rows;
+	}
 
 	public function addLoginAttempt($email) {
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "salesman_login WHERE email = '" . $this->db->escape(utf8_strtolower((string)$email)) . "' AND ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "'");

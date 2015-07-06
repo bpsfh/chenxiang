@@ -15,6 +15,5 @@ system/download/*
 
 *.swp
 
-system/download/*
 .buildpath
 .project

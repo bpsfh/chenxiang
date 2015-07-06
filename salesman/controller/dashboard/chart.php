@@ -12,6 +12,7 @@ class ControllerDashboardChart extends Controller {
 		$data['text_view'] = $this->language->get('text_view');
 
 		$data['token'] = $this->session->data['token'];
+		$data['salesman_id'] = $this->salesman->getId();
 
 		return $this->load->view('dashboard/chart.tpl', $data);
 	}
@@ -38,6 +39,8 @@ class ControllerDashboardChart extends Controller {
 		$json['commission']['data'] = array();
 		
 		$data = array();
+		$data['salesman_id'] = $this->request->get['salesman_id'];
+ 
 		if(empty($data["filter_date_end"])) {
 			$data['filter_date_end'] = date('Y-m-d', time());
 		}
