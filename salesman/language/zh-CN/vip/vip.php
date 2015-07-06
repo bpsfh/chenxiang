@@ -7,6 +7,7 @@ $_['heading_title']         = 'VIP卡查询';
 $_['text_success']          = '成功: 卡号已发送！';
 $_['text_list']             = 'vip列表';
 $_['text_send_vip']         = 'vip邀请码发送';
+$_['text_send_vip_confirm'] = '确定发送邀请码嘛？';
 $_['text_bind_status_0']    = '已创建';
 $_['text_bind_status_1']    = '已指派';
 $_['text_bind_status_2']    = '已发送';

@@ -90,6 +90,10 @@
         </div>
         <form action="" method="post" enctype="multipart/form-data" id="form-vip">
           <div class="table-responsive">
+            <div class="row">
+               <div class="col-sm-6 text-left"><?php echo $pagination; ?></div>
+               <div class="col-sm-6 text-right"><?php echo $results; ?></div>
+            </div>
             <table class="table table-bordered table-hover">
               <thead>
                 <tr>
@@ -125,8 +129,8 @@
                     <?php } else { ?>
                     <a href="<?php echo $sort_date_bind_to_customer; ?>"><?php echo $column_date_bind_to_customer; ?></a>
                     <?php } ?></td>
-                  <td class="text-right"><?php echo $column_activate_status; ?></td>
-                  <td class="text-right"><?php echo $column_generate_QR_code; ?></td>
+                  <td class="text-center"><?php echo $column_activate_status; ?></td>
+                  <td class="text-center"><?php echo $column_generate_QR_code; ?></td>
                 </tr>
               </thead>
               <tbody>
@@ -154,7 +158,7 @@
 	                  <div class="text-left" >
 	                  <?php if ($vip['activate_status']) { ?>
 	                    <!--<a href="<?php echo $vip['approve']; ?>" data-toggle="tooltip" title="<?php echo $button_approve; ?>" class="btn btn-success"><i class="fa fa-thumbs-o-up"></i></a>-->
-	                    <button type="button" id="<?php echo ('approve-button-'.$key); ?>" class="btn btn-success" onclick="" title="<?php echo $text_send_vip; ?>"><i class="fa fa-thumbs-o-up"></i></button>
+	                    <a href="javascript:void(0)" id="<?php echo ('approve-button-'.$key); ?>" class="btn btn-success" onclick="firm();" title="<?php echo $text_send_vip; ?>"><i class="fa fa-thumbs-o-up"></i></a>
 	                    <?php } ?>
 	                  </div>
 	                  <div class="text-right">
@@ -188,17 +192,27 @@
 <script type="text/javascript" src="view/javascript/jquery/jquery.qrcode.min.js"></script>
 <script type="text/javascript" src="view/javascript/jquery/jquery.qrcode.js"></script>
 <script type="text/javascript" src="view/javascript/jquery/qrcode.js"></script>
-<script type="text/javascript">
+<script type="text/javascript"><!--
 	function generate(vip_card_num , key) {
 		var qrCode = "#qr-code-"+key;
 		jQuery(qrCode).qrcode({
 			render	: "canvas",
-			width: 60, //宽度
-			height:60, //高度
+			width: 60,
+			height:60,
 			text	: vip_card_num
 		});
 	}
-</script>
+
+	function firm() {
+        if (confirm('<?php echo $text_send_vip_confirm?>')) {
+
+        }
+        else {
+            return false;
+        }
+
+    }
+//--></script>
 
 <script type="text/javascript"><!--
 $('#button-filter').on('click', function() {
