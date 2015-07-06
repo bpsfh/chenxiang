@@ -2,7 +2,9 @@
 class ModelVipVip extends Model {
 
 	public function getVips($data = array()) {
-		$sql = "SELECT *,1 AS num, c.fullname AS bind_customer, c.telephone AS bind_customer_telephone FROM " . DB_PREFIX . "vip_card v LEFT JOIN " . DB_PREFIX . "customer c ON (v.customer_id = c.customer_id) ";
+		$salesman_id = $this->salesman->getId();
+
+		$sql = "SELECT *,1 AS num, c.fullname AS bind_customer, c.telephone AS bind_customer_telephone FROM " . DB_PREFIX . "vip_card v LEFT JOIN " . DB_PREFIX . "customer c ON (v.customer_id = c.customer_id) WHERE v.salesman_id = '" . (int)$salesman_id . "'";
 
 		$implode = array();
 
@@ -31,7 +33,7 @@ class ModelVipVip extends Model {
 		}
 
 		if ($implode) {
-			$sql .= " WHERE " . implode(" AND ", $implode);
+			$sql .= " AND " . implode(" AND ", $implode);
 		}
 
 		$sort_data = array(
@@ -73,7 +75,9 @@ class ModelVipVip extends Model {
 	}
 
 	public function getTotalVips($data = array()) {
-		$sql = "SELECT COUNT(*) AS total FROM " . DB_PREFIX . "vip_card";
+		$salesman_id = $this->salesman->getId();
+
+		$sql = "SELECT COUNT(*) AS total FROM " . DB_PREFIX . "vip_card WHERE salesman_id = '" . (int)$salesman_id . "'";
 
 		$implode = array();
 
@@ -102,7 +106,7 @@ class ModelVipVip extends Model {
 		}
 
 		if ($implode) {
-			$sql .= " WHERE " . implode(" AND ", $implode);
+			$sql .= " AND " . implode(" AND ", $implode);
 		}
 
 		$query = $this->db->query($sql);
