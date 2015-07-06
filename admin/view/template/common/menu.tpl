@@ -61,6 +61,8 @@
   <!-- Add by sangsanghu 2015/06/29 ST -->
   <li><a class="parent"><i class="fa fa-users fa-fw"></i> <span><?php echo $text_salesman; ?></span></a>
   	<ul>
+  		<li><a href="<?php echo $salesman; ?>"><?php echo $text_salesman_user; ?></a></li>
+  		<li><a href="<?php echo $salesman_application; ?>"><?php echo $text_salesman_application; ?></a></li>
   		<li><a href="<?php echo $salesman_vip_card; ?>"><?php echo $text_salesman_vip_card; ?></a></li>
   	</ul>
   </li>

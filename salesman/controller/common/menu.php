@@ -227,7 +227,8 @@ class ControllerCommonMenu extends Controller {
 		// links
 		$data['home'] = $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], 'SSL');
 		$data['basic_info'] = $this->url->link('salesman/user/edit', 'token=' . $this->session->data['token'], 'SSL');
-
+		$data['bank_info'] = $this->url->link('salesman/bank_account/edit', 'token=' . $this->session->data['token'], 'SSL');
+		$data['vip_card_srch'] = $this->url->link('vip/vip', 'token=' . $this->session->data['token'], 'SSL');
 
 		return $this->load->view('common/menu.tpl', $data);
 	}
