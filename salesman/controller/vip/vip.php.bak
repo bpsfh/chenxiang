@@ -12,7 +12,7 @@ class ControllerVipVip extends Controller {
 		$this->getList();
 	}
 
-	public function getList() {
+	protected function getList() {
 		if (! $this->salesman->isLogged ()) {
 			return new Action ( 'common/login' );
 		}
@@ -153,8 +153,8 @@ class ControllerVipVip extends Controller {
 			'filter_date_bind_to_customer_to'    => $filter_date_bind_to_customer_to,
 			'sort'                               => $sort,
 			'order'                              => $order,
-			'start'                              => ($page - 1) * $this->config->get('config_limit_admin'),
-			'limit'                              => $this->config->get('config_limit_admin')
+// 			'start'                              => ($page - 1) * $this->config->get('config_limit_admin'),
+// 			'limit'                              => $this->config->get('config_limit_admin')
 		);
 
 		$vips_total = $this->model_vip_vip->getTotalVips($filter_data);
@@ -184,7 +184,7 @@ class ControllerVipVip extends Controller {
 				'bind_customer_telephone'  => $result['bind_customer_telephone'],
 				'date_bind_to_salesman'    => date($this->language->get('date_format_short'), strtotime($result['date_bind_to_salesman'])),
 				'date_bind_to_customer'    => date($this->language->get('date_format_short'), strtotime($result['date_bind_to_customer'])),
-				'activate_status'         => ((!is_null($result['bind_status'])) && (int)$result['bind_status'] === 1 ? true : false)
+				'activate_status'         => ((!is_null($result['bind_status'])) && (int)$result['bind_status'] === 0 ? true : false)
 // 				'unlock'                   => $unlock,
 // 				'edit'           => $this->url->link('vip/vip/edit', 'token=' . $this->session->data['token'] . '&customer_id=' . $result['customer_id'] . $url, 'SSL'),
 			);
@@ -196,7 +196,6 @@ class ControllerVipVip extends Controller {
 		$data['text_default'] = $this->language->get('text_default');
 		$data['text_no_results'] = $this->language->get('text_no_results');
 		$data['text_send_vip'] = $this->language->get('text_send_vip');
-		$data['text_send_vip_confirm'] = $this->language->get('text_send_vip_confirm');
 
 		$data['text_bind_status_0'] = $this->language->get('text_bind_status_0');
 		$data['text_bind_status_1'] = $this->language->get('text_bind_status_1');
@@ -227,6 +226,7 @@ class ControllerVipVip extends Controller {
 // 		$data['button_delete'] = $this->language->get('button_delete');
 		$data['button_filter'] = $this->language->get('button_filter');
 // 		$data['button_login'] = $this->language->get('button_login');
+// 		$data['button_unlock'] = $this->language->get('button_unlock');
 
 		$data['token'] = $this->session->data['token'];
 
@@ -366,28 +366,4 @@ class ControllerVipVip extends Controller {
 		$this->response->setOutput($this->load->view('vip/vip_list.tpl', $data));
 	}
 
-	public function setVipStatus() {
-		$json = array ();
-
-		$this->load->model ( 'localisation/country' );
-
-		$country_info = $this->model_localisation_country->getCountry ( $this->request->get ['country_id'] );
-
-		if ($country_info) {
-			$this->load->model ( 'localisation/zone' );
-
-			$json = array (
-					'country_id' => $country_info ['country_id'],
-					'name' => $country_info ['name'],
-					'iso_code_2' => $country_info ['iso_code_2'],
-					'iso_code_3' => $country_info ['iso_code_3'],
-					'address_format' => $country_info ['address_format'],
-					'postcode_required' => $country_info ['postcode_required'],
-					'zone' => $this->model_localisation_zone->getZonesByCountryId ( $this->request->get ['country_id'] ),
-					'status' => $country_info ['status']
-			);
-		}
-		$this->response->addHeader ( 'Content-Type: application/json' );
-		$this->response->setOutput ( json_encode ( $json ) );
-	}
 }
