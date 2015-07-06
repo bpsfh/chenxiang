@@ -197,16 +197,15 @@
 		var qrCode = "#qr-code-"+key;
 		jQuery(qrCode).qrcode({
 			render	: "canvas",
-			width: 60, //螳ｽ蠎ｦ
-			height:60, //鬮伜ｺｦ
+			width: 60,
+			height:60,
 			text	: vip_card_num
 		});
 	}
 
 	function firm() {
-        //蛻ｩ逕ｨ蟇ｹ隸晄｡・ｿ泌屓逧・ｼ ・・rue 謌冶・false・・
         if (confirm('<?php echo $text_send_vip_confirm?>')) {
-            alert("轤ｹ蜃ｻ莠・｡ｮ螳・);
+
         }
         else {
             return false;
