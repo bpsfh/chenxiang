@@ -36,6 +36,7 @@
                 <?php } ?>
               </div>
               <div class="text-right">
+                <a class="btn btn-primary" href="<?php echo $register; ?>"><?php echo $button_register; ?></a>
                 <button type="submit" class="btn btn-primary"><i class="fa fa-key"></i> <?php echo $button_login; ?></button>
               </div>
               <?php if ($redirect) { ?>

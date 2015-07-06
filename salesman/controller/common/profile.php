@@ -23,7 +23,7 @@ class ControllerCommonProfile extends Controller {
 // 			$data['image'] = $this->model_tool_image->resize('no_image.png', 45, 45);
 		} else {
 			$data['email'] = '';
-//			$data['image'] = '';
+			$data['image'] = '';
 		}
 
 		return $this->load->view('common/profile.tpl', $data);

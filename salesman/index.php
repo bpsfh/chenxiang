@@ -154,7 +154,7 @@ foreach ($query->rows as $result) {
 $controller = new Front($registry);
 
 // Login
-$controller->addPreAction(new Action('common/login/check'));
+//$controller->addPreAction(new Action('common/login/check'));
 
 // Permission
 //$controller->addPreAction(new Action('error/permission/check'));
@@ -163,7 +163,7 @@ $controller->addPreAction(new Action('common/login/check'));
 if (isset($request->get['route'])) {
 	$action = new Action($request->get['route']);
 } else {
-	$action = new Action('common/dashboard');
+	$action = new Action('common/login');
 }
 
 // Dispatch
