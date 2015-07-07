@@ -39,8 +39,7 @@ class ControllerDashboardChart extends Controller {
 		$json['commission']['data'] = array();
 		
 		$data = array();
-		$data['salesman_id'] = $this->request->get['salesman_id'];
- 
+
 		if(empty($data["filter_date_end"])) {
 			$data['filter_date_end'] = date('Y-m-d', time());
 		}
@@ -48,27 +47,31 @@ class ControllerDashboardChart extends Controller {
 		if(empty($data["filter_date_start"])) {
 			$data['filter_date_start'] = date('Y-m-d', strtotime('-1 Month', strtotime($data['filter_date_end'])));
 		}
-		
-		$results = $this->model_vip_order->getTotalOrdersByDate($data);
-		
-		foreach ($results as $key => $value) {
-			$json['order']['data'][] = array($key, $value['total']);
-		}
-		
-		$results = $this->model_vip_order->getTotalSalesByDate($data);
 
-		foreach ($results as $key => $value) {
-			$json['sale']['data'][] = array($key, $value['total']);
-		}
-		
-		$results = $this->model_salesman_commission->getTotalCommissionsByDate($data);
-		
-		foreach ($results as $key => $value) {
-			$json['commission']['data'][] = array($key, $value['total']);
+		$data['salesman_id'] = $this->request->get['salesman_id'];
+		if(!empty($data['salesman_id'])) {
+			
+			$results = $this->model_vip_order->getTotalOrdersByDate($data);
+			
+			foreach ($results as $key => $value) {
+				$json['order']['data'][] = array($key, $value['total']);
+			}
+			
+			$results = $this->model_vip_order->getTotalSalesByDate($data);
+
+			foreach ($results as $key => $value) {
+				$json['sale']['data'][] = array($key, $value['total']);
+			}
+			
+			$results = $this->model_salesman_commission->getTotalCommissionsByDate($data);
+			
+			foreach ($results as $key => $value) {
+				$json['commission']['data'][] = array($key, $value['total']);
+			}
 		}
 		
 		for ($i = strtotime($data['filter_date_start']), $j = 0; $i <= strtotime($data['filter_date_end']);
-			 $i = strtotime('+1 Day', $i), $j++) {
+			$i = strtotime('+1 Day', $i), $j++) {
 			$json['xaxis'][] = array($j, date('m-d', $i));
 		}
 		

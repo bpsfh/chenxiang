@@ -1,7 +1,7 @@
 <?php
 class ControllerDashboardCommission extends Controller {
 	public function index() {
-		$this->load->language('dashboard/customer');
+		$this->load->language('dashboard/commission');
 
 		$data['heading_title'] = $this->language->get('heading_title');
 

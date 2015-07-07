@@ -1,9 +1,11 @@
 <?php
 // Heading
-$_['heading_title'] = 'Sales Analytics';
+$_['heading_title'] = 'Achievement Analytics';
 
 // Text
 $_['text_order']    = 'Orders';
+$_['text_sale']     = 'Sales';
+$_['text_commission']    = 'Commissions';
 $_['text_customer'] = 'Customers';
 $_['text_day']      = 'Today';
 $_['text_week']     = 'Week';
