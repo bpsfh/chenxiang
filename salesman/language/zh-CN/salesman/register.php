@@ -4,9 +4,9 @@
 $_['heading_title']             = '推广计划';
 
 // Text
-$_['text_account']              = '推广账户';
-$_['text_register']             = '推广会员注册';
-$_['text_account_already']      = '欢迎来到我们网站，如果您是新推广会员，请填写下面的表单进行注册。如果您已经是本站的推广会员，请您直接<a href="%s">推广会员登录</a>。';
+$_['text_account']              = '业务（销售）员账户';
+$_['text_register']             = '业务（销售）员注册';
+$_['text_account_already']      = '欢迎来到我们网站，如果您是新业务（销售）员，请填写下面的表单进行注册。如果您已经是本站的业务(销售)员，请您直接<a href="%s">业务员登录</a>。';
 $_['text_signup']               = '创建一个新账户， 请完整填写下表：';
 $_['text_your_details']         = '您的个人资料';
 $_['text_your_address']         = '您的详细地址';

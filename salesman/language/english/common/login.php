@@ -13,6 +13,7 @@ $_['entry_password'] = 'Password';
 
 // Button
 $_['button_login']   = 'Login';
+$_['button_register']   = 'I want to register';
 
 // Error
 $_['error_login']    = 'No match for Username and/or Password.';

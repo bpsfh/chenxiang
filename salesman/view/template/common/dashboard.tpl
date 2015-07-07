@@ -11,11 +11,7 @@
     </div>
   </div>
   <div class="container-fluid">
-    <?php if ($error_install) { ?>
-    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> <?php echo $error_install; ?>
-      <button type="button" class="close" data-dismiss="alert">&times;</button>
-    </div>
-    <?php } ?>
+    <?php if($isAuthorized) { ?>
     <div class="row">
       <div class="col-lg-3 col-md-3 col-sm-6"><?php echo $commission; ?></div>
       <div class="col-lg-3 col-md-3 col-sm-6"><?php echo $sale; ?></div>
@@ -34,6 +30,9 @@
       <!--<div class="col-lg-4 col-md-12 col-sm-12 col-sx-12"><?php echo $activity; ?></div>-->
       <!--<div class="col-lg-8 col-md-12 col-sm-12 col-sx-12"> <?php echo $recent; ?> </div>-->
     </div>
+    <?php } else {?>
+       <?php echo $application_status_message ?>
+    <?php } ?>
   </div>
 </div>
 <?php echo $footer; ?>

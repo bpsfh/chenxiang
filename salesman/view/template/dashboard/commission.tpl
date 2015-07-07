@@ -1,11 +1,15 @@
 <div class="tile">
-  <div class="tile-heading"><?php echo $heading_title; ?> <span class="pull-right">
+  <div class="tile-heading"><?php echo $heading_title; ?>
+    <!--
+    <span class="pull-right">
     <?php if ($percentage > 0) { ?>
     <i class="fa fa-caret-up"></i>
     <?php } elseif ($percentage < 0) { ?>
     <i class="fa fa-caret-down"></i>
     <?php } ?>
-    <?php echo $percentage; ?>%</span></div>
+    <?php echo $percentage; ?>%</span>
+    -->
+  </div>
   <div class="tile-body"><i class="fa fa-money"></i>
     <h3 class="pull-right"><?php echo $total_formated; ?></h3>
   </div>

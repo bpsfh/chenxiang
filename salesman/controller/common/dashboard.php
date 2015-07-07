@@ -33,6 +33,11 @@ class ControllerCommonDashboard extends Controller {
 		
 		$data['token'] = $this->session->data['token'];
 		
+		// Authority
+		$data['isAuthorized'] = $this->salesman->isAuthorized();
+		$data['application_status'] = $this->salesman->getApplicationStatus();
+	
+		// links	
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['commission'] = $this->load->controller('dashboard/commission');
@@ -45,7 +50,15 @@ class ControllerCommonDashboard extends Controller {
 //		$data['activity'] = $this->load->controller('dashboard/activity');
 //		$data['recent'] = $this->load->controller('dashboard/recent');
 		$data['footer'] = $this->load->controller('common/footer');
-		
+	
+		// message	
+		$data['basic_info'] = $this->url->link('salesman/user/edit', 'token=' . $this->session->data['token'], 'SSL');
+		$data['bank_info'] = $this->url->link('salesman/bank_account/edit', 'token=' . $this->session->data['token'], 'SSL');
+
+		$data['application_status_message'] = sprintf($this->language->get('text_welcome_msg'),
+				 $this->language->get('text_application_status_' . $data['application_status'])); 
+		$data['application_status_message'] .= sprintf($this->language->get('text_go_on_msg'), $data['basic_info'], $data['bank_info']); 
+
 		$this->response->setOutput($this->load->view('common/dashboard.tpl', $data));
 	}
 }

@@ -66,10 +66,10 @@
     </li>
     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-life-ring fa-lg"></i></a>
       <ul class="dropdown-menu dropdown-menu-right">
-        <li class="dropdown-header"><?php echo $text_store; ?> <i class="fa fa-shopping-cart"></i></li>
+        <!--<li class="dropdown-header"><?php echo $text_store; ?> <i class="fa fa-shopping-cart"></i></li>
         <?php foreach ($stores as $store) { ?>
         <li><a href="<?php echo $store['href']; ?>" target="_blank"><?php echo $store['name']; ?></a></li>
-        <?php } ?>
+        <?php } ?>-->
         <li class="divider"></li>
         <li class="dropdown-header"><?php echo $text_help; ?> <i class="fa fa-life-ring"></i></li>
         <li><a href="http://www.opencart.com" target="_blank"><?php echo $text_homepage; ?></a></li>
