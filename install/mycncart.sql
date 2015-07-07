@@ -7074,9 +7074,10 @@ INSERT INTO `mcc_zone_to_geo_zone` (`zone_to_geo_zone_id`, `country_id`, `zone_i
 
 --
 -- Table structure for table `mcc_salesman`
--- status(申请状态):
--- 0：未申请； 1：申请中； 2：已批准； 3：已拒绝； 4.再申请；
---
+-- application_status(申请状态):
+-- 0: 未申请; 1: 申请中; 2: 已批准; 3: 已拒绝; 4: 再申请；
+-- status(有效状态)
+-- 0: 有效; 1： 无效.
 
 CREATE TABLE IF NOT EXISTS `mcc_salesman` (
   `salesman_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -7093,14 +7094,15 @@ CREATE TABLE IF NOT EXISTS `mcc_salesman` (
   `address_id` int(11) NOT NULL DEFAULT '0',
   `custom_field` text NOT NULL,
   `ip` varchar(40) NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT '0',
-  `is_valid` tinyint(1) NOT NULL,
+  `status` tinyint(1) NOT NULL,				-- legacy field
+  `approved` tinyint(1) NOT NULL DEFAULT '0',		-- legacy field
+  `application_status` tinyint(1) NOT NULL DEFAULT '0',	-- new field
   `safe` tinyint(1) NOT NULL,
   `code` varchar(40) NOT NULL,
   `token` varchar(255) NOT NULL,
   `date_added` datetime NOT NULL,
-  `date_first_applied` datetime,
-  `date_approved` datetime NULL,
+  `date_first_applied` datetime NULL,			-- new field
+  `date_approved` datetime NULL,			-- new field
   PRIMARY KEY `salesman_id` (`salesman_id`),
   KEY `email` (`email`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
@@ -7109,9 +7111,8 @@ CREATE TABLE IF NOT EXISTS `mcc_salesman` (
 -- Dumping data for table `mcc_salesman`
 --
 
-INSERT INTO `mcc_salesman` (`salesman_group_id`, `store_id`, `fullname`, `email`, `telephone`, `fax`, `image`, `password`, `salt`, `newsletter`, `address_id`, `custom_field`, `ip`, `status`, `is_valid`, `safe`, `code`, `token`, `date_added`, `date_first_applied`, `date_approved`) VALUES ( 
-'1', '0', 'jie zhang', 'jie-zhang@sz-rontech.com', '18662186718', '', '', 'e002c7877aa12eab9baca606f5ed9f52e1bc11ba', '7869d568e', '0', '0', 'a:0:{}', '192.168.0.100', '2', '1', '0', '', '', '2015-05-28 15:13:27', '2015-05-28 15:13:27', '2015-05-28 15:13:27');
-
+INSERT INTO `mcc_salesman` (`salesman_group_id`, `store_id`, `fullname`, `email`, `telephone`, `fax`, `image`, `password`, `salt`, `newsletter`, `address_id`, `custom_field`, `ip`, `status`, `approved`, `application_status`, `safe`, `code`, `token`, `date_added`, `date_first_applied`, `date_approved`) VALUES (
+'1', '0', 'jie zhang', 'jie-zhang@sz-rontech.com', '18662186718', '', '', 'e002c7877aa12eab9baca606f5ed9f52e1bc11ba', '7869d568e', '0', '0', 'a:0:{}', '192.168.0.100', '1', '1', '1', '0', '', '', '2015-05-28 15:13:27', '2015-05-28 15:13:27', '2015-05-28 15:13:27');
 
 -- --------------------------------------------------------
 
