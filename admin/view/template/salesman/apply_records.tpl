@@ -1,3 +1,4 @@
+<!-- @author HU -->
 <?php echo $header; ?><?php echo $column_left; ?>
 <div id="content">
   <div class="page-header">
@@ -36,6 +37,7 @@
                   <td class="text-left"><?php echo $record['date_processed']; ?></td>
                   <td class="text-left">
                   	<?php 
+                  		if (!is_null($record['status']) && $record['status'] == 0) { echo $entry_status_0;}
                   		if ($record['status'] == 1) { echo $entry_status_1;}
 						if ($record['status'] == 2) { echo $entry_status_2;}
 						if ($record['status'] == 3) { echo $entry_status_3;}

@@ -7216,7 +7216,7 @@ CREATE TABLE IF NOT EXISTS `mcc_vip_card_application` (
 --
 -- Table structure for table `mcc_salesman_apply_record`
 -- status(申请状态):
--- 0：未申请； 1：申请中； 2：已批准； 3：已拒绝； 4.再申请；
+-- 0：账户创建； 1：申请中； 2：已批准； 3：已拒绝； 4.再申请；
 --
 
 CREATE TABLE IF NOT EXISTS `mcc_salesman_apply_record` (
@@ -7228,3 +7228,24 @@ CREATE TABLE IF NOT EXISTS `mcc_salesman_apply_record` (
   PRIMARY KEY (`record_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mcc_salesman_address`
+--
+
+CREATE TABLE IF NOT EXISTS `mcc_salesman_address` (
+  `address_id` int(11) NOT NULL AUTO_INCREMENT,
+  `salesman_id` int(11) NOT NULL,
+  `fullname` varchar(64) NOT NULL,
+  `company` varchar(40) NOT NULL,
+  `address` varchar(128) NOT NULL,
+  `city` varchar(128) NOT NULL,
+  `postcode` varchar(10) NOT NULL,
+  `country_id` int(11) NOT NULL DEFAULT '0',
+  `zone_id` int(11) NOT NULL DEFAULT '0',
+  `shipping_telephone` varchar(32) NOT NULL,
+  PRIMARY KEY (`address_id`),
+  KEY `salesman_id` (`salesman_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
