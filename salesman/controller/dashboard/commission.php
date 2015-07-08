@@ -20,7 +20,7 @@ class ControllerDashboardCommission extends Controller {
 //		$difference = $today - $yesterday;
 
 		// Customers Online
-		$customer_total = $this->model_vip_card->getBindedVipCards(array('salesman_id' => $this->salesman->getId()));
+		$customer_total = $this->model_vip_card->getBindedVipCardsCnt(array('salesman_id' => $this->salesman->getId()));
 		/*		
 		if ($customer_total > 1000000000000) {
 			$data['total'] = round($customer_total / 1000000000000, 1) . 'T';

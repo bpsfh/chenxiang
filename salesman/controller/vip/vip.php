@@ -7,7 +7,7 @@ class ControllerVipVip extends Controller {
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
-		$this->load->model('vip/vip');
+		$this->load->model('vip/card');
 
 		$this->getList();
 	}
@@ -157,9 +157,9 @@ class ControllerVipVip extends Controller {
 			'limit'                              => $this->config->get('config_limit_admin')
 		);
 
-		$vips_total = $this->model_vip_vip->getTotalVips($filter_data);
+		$vips_total = $this->model_vip_card->getTotalVips($filter_data);
 
-		$results = $this->model_vip_vip->getVips($filter_data);
+		$results = $this->model_vip_card->getVips($filter_data);
 
 		foreach ($results as $key=>$result) {
 // 			if (!$result['approved']) {

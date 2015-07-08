@@ -10,9 +10,8 @@ class ControllerCommonMenu extends Controller {
 		$data['text_vip_card_srch'] = $this->language->get('text_vip_card_srch');
 		$data['text_vip_record_srch'] = $this->language->get('text_vip_record_srch');
 		$data['text_vip_card_apply'] = $this->language->get('text_vip_card_apply');
-		$data['text_vip_card_mgmt'] = $this->language->get('text_vip_card_mgmt');
-		$data['text_vip_card_srch'] = $this->language->get('text_vip_card_srch');
-		$data['text_vip_record_srch'] = $this->language->get('text_vip_record_srch');
+		$data['text_vip_customer'] = $this->language->get('text_vip_customer');
+		$data['text_vip_order'] = $this->language->get('text_vip_order');
 
 		$data['text_financial'] = $this->language->get('text_financial');
 		$data['text_commission_srch'] = $this->language->get('text_commission_srch');

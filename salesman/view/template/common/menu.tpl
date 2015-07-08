@@ -4,9 +4,9 @@
   <li id="vip"><a class="parent"><i class="fa fa-credit-card fa-fw"></i> <span><?php echo $text_vip_card_mgmt; ?></span></a>
     <ul>
       <li><a href="<?php echo $vip_card_srch; ?>"><?php echo $text_vip_card_srch; ?></a></li>
-      <li><a href="<?php echo $vip_record_srch; ?>"><?php echo $text_vip_record_srch; ?></a></li>
       <li><a href="<?php echo $vip_card_apply; ?>"><?php echo $text_vip_card_apply; ?></a></li>
-      <li><a href="javascript:void(0);"><?php echo $text_vip_card_apply; ?></a></li>
+      <li><a href="<?php echo $vip_customer; ?>"><?php echo $text_vip_customer; ?></a></li>
+      <li><a href="<?php echo $vip_order; ?>"><?php echo $text_vip_order; ?></a></li>
     </ul>
   </li>
   <?php } else { ?>
