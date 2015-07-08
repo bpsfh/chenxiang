@@ -3,10 +3,10 @@
  * $Author: http://www.opencartchina.com 
 **/
 // header
-$_['heading_title']  = '系统管理';
+$_['heading_title']  = '业务（销售）员管理';
 
 // Text
-$_['text_heading']   = '系统管理';
+$_['text_heading']   = '业务（销售）员管理';
 $_['text_login']     = '请输入登录信息。';
 $_['text_forgotten'] = '忘记密码？';
 

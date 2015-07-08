@@ -1,9 +1,9 @@
 <?php
 // header
-$_['heading_title']  = 'Administration';
+$_['heading_title']  = 'Salesman Administration';
 
 // Text
-$_['text_heading']   = 'Administration';
+$_['text_heading']   = 'Salesman Administration';
 $_['text_login']     = 'Please enter your login details.';
 $_['text_forgotten'] = 'Forgotten Password';
 
