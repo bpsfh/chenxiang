@@ -10,6 +10,7 @@ class ControllerSalesmanBankAccount extends Controller {
 
 		$this->edit ();
 	}
+
 	protected function validateForm() {
 		if (preg_match ( '/^[0-9]{16,19}$/', $this->request->post ['bank_account_num'] ) == 0 || (utf8_strlen ( trim ( $this->request->post ['bank_account_num'] ) ) < 16) || (utf8_strlen ( trim ( $this->request->post ['bank_account_num'] ) ) > 19)) {
 			$this->error ['bank_account_num'] = $this->language->get ( 'error_bank_account_num' );
@@ -29,11 +30,11 @@ class ControllerSalesmanBankAccount extends Controller {
 
 		return ! $this->error;
 	}
+
 	public function edit() {
 		if (! $this->salesman->isLogged ()) {
 			return new Action ( 'common/login' );
 		}
-
 		$this->load->language ( 'salesman/bank_account' );
 
 		$this->document->setTitle ( $this->language->get ( 'heading_title' ) );
@@ -42,7 +43,12 @@ class ControllerSalesmanBankAccount extends Controller {
 
 			$this->load->model ( 'salesman/bank_account' );
 
-			$this->model_salesman_bank_account->editBankAccount ( $this->request->post ['bank_account_id'], $this->request->post );
+			if(!is_null($this->request->post ['bank_account_id'])  && !($this->request->post ['bank_account_id'] === '')) {
+				$this->model_salesman_bank_account->editBankAccount ( $this->request->post ['bank_account_id'], $this->request->post );
+			} else {
+				$this->model_salesman_bank_account->addBankAccount ( $this->request->post );
+			}
+
 
 			$this->session->data ['success'] = $this->language->get ( 'text_success' );
 
@@ -65,6 +71,7 @@ class ControllerSalesmanBankAccount extends Controller {
 
 		$this->getForm ();
 	}
+
 	public function getForm() {
 		if (! $this->salesman->isLogged ()) {
 			return new Action ( 'common/login' );
@@ -74,7 +81,10 @@ class ControllerSalesmanBankAccount extends Controller {
 		$this->load->model ( 'salesman/bank_account' );
 		$bank_infos = $this->model_salesman_bank_account->getBankAccountes ( $salesman_id );
 		// 为以后扩展考虑，暂时取list第一条数据
-		$bank_info = $bank_infos [0];
+		$bank_info = array();
+		if (! empty ( $bank_infos )){
+			$bank_info = $bank_infos [0];
+		}
 
 		$data ['heading_title'] = $this->language->get ( 'heading_title' );
 

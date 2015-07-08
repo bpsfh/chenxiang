@@ -211,5 +211,11 @@ class ModelVipCard extends Model {
 		return $query->row['total'];
 	}
 
+        public function setVipStatus($vip_card_id) {
+                $salesman_id = $this->salesman->getId();
 
+                $sql = "UPDATE " . DB_PREFIX . "vip_card SET bind_status = 2, date_modified = NOW() WHERE vip_card_id = '" . (int) $vip_card_id . "' AND salesman_id = '" . (int) $salesman_id . "'";
+
+                $query = $this->db->query($sql);
+        }
 }
