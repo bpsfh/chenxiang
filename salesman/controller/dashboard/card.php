@@ -13,9 +13,9 @@ class ControllerDashboardCard extends Controller {
 		$this->load->model('vip/card');
 		
 		// Customers Online
-		$data['card_count'] = $this->model_vip_card->getTotalVipCards(array('salesman_id' => $this->salesman->getId()));
+		$data['card_count'] = $this->model_vip_card->getTotalVipCardsCnt(array('salesman_id' => $this->salesman->getId()));
 		
-		$data['vip_count'] = $this->model_vip_card->getBindedVipCards(array('salesman_id' => $this->salesman->getId()));
+		$data['vip_count'] = $this->model_vip_card->getBindedVipCardsCnt(array('salesman_id' => $this->salesman->getId()));
 
 		$data['vip_link'] = $this->url->link('vip/card', 'token=' . $this->session->data['token'], 'SSL');
 

@@ -2,9 +2,11 @@
 
 $_['text_dashboard']                   = '管理首页';
 $_['text_vip_card_mgmt']               = 'VIP卡管理';
+$_['text_vip_card_apply']              = 'VIP卡申请';
 $_['text_vip_card_srch']               = 'VIP卡查询';
 $_['text_vip_record_srch']             = '消费记录查询';
-$_['text_vip_card_apply']              = 'VIP卡申请';
+$_['text_vip_customer']                = 'VIP用户';
+$_['text_vip_order']                   = 'VIP用户消费记录';
 $_['text_financial']                   = '财务管理';
 $_['text_commission_srch']             = '佣金查询';
 $_['text_settle_srch']                 = '结算查询';

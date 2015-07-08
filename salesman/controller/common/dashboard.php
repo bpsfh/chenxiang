@@ -1,6 +1,10 @@
 <?php
 class ControllerCommonDashboard extends Controller {
 	public function index() {
+		if (!$this->salesman->isLogged()) {
+			return new Action ('common/login');
+		}
+
 		$this->load->language('common/dashboard');
 		
 		$this->document->setTitle($this->language->get('heading_title'));

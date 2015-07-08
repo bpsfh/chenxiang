@@ -7,7 +7,7 @@ class ControllerVipVip extends Controller {
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
-		$this->load->model('vip/vip');
+		$this->load->model('vip/card');
 
 		$this->getList();
 	}
@@ -157,9 +157,9 @@ class ControllerVipVip extends Controller {
 			'limit'                              => $this->config->get('config_limit_admin')
 		);
 
-		$vips_total = $this->model_vip_vip->getTotalVips($filter_data);
+		$vips_total = $this->model_vip_card->getTotalVips($filter_data);
 
-		$results = $this->model_vip_vip->getVips($filter_data);
+		$results = $this->model_vip_card->getVips($filter_data);
 
 		foreach ($results as $key=>$result) {
 // 			if (!$result['approved']) {
@@ -368,18 +368,18 @@ class ControllerVipVip extends Controller {
 
 	public function setVipStatus() {
 
-		$json = array ();
+		$json = array();
 
-		$this->load->model ( 'vip/vip' );
+		$this->load->model('vip/card');
 
-		$vip_card_id  = $this->request->get['vip_card_id'];
+		$vip_card_id = $this->request->get['vip_card_id'];
 
-		$this->model_vip_vip->setVipStatus ($vip_card_id);
+		$this->model_vip_card->setVipStatus($vip_card_id);
 
-		$json = array (
+		$json = array(
 			'vip_card_id'  => $vip_card_id
 		);
-		$this->response->addHeader ( 'Content-Type: application/json' );
-		$this->response->setOutput ( json_encode ( $json ) );
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode ($json));
 	}
 }
