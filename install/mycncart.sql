@@ -1,4 +1,4 @@
-SET SQL_MODE = "";
+﻿SET SQL_MODE = "";
 CREATE TABLE IF NOT EXISTS `mcc_address` (
   `address_id` int(11) NOT NULL AUTO_INCREMENT,
   `customer_id` int(11) NOT NULL,
@@ -7155,13 +7155,15 @@ CREATE TABLE IF NOT EXISTS `mcc_salesman_ip` (
 --
 
 CREATE TABLE IF NOT EXISTS `mcc_bank_account` (
-  `bank_account_id` int(11) NOT NULL,
+  `bank_account_id` int(11) NOT NULL AUTO_INCREMENT,
   `bank_account_num` varchar(20) NOT NULL,
   `salesman_id` int(11) NOT NULL,
   `bank_name` varchar(32) NOT NULL,
   `bank_branch_name` varchar(32) DEFAULT NULL,
   `account_name` varchar(16) NOT NULL,
-  `date_added` datetime NOT NULL
+  `date_added` datetime NOT NULL,
+  PRIMARY KEY (`bank_account_id`),
+  KEY `salesman_id` (`salesman_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 
