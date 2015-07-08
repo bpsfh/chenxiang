@@ -741,9 +741,6 @@ class ControllerSalesmanUser extends Controller {
 		}
 	
 		// 验证email是否除修改业务员本人之外其他业务员使用
-		print (var_dump($this->request->post));
-		print ("<br>");
-		print ("sangsanghu email = " . $this->request->post['email']);
 		$salesman_info = $this->model_salesman_user->getSalesmanByEmail($this->request->post['email']);
 	
 		if (!isset($this->request->get['salesman_id'])) {

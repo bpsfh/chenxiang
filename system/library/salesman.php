@@ -8,6 +8,7 @@ class Salesman {
 	private $newsletter;
 	private $salesman_group_id;
 	private $address_id;
+	private $application_status;
 
 	public function __construct($registry) {
 		$this->config = $registry->get('config');
@@ -27,6 +28,7 @@ class Salesman {
 				$this->newsletter = $salesman_query->row['newsletter'];
 				$this->salesman_group_id = $salesman_query->row['salesman_group_id'];
 				$this->address_id = $salesman_query->row['address_id'];
+				$this->application_status = $salesman_query->row['application_status'];
 
 				$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "salesman_ip WHERE salesman_id = '" . (int)$this->session->data['salesman_id'] . "' AND ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "'");
 
@@ -81,6 +83,14 @@ class Salesman {
 
 	public function isLogged() {
 		return $this->salesman_id;
+	}
+
+	public function isAuthorized() {
+		return $this->application_status == 2;
+	}
+
+	public function getApplicationStatus() {
+		return $this->application_status;
 	}
 
 	public function getId() {

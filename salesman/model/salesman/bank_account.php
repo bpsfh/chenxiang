@@ -1,35 +1,21 @@
 <?php
 class ModelSalesmanBankAccount extends Model {
 
-/* 	public function addBankAccount($data) {
+	public function addBankAccount($data) {
+
 		$this->event->trigger('pre.salesman.add.bank_account', $data);
 
-		$this->db->query("INSERT INTO " . DB_PREFIX . "bank_account SET salesman_id = '" . (int)$this->salesman->getId() . "', fullname = '" . $this->db->escape($data['fullname']) . "', bank_account = '" . $this->db->escape($data['bank_account']) . "', postcode = '" . $this->db->escape($data['postcode']) . "', city = '" . $this->db->escape($data['city']) . "', zone_id = '" . (int)$data['zone_id'] . "', country_id = '" . (int)$data['country_id'] . "', shipping_telephone = '" . $this->db->escape($data['shipping_telephone']) . "', custom_field = '" . $this->db->escape(isset($data['custom_field']) ? serialize($data['custom_field']) : '') . "'");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "bank_account SET bank_account_num = '" . $data['bank_account_num'] . "',salesman_id = '" . (int)$this->salesman->getId() . "', bank_name = '" . $this->db->escape($data['bank_name']) . "', bank_branch_name = '" . $this->db->escape($data['bank_branch_name']) . "', account_name = '" . $this->db->escape($data['account_name']) . "', date_added = NOW()");
 
 		$bank_account_id = $this->db->getLastId();
-
-		//edit mcc
-		$total_bank_account = $this->getTotalBankAccountes();
-
-		if($total_bank_account == 1) {
-
-			$this->db->query("UPDATE " . DB_PREFIX . "salesman SET bank_account_id = '" . (int)$bank_account_id . "' WHERE salesman_id = '" . (int)$this->salesman->getId() . "'");
-
-		}else{
-
-			if (!empty($data['default'])) {
-				$this->db->query("UPDATE " . DB_PREFIX . "salesman SET bank_account_id = '" . (int)$bank_account_id . "' WHERE salesman_id = '" . (int)$this->salesman->getId() . "'");
-			}
-
-		}
-		//end mcc
 
 		$this->event->trigger('post.salesman.add.bank_account', $bank_account_id);
 
 		return $bank_account_id;
-	} */
+	}
 
 	public function editBankAccount($bank_account_id, $data) {
+
 		$this->event->trigger('pre.salesman.edit.bank_account', $data);
 
 		$query = $this->db->query("UPDATE " . DB_PREFIX . "bank_account SET bank_account_num = '" . $data['bank_account_num'] . "', bank_name = '" . $this->db->escape($data['bank_name']) . "', bank_branch_name = '" . $this->db->escape($data['bank_branch_name']) . "', account_name = '" . $this->db->escape($data['account_name']) . "' WHERE bank_account_id  = '" . (int)$bank_account_id . "' AND salesman_id = '" . (int)$this->salesman->getId() . "'");

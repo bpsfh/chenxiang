@@ -284,7 +284,6 @@ class ModelSalesmanUser extends Model {
 	 * @param $data 业务员信息
 	 */
 	public function addSalesman($data) {
-		print (var_dump($data));
 		$this->db->query("INSERT INTO " . DB_PREFIX . "salesman SET fullname = '" . $this->db->escape($data['fullname']) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "', image = '" . $this->db->escape($data['image']) 
 				. "', newsletter = '" . (int)$data['newsletter'] . "', salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "', status = '" . (int)$data['status'] . "', approved = '" . (int)$data['approved'] . "', safe = '" . (int)$data['safe'] 
 				. "', application_status = '2'" . ", date_added = NOW()" . ", date_approved = NOW()" . ", date_first_applied = NOW()");

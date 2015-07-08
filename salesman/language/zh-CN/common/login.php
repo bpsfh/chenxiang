@@ -16,6 +16,7 @@ $_['entry_password'] = '密码';
 
 // Button
 $_['button_login']   = '登录';
+$_['button_register']   = '我要注册';
 
 // Error
 $_['error_login']    = '用户名或密码错误。';
