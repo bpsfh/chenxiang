@@ -1,4 +1,7 @@
 <?php
+/**
+ * @author HU
+ */
 class ModelSalesmanVipCard extends Model {
 	
 	/**
