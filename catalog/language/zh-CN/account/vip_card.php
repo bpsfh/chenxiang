@@ -1,4 +1,5 @@
 <?php
+// @author HU
 
 // Heading
 $_['heading_title']        = 'VIP信息';

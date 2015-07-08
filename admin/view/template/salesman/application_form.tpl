@@ -1,3 +1,4 @@
+<!-- @author HU -->
 <?php echo $header; ?><?php echo $column_left; ?>
 <div id="content">
   <div class="page-header">
@@ -45,8 +46,15 @@
   function isShow() {
 	var status = document.getElementById("input-status");
 	var reason_control = document.getElementById("reject-reason");
+	
 	if (status.value == '3') {
 		reason_control.style.display = 'block';
+	} else if (status.value == '2') {
+		// clean the value of reject_reason
+		var reason = document.getElementById("input-reject-reason");
+		reason.value = '';
+		
+		reason_control.style.display = 'none';
 	}
   }
 //--></script>

@@ -1,3 +1,4 @@
+<!-- @author HU -->
 <?php echo $header; ?><?php echo $column_left; ?>
 <div id="content">
   <div class="page-header">

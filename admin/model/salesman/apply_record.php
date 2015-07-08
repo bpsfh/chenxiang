@@ -1,4 +1,7 @@
 <?php
+/**
+ * @author HU
+ */
 class ModelSalesmanApplyRecord extends Model {
 	
 	/**

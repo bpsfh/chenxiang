@@ -1,4 +1,7 @@
 <?php
+/**
+ * @author HU
+ */
 class ModelAccountVipCard extends Model {
 	
 	private $NOT_EXIST = 1;

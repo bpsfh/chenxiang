@@ -1,4 +1,7 @@
 <?php
+/**
+ * @author HU
+ */
 class ControllerAccountVipCard extends Controller {
 	private $error = array();
 	
