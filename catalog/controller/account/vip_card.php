@@ -31,6 +31,7 @@ class ControllerAccountVipCard extends Controller {
 		$data['heading_title'] = $this->language->get('text_title');
 		$data['vip_heading_title'] = $this->language->get('text_vip_title');
 		
+		$data['entry_vip_card_id'] = $this->language->get('entry_vip_card_id');
 		$data['entry_vip_card_num'] = $this->language->get('entry_vip_card_num');
 		$data['entry_date_bind_to_customer'] = $this->language->get('entry_date_bind_to_customer');
 		
@@ -63,6 +64,12 @@ class ControllerAccountVipCard extends Controller {
 			$data['error_vip_card_num'] = '';
 		}
 		
+		if (!empty($vip_card_info)) {
+			$data['vip_card_id'] = $vip_card_info['vip_card_id'];
+		} else {
+			$data['vip_card_id'] = '';
+		}
+		
 		if (isset($this->request->post['vip_card_num'])) {
 			$data['vip_card_num'] = $this->request->post['vip_card_num'];
 		} elseif (!empty($vip_card_info)) {
@@ -73,6 +80,8 @@ class ControllerAccountVipCard extends Controller {
 		
 		if (!empty($vip_card_info)) {
 			$data['date_bind_to_customer'] = $vip_card_info['date_bind_to_customer'];
+		} else {
+			$data['date_bind_to_customer'] = '';
 		}
 		
 		// 导航栏
