@@ -11,7 +11,7 @@ class ControllerDashboardSale extends Controller {
 
 		$this->load->model('vip/order');
 
-		$sale_total= $this->model_vip_order->getTotalVipOrdersAmount(array('salesman_id' => $this->salesman->getId()));
+		$sale_total= $this->model_vip_order->getTotalSalesAmount(array('salesman_id' => $this->salesman->getId()));
 		/*
 		if ($sale_total > 1000000000000) {
 			$data['total'] = round($sale_total / 1000000000000, 1) . 'T';
@@ -28,7 +28,7 @@ class ControllerDashboardSale extends Controller {
 
 		$data['total_formated'] = $this->currency->format($sale_total, $this->config->get('currency_code'));
 
-		$data['sale'] = $this->url->link('vip/sale', 'token=' . $this->session->data['token'], 'SSL');
+		$data['sale'] = $this->url->link('vip/order', 'token=' . $this->session->data['token'], 'SSL');
 
 		return $this->load->view('dashboard/sale.tpl', $data);
 	}
