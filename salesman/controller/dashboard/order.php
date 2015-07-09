@@ -12,7 +12,7 @@ class ControllerDashboardOrder extends Controller {
 		// Total Orders
 		$this->load->model('vip/order');
 
-		$order_total= $this->model_vip_order->getTotalVipOrdersCnt(array('salesman_id' => $this->salesman->getId()));
+		$order_total= $this->model_vip_order->getTotalOrders(array('salesman_id' => $this->salesman->getId()));
 
 		if ($order_total > 1000000000000) {
 			$data['total'] = round($order_total / 1000000000000, 1) . 'T';

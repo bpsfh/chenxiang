@@ -39,7 +39,7 @@ class ControllerDashboardCommission extends Controller {
 	
 		$data['percentage'] = $this->model_vip_card->getBindedRate(array('salesman_id' => $this->salesman->getId()));
 		
-		$data['customer'] = $this->url->link('vip/customer', 'token=' . $this->session->data['token'], 'SSL');
+		$data['customer'] = $this->url->link('vip/order', 'token=' . $this->session->data['token'], 'SSL');
 
 		return $this->load->view('dashboard/commission.tpl', $data);
 	}
