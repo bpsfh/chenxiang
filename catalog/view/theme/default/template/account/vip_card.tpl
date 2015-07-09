@@ -1,3 +1,4 @@
+<!-- @author HU -->
 <?php echo $header; ?>
 <div class="container">
   <ul class="breadcrumb">
@@ -24,11 +25,15 @@
     	<?php if ($vip_card_num && !$error_warning) { ?>
     		<legend><?php echo $vip_heading_title; ?></legend>
     		<div>
-    			<label class="col-sm-2 control-label" for="input-fullname"><?php echo $entry_vip_card_num; ?> </label>
+    			<label class="col-sm-2 control-label"><?php echo $entry_vip_card_id; ?> </label>
+    			<label><?php echo $vip_card_id; ?></label>
+    		</div>
+    		<div>
+    			<label class="col-sm-2 control-label"><?php echo $entry_vip_card_num; ?> </label>
     			<label><?php echo $vip_card_num; ?></label>
     		</div>
     		<div>
-    			<label class="col-sm-2 control-label" for="input-fullname"><?php echo $entry_date_bind_to_customer; ?> </label>
+    			<label class="col-sm-2 control-label"><?php echo $entry_date_bind_to_customer; ?> </label>
     			<label><?php echo $date_bind_to_customer; ?></label>
     		</div>
     	<?php } else {?>

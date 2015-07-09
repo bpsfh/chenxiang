@@ -1,4 +1,5 @@
 <?php
+//@author HU
 
 // Heading
 $_['heading_title']         = '业务员';
@@ -9,16 +10,14 @@ $_['text_list']             = '业务员列表';
 $_['text_add']              = '添加业务员';
 $_['text_edit']             = '编辑业务员';
 $_['text_default']          = '默认';
-$_['text_balance']          = '账户';
-$_['text_add_ban_ip']       = '添加禁止 IP';
-$_['text_remove_ban_ip']    = '移除禁止 IP';
 
 // Column
-$_['column_name']           = '业务员姓名';
+$_['column_salesman_id']    = '业务员ID';
+$_['column_name']           = '业务员名';
 $_['column_email']          = 'E-Mail';
-$_['column_customer_group'] = '业务员等级';
 $_['column_status']         = '状态';
 $_['column_date_added']     = '添加日期';
+$_['column_date_approved']  = '批准日期';
 $_['column_comment']        = '备注';
 $_['column_description']    = '描述';
 $_['column_amount']         = '金额';
@@ -28,8 +27,7 @@ $_['column_total']          = '账户总数量';
 $_['column_action']         = '操作';
 
 // Entry
-$_['entry_customer_group']  = '业务员等级';
-$_['entry_fullname']       = '姓名';
+$_['entry_fullname']        = '业务员名';
 $_['entry_email']           = 'E-Mail';
 $_['entry_telephone']       = '电话';
 $_['entry_fax']             = '传真';
@@ -37,22 +35,19 @@ $_['entry_newsletter']      = '订阅邮件';
 $_['entry_status']          = '状态';
 $_['entry_approved']        = '审核';
 $_['entry_safe']            = '安全';
+$_['entry_image']			= '图像';
 $_['entry_password']        = '密码';
 $_['entry_confirm']         = '确认密码';
 $_['entry_company']         = '公司';
-$_['entry_address']       = '地址';
+$_['entry_address']         = '地址';
 $_['entry_city']            = '城市';
 $_['entry_postcode']        = '邮政编码';
 $_['entry_country']         = '国家';
 $_['entry_zone']            = '州/省/地区';
 $_['entry_default']         = '默认地址';
-$_['entry_comment']         = '备注';
-$_['entry_description']     = '描述';
-$_['entry_amount']          = '金额';
-$_['entry_points']          = '奖励积分';
-$_['entry_name']            = '业务员姓名';
-$_['entry_ip']              = 'IP';
+$_['entry_name']            = '业务员名';
 $_['entry_date_added']      = '添加日期';
+$_['entry_date_approved']   = '批准日期';
 
 // Error
 $_['error_warning']         = '警告: 详细检查相关错误！';

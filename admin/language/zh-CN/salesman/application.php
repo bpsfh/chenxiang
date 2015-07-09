@@ -1,4 +1,5 @@
 <?php
+//@author HU
 
 // Heading
 $_['heading_title']         = '业务员申请';
@@ -34,6 +35,7 @@ $_['entry_email']          = 'E-mail';
 $_['entry_date_first_applied']  = '首次申请时间';
 $_['entry_status']      	= '处理结果';
 $_['entry_reject_reason']   = '拒绝理由';
+$_['entry_status_0']      	= '账户创建';
 $_['entry_status_1']      	= '初次申请';
 $_['entry_status_2']      	= '已批准';
 $_['entry_status_3']      	= '已拒绝';

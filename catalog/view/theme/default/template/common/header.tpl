@@ -87,9 +87,11 @@
     </div>
   </div>
 </header>
+<div>
 <?php if ($categories) { ?>
-<div class="container">
-  <nav id="menu" class="navbar">
+<div class="w100 mB15 bG1">
+  <div class="container">
+  <nav id="menu" class="navbar bRi mB0 menuArea">
     <div class="navbar-header"><span id="category" class="visible-xs"><?php echo $text_category; ?></span>
       <button type="button" class="btn btn-navbar navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"><i class="fa fa-bars"></i></button>
     </div>
@@ -117,5 +119,7 @@
       </ul>
     </div>
   </nav>
+  </div>
 </div>
 <?php } ?>
+</div>

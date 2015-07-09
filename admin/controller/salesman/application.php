@@ -1,4 +1,7 @@
 <?php
+/**
+ * @author HU
+ */
 class ControllerSalesmanApplication extends Controller {
 	private $error = array();
 	
@@ -90,6 +93,7 @@ class ControllerSalesmanApplication extends Controller {
 			$data['column_reject_reason'] = $this->language->get('column_reject_reason');
 			$data['column_status'] = $this->language->get('column_status');
 			
+			$data['entry_status_0'] = $this->language->get('entry_status_0');
 			$data['entry_status_1'] = $this->language->get('entry_status_1');
 			$data['entry_status_2'] = $this->language->get('entry_status_2');
 			$data['entry_status_3'] = $this->language->get('entry_status_3');
@@ -286,7 +290,7 @@ class ControllerSalesmanApplication extends Controller {
 				'fullname'       	 => $result['fullname'],
 				'email'          	 => $result['email'],
 				'date_first_applied' => $result['date_first_applied'],
-				'status'         	 => $result['status'],
+				'status'         	 => $result['application_status'],
 				'records'            => $this->url->link('salesman/application/records', 'token=' . $this->session->data['token'] . '&salesman_id=' . $result['salesman_id'] . $url, 'SSL'),
 				'edit'               => $this->url->link('salesman/application/edit', 'token=' . $this->session->data['token'] . '&salesman_id=' . $result['salesman_id'] . $url, 'SSL')
 			);
@@ -366,7 +370,7 @@ class ControllerSalesmanApplication extends Controller {
 		$data['sort_fullname'] = $this->url->link('salesman/application', 'token=' . $this->session->data['token'] . '&sort=fullname' . $url, 'SSL');
 		$data['sort_email'] = $this->url->link('salesman/application', 'token=' . $this->session->data['token'] . '&sort=email' . $url, 'SSL');
 		$data['sort_date_first_applied'] = $this->url->link('salesman/application', 'token=' . $this->session->data['token'] . '&sort=date_first_applied' . $url, 'SSL');
-		$data['sort_status'] = $this->url->link('salesman/application', 'token=' . $this->session->data['token'] . '&sort=status' . $url, 'SSL');
+		$data['sort_status'] = $this->url->link('salesman/application', 'token=' . $this->session->data['token'] . '&sort=application_status' . $url, 'SSL');
 
 		// 分页
 		$url = '';
