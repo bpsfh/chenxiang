@@ -13,7 +13,7 @@ class ModelVipOrder extends Model {
 		
 		$implode = array();
 
-		$implode[] = "o.order_status_id = 5"; 
+		$implode[] = " o.order_status_id = 5 "; 
 
 		// salesman_id is necessary
 		if(!empty($data['salesman_id'])) {
@@ -83,7 +83,7 @@ class ModelVipOrder extends Model {
 			$sql .= " WHERE " . implode(" AND ", $implode);
 		}
 		
-		$sql .= " group by vc.vip_card_id, vc.customer_id, o.order_id ";
+		$sql .= " GROUP BY vc.vip_card_id, vc.customer_id, o.order_id ";
 
 		$query = $this->db->query($sql);
 
@@ -99,7 +99,7 @@ class ModelVipOrder extends Model {
 		
 		$implode = array();
 
-		$implode[] = "o.order_status_id = 5"; 
+		$implode[] = " o.order_status_id = 5 "; 
 
 		// salesman_id is necessary
 		if(!empty($data['salesman_id'])) {
@@ -137,14 +137,20 @@ class ModelVipOrder extends Model {
 			);
 		}
 		
-		$sql = "SELECT COUNT(*) AS total, TIMESTAMPDIFF(DAY, '" . $this->db->escape($data['filter_date_start']) . "', o.date_added) AS day FROM `" . DB_PREFIX . "order` o ";
-		$sql .= "INNER JOIN `" . DB_PREFIX . "customer` c ON o.customer_id = c.customer_id ";
-		$sql .= "INNER JOIN `" . DB_PREFIX . "vip_card` vc ON o.customer_id = vc.customer_id ";
+		$sql = "SELECT COUNT(*) AS total ";
+		$sql .= " , TIMESTAMPDIFF(DAY, '" . $this->db->escape($data['filter_date_start']) . "', o.date_added) AS day ";
+		$sql .= " FROM `" . DB_PREFIX . "order` o ";
+		$sql .= " INNER JOIN `" . DB_PREFIX . "customer` c ON o.customer_id = c.customer_id ";
+		$sql .= " INNER JOIN `" . DB_PREFIX . "vip_card` vc ON o.customer_id = vc.customer_id ";
 		
 		$implode = array();
 		
+		$implode[] = "o.order_status_id = 5"; 
+
 		if(!empty($data['salesman_id'])) {
-			$implode[] = "salesman_id = " . $this->db->escape($data['salesman_id']);
+			$implode[] = "salesman_id = '" . $this->db->escape($data['salesman_id']) . "'";
+		} else {
+			$implode[] = " 0 = 1 ";
 		}
 		
 		if (!empty($data['filter_date_start'])) {
@@ -159,7 +165,7 @@ class ModelVipOrder extends Model {
 			$sql .= " WHERE " . implode(" AND ", $implode);
 		}
 		
-		$sql .= "GROUP BY DATE(o.date_added)";
+		$sql .= " GROUP BY DATE(o.date_added) ";
 		
 		$query = $this->db->query($sql);
 
@@ -185,15 +191,19 @@ class ModelVipOrder extends Model {
 			);
 		}
 		
-		$sql = "SELECT SUM(op.total) AS total, TIMESTAMPDIFF(DAY, '" . $this->db->escape($data['filter_date_start']) . "', o.date_added) AS day FROM `" . DB_PREFIX . "order_product` op ";
-		$sql .= "INNER JOIN `" . DB_PREFIX . "order` o ON op.order_id = o.order_id ";
-		$sql .= "INNER JOIN `" . DB_PREFIX . "customer` c ON o.customer_id = c.customer_id ";
-		$sql .= "INNER JOIN `" . DB_PREFIX . "vip_card` vc ON o.customer_id = vc.customer_id ";
+		$sql = "SELECT SUM(op.total) AS total ";
+		$sql .= " , TIMESTAMPDIFF(DAY, '" . $this->db->escape($data['filter_date_start']) . "', o.date_added) AS day ";
+		$sql .= " FROM `" . DB_PREFIX . "order_product` op ";
+		$sql .= " INNER JOIN `" . DB_PREFIX . "order` o ON op.order_id = o.order_id ";
+		$sql .= " INNER JOIN `" . DB_PREFIX . "customer` c ON o.customer_id = c.customer_id ";
+		$sql .= " INNER JOIN `" . DB_PREFIX . "vip_card` vc ON o.customer_id = vc.customer_id ";
 		
 		$implode = array();
 		
+		$implode[] = " o.order_status_id = 5 "; 
+
 		if(!empty($data['salesman_id'])) {
-			$implode[] = "salesman_id = " . $this->db->escape($data['salesman_id']);
+			$implode[] = "salesman_id = '" . $this->db->escape($data['salesman_id']) . "'";
 		}
 		
 		if (!empty($data['filter_date_start'])) {
@@ -208,7 +218,7 @@ class ModelVipOrder extends Model {
 			$sql .= " WHERE " . implode(" AND ", $implode);
 		}
 		
-		$sql .= "GROUP BY DATE(o.date_added)";
+		$sql .= " GROUP BY DATE(o.date_added) ";
 		
 		$query = $this->db->query($sql);
 
