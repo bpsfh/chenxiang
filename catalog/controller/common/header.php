@@ -17,6 +17,7 @@ class ControllerCommonHeader extends Controller {
 		$data['scripts'] = $this->document->getScripts();
 		$data['lang'] = $this->language->get('code');
 		$data['direction'] = $this->language->get('direction');
+		
 		if ($this->config->get('config_google_analytics_status')) {
 			$data['google_analytics'] = html_entity_decode($this->config->get('config_google_analytics'), ENT_QUOTES, 'UTF-8');
 		} else {
@@ -55,6 +56,7 @@ class ControllerCommonHeader extends Controller {
 		$data['text_all'] = $this->language->get('text_all');
 		// Add by sangsanghu 2015/06/24 ST
 		$data['text_vip_register'] = $this->language->get('text_vip_register');
+		$data['text_welcome'] = $this->language->get('text_welcome');
 		// Add by sangsanghu 2015/06/24 END
 
 		$data['home'] = $this->url->link('common/home');
