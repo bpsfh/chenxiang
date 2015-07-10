@@ -1,11 +1,8 @@
-<?php echo $header; ?><?php echo $column_left; ?>
+﻿<?php echo $header; ?><?php echo $column_left; ?>
 
 <div id="content">
   <div class="page-header">
-    <div class="container-fluid">
-      <div class="pull-right">
-		<button type="submit" form="form-vip-card-apply" data-toggle="tooltip" title="<?php echo $button_save; ?>" class="btn btn-primary"><i class="fa fa-save"></i></button>
-      </div>
+    <div class="container-fluid">     
       <h1><?php echo $heading_title; ?></h1>
       <ul class="breadcrumb">
         <?php foreach ($breadcrumbs as $breadcrumb) { ?>
@@ -39,7 +36,7 @@
         <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-vip-card-apply" class="form-horizontal">
           <div class="form-group required">
             <label class="col-sm-2 control-label" for="input-apply-qty"><?php echo $entry_apply_qty; ?></label>
-            <div class="col-sm-10">
+            <div class="col-sm-6">
               <input type="text" name="apply_qty" value="" placeholder="<?php echo $entry_apply_qty; ?>" id="input-apply-qty" class="form-control" />
               <?php if ($error_apply_qty) { ?>
               <div class="text-danger"><?php echo $error_apply_qty; ?></div>
@@ -48,13 +45,16 @@
           </div>
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-apply-reason"><?php echo $entry_apply_reason; ?></label>
-            <div class="col-sm-10">
+            <div class="col-sm-6">
               <textarea name="apply_reason" rows="5" placeholder="<?php echo $entry_apply_reason; ?>" id="input-apply-reason" class="form-control"></textarea>
               <?php if ($error_apply_reason) { ?>
               <div class="text-danger"><?php echo $error_apply_reason; ?></div>
               <?php } ?>
             </div>
           </div>
+		  <div class="form-group pull-right col-sm-4">
+			<button type="submit" form="form-vip-card-apply" data-toggle="tooltip" title="<?php echo $button_submit; ?>" class="btn btn-primary"><i class="fa fa-send"></i> <?php echo $button_submit; ?></button>
+		  </div>
         </form>
       </div>
     </div>
