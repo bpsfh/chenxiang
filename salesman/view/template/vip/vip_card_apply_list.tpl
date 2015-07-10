@@ -3,8 +3,8 @@
 <div id="content">
   <div class="page-header">
     <div class="container-fluid">
-      <div class="pull-right"><a href="<?php echo $add; ?>" data-toggle="tooltip" title="<?php echo $button_add; ?>" class="btn btn-primary"><i class="fa fa-plus"></i></a>
-        <!-- <button type="button" data-toggle="tooltip" title="<?php echo $button_delete; ?>" class="btn btn-danger" onclick="confirm('<?php echo $text_confirm; ?>') ? $('form-vip-card-apply').submit() : false;"><i class="fa fa-trash-o"></i></button> -->
+      <div class="pull-right">
+		<button type="submit" form="form-vip-card-apply" data-toggle="tooltip" title="<?php echo $button_save; ?>" class="btn btn-primary"><i class="fa fa-save"></i></button>
       </div>
       <h1><?php echo $heading_title; ?></h1>
       <ul class="breadcrumb">
@@ -25,11 +25,44 @@
       <button type="button" class="close" data-dismiss="alert">&times;</button>
     </div>
     <?php } ?>
+	  <div class="container-fluid">
+    <?php if ($error_warning) { ?>
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> <?php echo $error_warning; ?>
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    <?php } ?>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i> <?php echo $text_form; ?></h3>
+      </div>
+      <div class="panel-body">
+        <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-vip-card-apply" class="form-horizontal">
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-apply-qty"><?php echo $entry_apply_qty; ?></label>
+            <div class="col-sm-10">
+              <input type="text" name="apply_qty" value="" placeholder="<?php echo $entry_apply_qty; ?>" id="input-apply-qty" class="form-control" />
+              <?php if ($error_apply_qty) { ?>
+              <div class="text-danger"><?php echo $error_apply_qty; ?></div>
+              <?php } ?>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-apply-reason"><?php echo $entry_apply_reason; ?></label>
+            <div class="col-sm-10">
+              <textarea name="apply_reason" rows="5" placeholder="<?php echo $entry_apply_reason; ?>" id="input-apply-reason" class="form-control"></textarea>
+              <?php if ($error_apply_reason) { ?>
+              <div class="text-danger"><?php echo $error_apply_reason; ?></div>
+              <?php } ?>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title"><i class="fa fa-list"></i> <?php echo $text_list; ?></h3>
       </div>
-        <form action="<?php echo $delete; ?>"  method="post" enctype="multipart/form-data" id="form-vip-card-apply">
+        <form action=""  method="post" enctype="multipart/form-data" id="">
           <div class="table-responsive">
             <table class="table table-bordered table-hover">
               <thead>
