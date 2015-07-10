@@ -17,5 +17,5 @@ $_['text_search']        = '搜索';
 $_['text_all']           = '显示全部';
 // Add by sangsanghu 2015/06/24 ST
 $_['text_vip_register']  = 'VIP注册';
-$_['text_welcome']  	 = '欢迎来到神鹤电商网！';
+$_['text_welcome']  	 = '欢迎来到神鹤网！';
 // Add by sangsanghu 2015/06/24 END
