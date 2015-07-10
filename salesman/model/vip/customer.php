@@ -62,12 +62,10 @@ class ModelVipCustomer extends Model {
                 $sql .= " , SUM(op.total) AS total ";
                 $sql .= " FROM `" . DB_PREFIX . "vip_card` vc ";
                 $sql .= " INNER JOIN `" . DB_PREFIX . "customer` c ON vc.customer_id = c.customer_id ";
-                $sql .= " LEFT JOIN `" . DB_PREFIX . "order` o ON vc.customer_id = o.customer_id ";
+                $sql .= " LEFT JOIN `" . DB_PREFIX . "order` o ON vc.customer_id = o.customer_id  and o.order_status_id = 5 ";
                 $sql .= " LEFT JOIN `" . DB_PREFIX . "order_product` op ON o.order_id = op.order_id ";
 
                 $implode = array();
-
-                $implode[] = " o.order_status_id = 5 ";
 
                 $implode[] = " vc.bind_status = 3 ";
 

@@ -12,15 +12,21 @@ class ModelSalesmanCommission extends Model {
 			);
 		}
 		
-		$sql = "SELECT SUM(op.total) * 0.05 AS total, TIMESTAMPDIFF(DAY, '" . $this->db->escape($data['filter_date_start']) . "', o.date_added) AS day FROM `" . DB_PREFIX . "order_product` op ";
-		$sql .= "INNER JOIN `" . DB_PREFIX . "order` o ON op.order_id = o.order_id ";
-		$sql .= "INNER JOIN `" . DB_PREFIX . "customer` c ON o.customer_id = c.customer_id ";
-		$sql .= "INNER JOIN `" . DB_PREFIX . "vip_card` vc ON o.customer_id = vc.customer_id ";
+		$sql = "SELECT SUM(op.total) * 0.05 AS total ";
+		$sql .= ", TIMESTAMPDIFF(DAY, '" . $this->db->escape($data['filter_date_start']) . "', o.date_added) AS day ";
+		$sql .= " FROM `" . DB_PREFIX . "order_product` op ";
+		$sql .= " INNER JOIN `" . DB_PREFIX . "order` o ON op.order_id = o.order_id ";
+		$sql .= " INNER JOIN `" . DB_PREFIX . "customer` c ON o.customer_id = c.customer_id ";
+		$sql .= " INNER JOIN `" . DB_PREFIX . "vip_card` vc ON o.customer_id = vc.customer_id ";
 				
 		$implode = array();
 		
+		$implode[] = " o.order_status_id = 5 "; 
+
 		if(!empty($data['salesman_id'])) {
-			$implode[] = "salesman_id = " . $this->db->escape($data['salesman_id']);
+			$implode[] = "salesman_id = '" . $this->db->escape($data['salesman_id']) . "'";
+		} else {
+			$implode[] = "0 = 1";
 		}
 		
 		if (!empty($data['filter_date_start'])) {
