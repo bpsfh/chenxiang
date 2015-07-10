@@ -106,6 +106,17 @@ class ControllerVipVipCardApply extends Controller {
 		$data['button_edit'] = $this->language->get('button_edit');
 		$data['button_delete'] = $this->language->get('button_delete');
 
+		$data['text_form'] = !isset($this->request->get['apply_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
+		$data['text_enabled'] = $this->language->get('text_enabled');
+		$data['text_disabled'] = $this->language->get('text_disabled');
+
+		$data['entry_apply_qty'] = $this->language->get('entry_apply_qty');
+		$data['entry_apply_reason'] = $this->language->get('entry_apply_reason');
+
+		$data['button_save'] = $this->language->get('button_save');
+		$data['button_cancel'] = $this->language->get('button_cancel');
+
+
 		$data['token'] = $this->session->data['token'];
 
 		if (isset($this->error['warning'])) {
@@ -121,12 +132,19 @@ class ControllerVipVipCardApply extends Controller {
 		} else {
 			$data['success'] = '';
 		}
+		
+		if (isset($this->error['apply_qty'])) {
+			$data['error_apply_qty'] = $this->language->get('error_apply_qty');
+		} else {
+			$data['error_apply_qty'] = '';
+		}
 
-// 		if (isset($this->request->post['selected'])) {
-// 			$data['selected'] = (array)$this->request->post['selected'];
-// 		} else {
-// 			$data['selected'] = array();
-// 		}
+		if (isset($this->error['apply_reason'])) {
+			$data['error_apply_reason'] = $this->language->get('error_apply_reason'); 
+		} else {
+			$data['error_apply_reason'] = '';
+			
+		}
 
 		$url = '';
 
@@ -153,6 +171,19 @@ class ControllerVipVipCardApply extends Controller {
 		}
 
 		$data['cancel'] = $this->url->link('vip/vip_card_apply', 'token=' . $this->session->data['token'] . $url, 'SSL');
+		
+		if (isset($this->request->post['apply_qty'])) {
+			$data['apply_qty'] = $this->request->post['apply_qty'];
+		} else {
+			$data['apply_qty'] = '';
+		}
+
+		if (isset($this->request->post['apply_reason'])) {
+			$data['apply_reason'] = $this->request->post['apply_reason'];
+		} else {
+			$data['apply_reason'] = '';
+		}
+
 
 		$url = '';
 
@@ -206,7 +237,7 @@ class ControllerVipVipCardApply extends Controller {
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$this->load->model('vip/vip_card_apply');
-
+		
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 			$this->model_vip_vip_card_apply->addApplication($this->request->post);
 
@@ -229,10 +260,11 @@ class ControllerVipVipCardApply extends Controller {
 			$this->response->redirect($this->url->link('vip/vip_card_apply', 'token=' . $this->session->data['token'] . $url, 'SSL'));
 		}
 
-		$this->getForm();
+		$this->getList();
 	}
 
-	protected function getForm() {
+
+/*	protected function getForm() {
 
 		if (! $this->salesman->isLogged ()) {
 			return new Action ( 'common/login' );
@@ -298,11 +330,6 @@ class ControllerVipVipCardApply extends Controller {
 				'href' => $this->url->link('vip/vip_card_apply', 'token=' . $this->session->data['token'] . $url, 'SSL')
 		);
 
-/* 		if (!isset($this->request->get['user_id'])) {
-			$data['action'] = $this->url->link('vip/vip_card_apply/add', 'token=' . $this->session->data['token'] . $url, 'SSL');
-		} else {
-			$data['action'] = $this->url->link('vip/vip_card_apply/edit', 'token=' . $this->session->data['token'] . '&user_id=' . $this->request->get['user_id'] . $url, 'SSL');
-		}*/
 		$data['action'] = $this->url->link('vip/vip_card_apply/addVipApply', 'token=' . $this->session->data['token'] . $url, 'SSL');
 		$data['cancel'] = $this->url->link('vip/vip_card_apply', 'token=' . $this->session->data['token'] . $url, 'SSL');
 
@@ -324,8 +351,8 @@ class ControllerVipVipCardApply extends Controller {
 
 		$this->response->setOutput($this->load->view('vip/vip_card_apply_form.tpl', $data));
 	}
-
-/* 	public function delete() {
+	
+ 	public function delete() {
 
 		if (! $this->salesman->isLogged ()) {
 			return new Action ( 'common/login' );
