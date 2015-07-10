@@ -9,35 +9,15 @@ class ControllerDashboardCommission extends Controller {
 
 		$data['token'] = $this->session->data['token'];
 
-		// Total Orders
-//		$this->load->model('vip/customer');
-		$this->load->model('vip/card');
+		// Total Commissions 
+		$this->load->model('salesman/commission');
 		
-//		$today = $this->model_vip_card->getTotalCustomers(array('filter_date_added' => date('Y-m-d', strtotime('-1 day'))));
-//
-//		$yesterday = $this->model_sale_customer->getTotalCustomers(array('filter_date_added' => date('Y-m-d', strtotime('-2 day'))));
-//
-//		$difference = $today - $yesterday;
-
 		// Customers Online
-		$customer_total = $this->model_vip_card->getBindedVipCardsCnt(array('salesman_id' => $this->salesman->getId()));
-		/*		
-		if ($customer_total > 1000000000000) {
-			$data['total'] = round($customer_total / 1000000000000, 1) . 'T';
-		} elseif ($customer_total > 1000000000) {
-			$data['total'] = round($customer_total / 1000000000, 1) . 'B';
-		} elseif ($customer_total > 1000000) {
-			$data['total'] = round($customer_total / 1000000, 1) . 'M';
-		} elseif ($customer_total > 1000) {
-			$data['total'] = round($customer_total / 1000, 1) . 'K';
-		} else {
-			$data['total'] = $customer_total;
-		}
-		*/
+		$commission_total = $this->model_salesman_commission->getCommissions(array('salesman_id' => $this->salesman->getId()));
+
+		$data['total_formated'] = $this->currency->format($commission_total, $this->config->get('currency_code'));
 	
-		$data['total_formated'] = $this->currency->format($customer_total, $this->config->get('currency_code'));
-	
-		$data['percentage'] = $this->model_vip_card->getBindedRate(array('salesman_id' => $this->salesman->getId()));
+		$data['percentage'] = 0;
 		
 		$data['customer'] = $this->url->link('vip/order', 'token=' . $this->session->data['token'], 'SSL');
 

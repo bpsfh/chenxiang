@@ -176,6 +176,12 @@ $('#button-filter').on('click', function() {
 		url += '&filter_email=' + encodeURIComponent(filter_email);
 	}
 	
+	var filter_telephone = $('input[name=\'filter_telephone\']').val();
+	
+	if (filter_telephone) {
+		url += '&filter_telephone=' + encodeURIComponent(filter_telephone);
+	}
+	
 	var filter_date_start= $('select[name=\'filter_date_start\']').val();
 	
 	if (filter_date_start) {
@@ -192,11 +198,10 @@ $('#button-filter').on('click', function() {
 });
 //--></script> 
   <script type="text/javascript"><!--
-/*
 $('input[name=\'filter_name\']').autocomplete({
 	'source': function(request, response) {
 		$.ajax({
-			url: 'index.php?route=sale/customer/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request),
+			url: 'index.php?route=vip/customer/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request),
 			dataType: 'json',			
 			success: function(json) {
 				response($.map(json, function(item) {
@@ -216,7 +221,7 @@ $('input[name=\'filter_name\']').autocomplete({
 $('input[name=\'filter_email\']').autocomplete({
 	'source': function(request, response) {
 		$.ajax({
-			url: 'index.php?route=sale/customer/autocomplete&token=<?php echo $token; ?>&filter_email=' +  encodeURIComponent(request),
+			url: 'index.php?route=vip/customer/autocomplete&token=<?php echo $token; ?>&filter_email=' +  encodeURIComponent(request),
 			dataType: 'json',			
 			success: function(json) {
 				response($.map(json, function(item) {
@@ -232,7 +237,6 @@ $('input[name=\'filter_email\']').autocomplete({
 		$('input[name=\'filter_email\']').val(item['label']);
 	}	
 });
-*/
 //--></script> 
   <script type="text/javascript"><!--
 $('.date').datetimepicker({

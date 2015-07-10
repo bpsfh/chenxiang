@@ -92,7 +92,7 @@ class ControllerVipCustomer extends Controller {
 		}
 
 		if (isset($this->request->get['filter_vip_card_id'])) {
-			$url .= '&filter_vip_card_id=' . $this->request->get['filter_vip_card_id'];
+			$url .= '&filter_vip_card_id=' . urlencode(html_entity_decode($this->request->get['filter_vip_card_id'], ENT_QUOTES, 'UTF-8'));
 		}
 
 		if (isset($this->request->get['filter_date_start'])) {
@@ -325,7 +325,12 @@ class ControllerVipCustomer extends Controller {
 	public function autocomplete() {
 		$json = array();
 
-		if (isset($this->request->get['filter_name']) || isset($this->request->get['filter_email'])) {
+		if (isset($this->request->get['filter_name']) 
+			|| isset($this->request->get['filter_email']) 
+			|| isset($this->request->get['filter_telephone']) 
+			|| isset($this->request->get['filter_vip_card_id']) 
+			|| isset($this->request->get['filter_customer_id'])) {
+
 			if (isset($this->request->get['filter_name'])) {
 				$filter_name = $this->request->get['filter_name'];
 			} else {
@@ -338,13 +343,34 @@ class ControllerVipCustomer extends Controller {
 				$filter_email = '';
 			}
 
+			if (isset($this->request->get['filter_vip_card_id'])) {
+				$filter_vip_card_id= $this->request->get['filter_vip_card_id'];
+			} else {
+				$filter_vip_card_id = '';
+			}
+
+			if (isset($this->request->get['filter_customer_id'])) {
+				$filter_customer_id = $this->request->get['filter_customer_ud'];
+			} else {
+				$filter_customer_id = '';
+			}
+
+			if (isset($this->request->get['filter_telephone'])) {
+				$filter_telephone = $this->request->get['filter_telephone'];
+			} else {
+				$filter_telephone = '';
+			}
+
 			$this->load->model('vip/customer');
 
 			$filter_data = array(
-				'filter_name'  => $filter_name,
-				'filter_email' => $filter_email,
-				'start'        => 0,
-				'limit'        => 5
+				'filter_name'          => $filter_name,
+				'filter_email'         => $filter_email,
+				'filter_vip_card_id'   => $filter_vip_card_id,
+				'filter_customer_id'   => $filter_customer_id,
+				'filter_telephone'     => $filter_telephone,
+				'start'                => 0,
+				'limit'                => 5
 			);
 
 			$results = $this->model_vip_customer->getCustomers($filter_data);
@@ -352,15 +378,10 @@ class ControllerVipCustomer extends Controller {
 			foreach ($results as $result) {
 				$json[] = array(
 					'customer_id'       => $result['customer_id'],
-					'customer_group_id' => $result['customer_group_id'],
-					'name'              => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8')),
-					'customer_group'    => $result['customer_group'],
-					'fullname'         => $result['fullname'],
+					'vip_card_id'       => $result['vip_card_id'],
+					'name'              => strip_tags(html_entity_decode($result['fullname'], ENT_QUOTES, 'UTF-8')),
 					'email'             => $result['email'],
-					'telephone'         => $result['telephone'],
-					'fax'               => $result['fax'],
-					'custom_field'      => unserialize($result['custom_field']),
-					'address'           => $this->model_sale_customer->getAddresses($result['customer_id'])
+					'telephone'         => $result['telephone']
 				);
 			}
 		}
@@ -368,7 +389,7 @@ class ControllerVipCustomer extends Controller {
 		$sort_order = array();
 
 		foreach ($json as $key => $value) {
-			$sort_order[$key] = $value['name'];
+			$sort_order[$key] = $value['vip_card_id'];
 		}
 
 		array_multisort($sort_order, SORT_ASC, $json);
@@ -376,5 +397,4 @@ class ControllerVipCustomer extends Controller {
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
 	}
-
 }
