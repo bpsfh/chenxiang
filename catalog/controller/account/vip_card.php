@@ -40,9 +40,7 @@ class ControllerAccountVipCard extends Controller {
 		
 		$data['action'] = $this->url->link('account/vip_card', '', 'SSL');
 		
-		if ($this->request->server['REQUEST_METHOD'] != 'POST') {
-			$vip_card_info = $this->model_account_vip_card->getVipCardNum();
-		}
+		$vip_card_info = $this->model_account_vip_card->getVipCardNum();
 		
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
