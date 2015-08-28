@@ -55,7 +55,7 @@ class ModelVipVipCardApply extends Model {
 
 		$salesman_id = $this->salesman->getId();
 
-		$this->db->query("INSERT INTO " . DB_PREFIX . "vip_card_application SET salesman_id = '" . (int)$salesman_id . "', apply_qty = '" . (int)$data['apply_qty'] . "', apply_reason = '" . $this->db->escape($data['apply_reason']) . "', apply_status = 0, 	date_applied = '" .$_server['server_time'] . "'");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "vip_card_application SET salesman_id = '" . (int)$salesman_id . "', apply_qty = '" . (int)$data['apply_qty'] . "', apply_reason = '" . $this->db->escape($data['apply_reason']) . "', apply_status = 0, 	date_applied = NOW()");
 
 		$apply_id = $this->db->getLastId();
 

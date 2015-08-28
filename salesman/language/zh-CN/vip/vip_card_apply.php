@@ -5,7 +5,7 @@ $_['heading_title']         = 'VIP卡申请';
 
 // Text
 $_['text_success']          = '成功: 申请已发送！';
-$_['text_list']             = 'vip申请列表';
+$_['text_list']             = 'VIP申请列表';
 $_['text_add']              = '申请VIP卡';
 
 
