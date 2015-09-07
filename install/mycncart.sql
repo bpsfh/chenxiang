@@ -15,6 +15,22 @@ CREATE TABLE IF NOT EXISTS `mcc_address` (
   KEY `customer_id` (`customer_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
 
+CREATE TABLE IF NOT EXISTS `mcc_salesman_address` (
+  `address_id` int(11) NOT NULL AUTO_INCREMENT,
+  `salesman_id` int(11) NOT NULL,
+  `fullname` varchar(64) NOT NULL,
+  `company` varchar(40) NOT NULL,
+  `address` varchar(128) NOT NULL,
+  `city` varchar(128) NOT NULL,
+  `postcode` varchar(10) NOT NULL,
+  `country_id` int(11) NOT NULL DEFAULT '0',
+  `zone_id` int(11) NOT NULL DEFAULT '0',
+  `custom_field` text NOT NULL,
+  `shipping_telephone` varchar(32) NOT NULL,
+  PRIMARY KEY (`address_id`),
+  KEY `salesman_id` (`salesman_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
+
 CREATE TABLE IF NOT EXISTS `mcc_affiliate` (
   `affiliate_id` int(11) NOT NULL AUTO_INCREMENT,
   `fullname` varchar(64) NOT NULL,
