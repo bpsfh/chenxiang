@@ -151,13 +151,13 @@ class ControllerSalesmanVipCard extends Controller {
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
 		} else {
-			$sort = 'fullname';
+			$sort = 'date_applied';
 		}
 		
 		if (isset($this->request->get['order'])) {
 			$order = $this->request->get['order'];
 		} else {
-			$order = 'ASC';
+			$order = 'DESC';
 		}
 		
 		if (isset($this->request->get['page'])) {
