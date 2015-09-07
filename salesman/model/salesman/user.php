@@ -12,7 +12,8 @@ class ModelSalesmanUser extends Model {
 //
 //		$salesman_group_info = $this->model_salesman_user_group->getSalesmanGroup($salesman_group_id);
 
-		$this->db->query("INSERT INTO " . DB_PREFIX . "salesman SET store_id = '" . (int)$this->config->get('config_store_id') . "', fullname = '" . $this->db->escape($data['fullname']) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "', salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "', newsletter = '0', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "', status = '1', approved = '1', application_status = '1', date_added = NOW(), date_first_applied = NOW()");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "salesman SET store_id = '" . (int)$this->config->get('config_store_id') . "', fullname = '" . $this->db->escape($data['fullname']) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "', salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "', newsletter = '0', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . 
+				"', status = '1', approved = '1', application_status = '1', date_added = NOW(), date_first_applied = NOW(), parent_id = '0', level = '1', with_grant_opt = '1'");
 
 		$salesman_id = $this->db->getLastId();
 
