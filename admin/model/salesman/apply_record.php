@@ -8,7 +8,7 @@ class ModelSalesmanApplyRecord extends Model {
 	 * 查找业务员申请履历
 	 */
 	public function  getRecords($salesman_id) {
-		$results = $this->db->query("SELECT * FROM " . DB_PREFIX . "salesman_apply_record WHERE salesman_id = '" . (int)$salesman_id . "' ORDER BY date_processed DESC" );
+		$results = $this->db->query("SELECT * FROM " . DB_PREFIX . "salesman_apply_record WHERE salesman_id = '" . (int)$salesman_id . "' ORDER BY date_processed DESC, record_id DESC" );
 		
 		return $results->rows;
 	}
