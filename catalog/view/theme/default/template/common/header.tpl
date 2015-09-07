@@ -40,6 +40,9 @@
 <body class="<?php echo $class; ?>">
 <nav id="top">
   <div class="container">
+  	<!-- Add by sangsanghu 2015/07/10 ST -->
+  	<label class="mT6"><?php echo $text_welcome;?></label>
+  	<!-- Add by sangsanghu 2015/07/10 END -->
     <?php echo $currency; ?>
     <?php echo $language; ?>
     <div id="top-links" class="nav pull-right">

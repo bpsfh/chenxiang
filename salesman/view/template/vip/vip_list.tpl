@@ -155,15 +155,11 @@
                   <td class="text-left"><?php echo $vip['date_bind_to_salesman']; ?></td>
                   <td class="text-left"><?php echo $vip['date_bind_to_customer']; ?></td>
                   <td class="text-center">
-	                  <div class="text-left" >
-	                  <?php if ($vip['activate_status']) { ?>
+	                  <div class="text-left" id="<?php echo ('activate-display-'.$key); ?>" <?php if (!$vip['activate_status']) {echo ('style = "display : none"');} ?>>
 	                    <a href="javascript:void(0)" id="<?php echo ('activate-button-'.$key); ?>" class="btn btn-success" onclick="firm(<?php echo ('\''.$vip['vip_card_id'].'\',\''.$vip['vip_card_num'].'\',\''.$key.'\''); ?>);" title="<?php echo $text_send_vip; ?>"><i class="fa fa-thumbs-o-up"></i></a>
-	                    <?php } ?>
 	                  </div>
-	                  <div class="text-right">
-	                   <?php if (!$vip['activate_status']) { ?>
+	                  <div class="text-right" id="<?php echo ('generate-display-'.$key); ?>"<?php if ($vip['activate_status']) {echo ('style = "display : none"');} ?>>
 	                    <a href="javascript:void(0)" id="<?php echo ('generate-button-'.$key); ?>" onclick="generate(<?php echo ('\''.$vip['vip_card_num'].'\',\''.$key.'\''); ?>);" class="btn btn-success" title="<?php echo $column_generate_QR_code; ?>" ><i class="fa fa-share"></i> </a>
-	                     <?php } ?>
 	                   </div>
 	              </td>
                   <td class="text-center">
@@ -205,6 +201,8 @@
 
 	function firm(vip_card_id, vip_card_num, key) {
 		var activateId = "activate-button-"+key;
+		var activateDisplayId = "activate-display-"+key;
+		var generateDisplayId = "generate-display-"+key;
         if (confirm('<?php echo $text_send_vip_confirm?>')) {
         	$.ajax({
         		url: 'index.php?route=vip/vip/setVipStatus&vip_card_id=' + vip_card_id+'&token=<?php echo $token; ?>',
@@ -214,8 +212,10 @@
         		complete: function() {
         		},
         		success: function(json) {
-            		//alert("<?php echo $text_send ?>" + vip_card_num + "<?php echo $text_invite_code ?>");
-        			document.getElementById(activateId).style.display = none;
+        			alert('<?php echo $text_send ?>' + vip_card_num + '<?php echo $text_invite_code ?>');
+        			document.getElementById(activateDisplayId).style.display = "none";
+        			document.getElementById(generateDisplayId).style.display = "block";
+
         		},
         		error: function(xhr, ajaxOptions, thrownError) {
         			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
