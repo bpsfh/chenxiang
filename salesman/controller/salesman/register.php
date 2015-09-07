@@ -45,7 +45,7 @@ class ControllerSalesmanRegister extends Controller {
 					$this->response->redirect($this->url->link('common/dashboard', 'token=' . $this->session->data['token'], 'SSL'));
 				}
 			}
-		}
+	}
 	
 		$data['heading_title'] = $this->language->get('heading_title');
 

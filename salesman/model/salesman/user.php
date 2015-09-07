@@ -89,14 +89,6 @@ class ModelSalesmanUser extends Model {
 				}
 			}
 		}
-		
-		// 业务员申请履历添加
-		// 业务员创建履历
-		$this->db->query('INSERT INTO ' . DB_PREFIX . "salesman_apply_record SET salesman_id = '" . (int)$salesman_id . "', status = '0'"
-				.", date_processed = NOW()");
-		// 批准业务员申请履历
-		$this->db->query('INSERT INTO ' . DB_PREFIX . "salesman_apply_record SET salesman_id = '" . (int)$salesman_id . "', status = '1'"
-				.", date_processed = NOW()");
 
 		$this->event->trigger('post.salesman.add', $salesman_id);
 
