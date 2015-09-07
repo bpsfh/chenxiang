@@ -40,6 +40,7 @@ class ControllerCommonMenu extends Controller {
 
 		$data['basic_info'] = $this->url->link('salesman/user/edit', 'token=' . $this->session->data['token'], 'SSL');
 		$data['bank_info'] = $this->url->link('salesman/bank_account/edit', 'token=' . $this->session->data['token'], 'SSL');
+		$data['invoice_upload'] = $this->url->link('salesman/upload/index', 'token=' . $this->session->data['token'], 'SSL');
 
 		return $this->load->view('common/menu.tpl', $data);
 	}
