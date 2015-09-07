@@ -15,22 +15,6 @@ CREATE TABLE IF NOT EXISTS `mcc_address` (
   KEY `customer_id` (`customer_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
 
-CREATE TABLE IF NOT EXISTS `mcc_salesman_address` (
-  `address_id` int(11) NOT NULL AUTO_INCREMENT,
-  `salesman_id` int(11) NOT NULL,
-  `fullname` varchar(64) NOT NULL,
-  `company` varchar(40) NOT NULL,
-  `address` varchar(128) NOT NULL,
-  `city` varchar(128) NOT NULL,
-  `postcode` varchar(10) NOT NULL,
-  `country_id` int(11) NOT NULL DEFAULT '0',
-  `zone_id` int(11) NOT NULL DEFAULT '0',
-  `custom_field` text NOT NULL,
-  `shipping_telephone` varchar(32) NOT NULL,
-  PRIMARY KEY (`address_id`),
-  KEY `salesman_id` (`salesman_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
-
 CREATE TABLE IF NOT EXISTS `mcc_affiliate` (
   `affiliate_id` int(11) NOT NULL AUTO_INCREMENT,
   `fullname` varchar(64) NOT NULL,
@@ -7113,6 +7097,9 @@ CREATE TABLE IF NOT EXISTS `mcc_salesman` (
   `status` tinyint(1) NOT NULL,				-- legacy field
   `approved` tinyint(1) NOT NULL DEFAULT '0',		-- legacy field
   `application_status` tinyint(1) NOT NULL DEFAULT '0',	-- new field
+  `parent_id` int(11) NOT NULL DEFAULT '0',             -- new field, refer to salesman_id except default 0 respect for the site admin.
+  `level` int(3),                                       -- new field
+  `with_grant_opt` tinyint(1) NOT NULL DEFAULT '0',     -- new field
   `safe` tinyint(1) NOT NULL,
   `code` varchar(40) NOT NULL,
   `token` varchar(255) NOT NULL,
@@ -7127,8 +7114,8 @@ CREATE TABLE IF NOT EXISTS `mcc_salesman` (
 -- Dumping data for table `mcc_salesman`
 --
 
-INSERT INTO `mcc_salesman` (`salesman_group_id`, `store_id`, `fullname`, `email`, `telephone`, `fax`, `image`, `password`, `salt`, `newsletter`, `address_id`, `custom_field`, `ip`, `status`, `approved`, `application_status`, `safe`, `code`, `token`, `date_added`, `date_first_applied`, `date_approved`) VALUES (
-'1', '0', 'jie zhang', 'jie-zhang@sz-rontech.com', '18662186718', '', '', 'e002c7877aa12eab9baca606f5ed9f52e1bc11ba', '7869d568e', '0', '0', 'a:0:{}', '192.168.0.100', '1', '1', '2', '0', '', '', '2015-05-28 15:13:27', '2015-05-28 15:13:27', '2015-05-28 15:13:27');
+INSERT INTO `mcc_salesman` (`salesman_group_id`, `store_id`, `fullname`, `email`, `telephone`, `fax`, `image`, `password`, `salt`, `newsletter`, `address_id`, `custom_field`, `ip`, `status`, `approved`, `application_status`, `parent_id`, `level`, `with_grant_opt`, `safe`, `code`, `token`, `date_added`, `date_first_applied`, `date_approved`) VALUES (
+'1', '0', 'jie zhang', 'jie-zhang@sz-rontech.com', '18662186718', '', '', 'e002c7877aa12eab9baca606f5ed9f52e1bc11ba', '7869d568e', '0', '0', 'a:0:{}', '192.168.0.100', '1', '1', '2', '0', '1', '1', '0', '', '', '2015-05-28 15:13:27', '2015-05-28 15:13:27', '2015-05-28 15:13:27');
 
 -- --------------------------------------------------------
 
@@ -7171,15 +7158,13 @@ CREATE TABLE IF NOT EXISTS `mcc_salesman_ip` (
 --
 
 CREATE TABLE IF NOT EXISTS `mcc_bank_account` (
-  `bank_account_id` int(11) NOT NULL AUTO_INCREMENT,
+  `bank_account_id` int(11) NOT NULL,
   `bank_account_num` varchar(20) NOT NULL,
   `salesman_id` int(11) NOT NULL,
   `bank_name` varchar(32) NOT NULL,
   `bank_branch_name` varchar(32) DEFAULT NULL,
   `account_name` varchar(16) NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`bank_account_id`),
-  KEY `salesman_id` (`salesman_id`)
+  `date_added` datetime NOT NULL
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 
@@ -7266,4 +7251,27 @@ CREATE TABLE IF NOT EXISTS `mcc_salesman_address` (
   `shipping_telephone` varchar(32) NOT NULL,
   PRIMARY KEY (`address_id`),
   KEY `salesman_id` (`salesman_id`)
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mcc_salesman_address`
+--
+
+CREATE TABLE IF NOT EXISTS `mcc_salesman_address` (
+  `address_id` int(11) NOT NULL AUTO_INCREMENT,
+  `salesman_id` int(11) NOT NULL,
+  `fullname` varchar(64) NOT NULL,
+  `company` varchar(40) NOT NULL,
+  `address` varchar(128) NOT NULL,
+  `city` varchar(128) NOT NULL,
+  `postcode` varchar(10) NOT NULL,
+  `country_id` int(11) NOT NULL DEFAULT '0',
+  `zone_id` int(11) NOT NULL DEFAULT '0',
+  `shipping_telephone` varchar(32) NOT NULL,
+  PRIMARY KEY (`address_id`),
+  KEY `salesman_id` (`salesman_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=20 ;
+
+
