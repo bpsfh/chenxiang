@@ -7097,6 +7097,9 @@ CREATE TABLE IF NOT EXISTS `mcc_salesman` (
   `status` tinyint(1) NOT NULL,				-- legacy field
   `approved` tinyint(1) NOT NULL DEFAULT '0',		-- legacy field
   `application_status` tinyint(1) NOT NULL DEFAULT '0',	-- new field
+  `parent_id` int(11) NOT NULL DEFAULT '0',             -- new field, refer to salesman_id except default 0 respect for the site admin.
+  `level` int(3),                                       -- new field
+  `with_grant_opt` tinyint(1) NOT NULL DEFAULT '0',     -- new field
   `safe` tinyint(1) NOT NULL,
   `code` varchar(40) NOT NULL,
   `token` varchar(255) NOT NULL,
@@ -7111,8 +7114,8 @@ CREATE TABLE IF NOT EXISTS `mcc_salesman` (
 -- Dumping data for table `mcc_salesman`
 --
 
-INSERT INTO `mcc_salesman` (`salesman_group_id`, `store_id`, `fullname`, `email`, `telephone`, `fax`, `image`, `password`, `salt`, `newsletter`, `address_id`, `custom_field`, `ip`, `status`, `approved`, `application_status`, `safe`, `code`, `token`, `date_added`, `date_first_applied`, `date_approved`) VALUES (
-'1', '0', 'jie zhang', 'jie-zhang@sz-rontech.com', '18662186718', '', '', 'e002c7877aa12eab9baca606f5ed9f52e1bc11ba', '7869d568e', '0', '0', 'a:0:{}', '192.168.0.100', '1', '1', '2', '0', '', '', '2015-05-28 15:13:27', '2015-05-28 15:13:27', '2015-05-28 15:13:27');
+INSERT INTO `mcc_salesman` (`salesman_group_id`, `store_id`, `fullname`, `email`, `telephone`, `fax`, `image`, `password`, `salt`, `newsletter`, `address_id`, `custom_field`, `ip`, `status`, `approved`, `application_status`, `parent_id`, `level`, `with_grant_opt`, `safe`, `code`, `token`, `date_added`, `date_first_applied`, `date_approved`) VALUES (
+'1', '0', 'jie zhang', 'jie-zhang@sz-rontech.com', '18662186718', '', '', 'e002c7877aa12eab9baca606f5ed9f52e1bc11ba', '7869d568e', '0', '0', 'a:0:{}', '192.168.0.100', '1', '1', '2', '0', '1', '1', '0', '', '', '2015-05-28 15:13:27', '2015-05-28 15:13:27', '2015-05-28 15:13:27');
 
 -- --------------------------------------------------------
 
