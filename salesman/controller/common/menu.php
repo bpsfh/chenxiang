@@ -25,6 +25,13 @@ class ControllerCommonMenu extends Controller {
 		$data['text_customer_group'] = $this->language->get('text_customer_group');
 		$data['text_contact_us'] = $this->language->get('text_contact_us');
 		$data['text_invoice_upload'] = $this->language->get('text_invoice_upload');
+		
+		// 下级业务员管理
+		$data['text_sub_salesman'] = $this->language->get('text_sub_salesman');
+		$data['text_sub_salesman_user'] = $this->language->get('text_sub_salesman_user');
+		
+		$this->load->model('sub_salesman/user');
+		$data['isWithGrantOpt'] = $this->model_sub_salesman_user->isWithGrantOpt($this->salesman->getId());
 
 		// Authority
 		$data['isAuthorized'] = $this->salesman->isAuthorized();
@@ -40,6 +47,8 @@ class ControllerCommonMenu extends Controller {
 
 		$data['basic_info'] = $this->url->link('salesman/user/edit', 'token=' . $this->session->data['token'], 'SSL');
 		$data['bank_info'] = $this->url->link('salesman/bank_account/edit', 'token=' . $this->session->data['token'], 'SSL');
+		
+		$data['sub_salesman'] = $this->url->link('sub_salesman/user', 'token=' . $this->session->data['token'], 'SSL');
 		$data['invoice_upload'] = $this->url->link('salesman/upload/index', 'token=' . $this->session->data['token'], 'SSL');
 
 		return $this->load->view('common/menu.tpl', $data);

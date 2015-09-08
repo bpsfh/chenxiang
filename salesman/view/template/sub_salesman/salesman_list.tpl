@@ -37,10 +37,6 @@
                 <label class="control-label" for="input-fullname"><?php echo $entry_name; ?></label>
                 <input type="text" name="filter_name" value="<?php echo $filter_name; ?>" placeholder="<?php echo $entry_name; ?>" id="input-name" class="form-control" />
               </div>
-              <div class="form-group">
-                <label class="control-label" for="input-email"><?php echo $entry_email; ?></label>
-                <input type="text" name="filter_email" value="<?php echo $filter_email; ?>" placeholder="<?php echo $entry_email; ?>" id="input-email" class="form-control" />
-              </div>
             </div>
             <div class="col-sm-3">
               <div class="form-group">
@@ -54,28 +50,24 @@
             </div>
             <div class="col-sm-3">
               <div class="form-group">
-                <label class="control-label" for="input-date-approved"><?php echo $entry_date_approved; ?></label>
-                <div class="input-group date">
-                  <input type="text" name="filter_date_approved" value="<?php echo $filter_date_approved; ?>" placeholder="<?php echo $entry_date_approved; ?>" data-date-format="YYYY-MM-DD" id="input-date-approved" class="form-control" />
-                  <span class="input-group-btn">
-                  <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
-                  </span></div>
+                <label class="control-label" for="input-email"><?php echo $entry_email; ?></label>
+                <input type="text" name="filter_email" value="<?php echo $filter_email; ?>" placeholder="<?php echo $entry_email; ?>" id="input-email" class="form-control" />
               </div>
             </div>
             <div class="col-sm-3">
               <div class="form-group">
-                <label class="control-label" for="input-status"><?php echo $entry_status; ?></label>
-                <select name="filter_status" id="input-status" class="form-control">
+                <label class="control-label" for="input-with_grant_opt"><?php echo $entry_with_grant_opt; ?></label>
+                <select name="filter_with_grant_opt" id="input-with_grant_opt" class="form-control">
                   <option value="*"></option>
-                  <?php if ($filter_status) { ?>
-                  <option value="1" selected="selected"><?php echo $text_enabled; ?></option>
+                  <?php if ($filter_with_grant_opt) { ?>
+                  <option value="1" selected="selected"><?php echo $text_with_grant_opt_1; ?></option>
                   <?php } else { ?>
-                  <option value="1"><?php echo $text_enabled; ?></option>
+                  <option value="1"><?php echo $text_with_grant_opt_1; ?></option>
                   <?php } ?>
-                  <?php if (!$filter_status && !is_null($filter_status)) { ?>
-                  <option value="0" selected="selected"><?php echo $text_disabled; ?></option>
+                  <?php if (!$filter_with_grant_opt && !is_null($filter_with_grant_opt)) { ?>
+                  <option value="0" selected="selected"><?php echo $text_with_grant_opt_0; ?></option>
                   <?php } else { ?>
-                  <option value="0"><?php echo $text_disabled; ?></option>
+                  <option value="0"><?php echo $text_with_grant_opt_0; ?></option>
                   <?php } ?>
                 </select>
               </div>
@@ -107,15 +99,10 @@
                     <?php } else { ?>
                     <a href="<?php echo $sort_date_added; ?>"><?php echo $column_date_added; ?></a>
                     <?php } ?></td>
-                  <td class="text-left"><?php if ($sort == 'date_approved') { ?>
-                    <a href="<?php echo $sort_date_approved; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_date_approved; ?></a>
+                  <td class="text-left"><?php if ($sort == 'with_grant_opt') { ?>
+                    <a href="<?php echo $sort_with_grant_opt; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_with_grant_opt; ?></a>
                     <?php } else { ?>
-                    <a href="<?php echo $sort_date_approved; ?>"><?php echo $column_date_approved; ?></a>
-                    <?php } ?></td>  
-                  <td class="text-left"><?php if ($sort == 'application_status') { ?>
-                    <a href="<?php echo $sort_status; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_status; ?></a>
-                    <?php } else { ?>
-                    <a href="<?php echo $sort_status; ?>"><?php echo $column_status; ?></a>
+                    <a href="<?php echo $sort_with_grant_opt; ?>"><?php echo $column_with_grant_opt; ?></a>
                     <?php } ?></td>
                   <td class="text-right"><?php echo $column_action; ?></td>
                 </tr>
@@ -128,8 +115,7 @@
                   <td class="text-left"><?php echo $salesman['name']; ?></td>
                   <td class="text-left"><?php echo $salesman['email']; ?></td>
                   <td class="text-left"><?php echo $salesman['date_added']; ?></td>
-                  <td class="text-left"><?php echo $salesman['date_approved']; ?></td>
-                  <td class="text-left"><?php echo $salesman['status']; ?></td>
+                  <td class="text-left"><?php echo $salesman['with_grant_opt']; ?></td>
                   <td class="text-right">
                     	<a href="<?php echo $salesman['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
                   </td>
@@ -152,7 +138,7 @@
   </div>
   <script type="text/javascript"><!--
 $('#button-filter').on('click', function() {
-	url = 'index.php?route=salesman/user&token=<?php echo $token; ?>';
+	url = 'index.php?route=sub_salesman/user&token=<?php echo $token; ?>';
 	
 	var filter_name = $('input[name=\'filter_name\']').val();
 	
@@ -172,16 +158,10 @@ $('#button-filter').on('click', function() {
 		url += '&filter_date_added=' + encodeURIComponent(filter_date_added);
 	}
 
-	var filter_date_approved = $('input[name=\'filter_date_approved\']').val();
+	var filter_with_grant_opt = $('select[name=\'filter_with_grant_opt\']').val();
 	
-	if (filter_date_approved) {
-		url += '&filter_date_approved=' + encodeURIComponent(filter_date_approved);
-	}
-	
-	var filter_status = $('select[name=\'filter_status\']').val();
-	
-	if (filter_status != '*') {
-		url += '&filter_status=' + encodeURIComponent(filter_status); 
+	if (filter_with_grant_opt) {
+		url += '&filter_with_grant_opt=' + encodeURIComponent(filter_with_grant_opt);
 	}	
 	
 	location = url;
@@ -191,7 +171,7 @@ $('#button-filter').on('click', function() {
   $('input[name=\'filter_name\']').autocomplete({
 		'source': function(request, response) {
 			$.ajax({
-				url: 'index.php?route=salesman/user/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request),
+				url: 'index.php?route=sub_salesman/user/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request),
 				dataType: 'json',			
 				success: function(json) {
 					response($.map(json, function(item) {
@@ -211,7 +191,7 @@ $('#button-filter').on('click', function() {
   $('input[name=\'filter_email\']').autocomplete({
 		'source': function(request, response) {
 			$.ajax({
-				url: 'index.php?route=salesman/user/autocomplete&token=<?php echo $token; ?>&filter_email=' +  encodeURIComponent(request),
+				url: 'index.php?route=sub_salesman/user/autocomplete&token=<?php echo $token; ?>&filter_email=' +  encodeURIComponent(request),
 				dataType: 'json',			
 				success: function(json) {
 					response($.map(json, function(item) {

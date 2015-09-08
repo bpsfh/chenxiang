@@ -2,14 +2,23 @@
 /**
  * @author HU
  */
-class ModelSalesmanUser extends Model {
+class ModelSubSalesmanUser extends Model {
 	
 	/**
-	 * 根据筛选条件查找已批准的业务员
+	 * 查看是否有权限发展下级业务员
+	 */
+	public function isWithGrantOpt($salesman_id) {
+		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "salesman WHERE salesman_id = '" . (int)$salesman_id . "'");
+		
+		return $query->row['with_grant_opt'];
+	}
+	
+	/**
+	 * 根据筛选条件查找下级业务员
 	 * @param $data 筛选条件
 	 */
-	public function getSalesmans($data = array()) {
-		$sql = "SELECT * FROM " . DB_PREFIX . "salesman WHERE application_status = '2'";
+	public function getSubSalesmans($data = array()) {
+		$sql = "SELECT * FROM " . DB_PREFIX . "salesman WHERE parent_id = '" . (int)$this->salesman->getId() . "'";
 		
 		// 查询条件作成
 		$implode = array();
@@ -29,14 +38,9 @@ class ModelSalesmanUser extends Model {
 			$implode[] = "DATE(date_added) = DATE('" . $this->db->escape($data['filter_date_added']) . "')";
 		}
 		
-		// 批准日期
-		if (!empty($data['filter_date_approved'])) {
-			$implode[] = "DATE(date_approved) = DATE('" . $this->db->escape($data['filter_date_approved']) . "')";
-		}
-		
-		// 状态
-		if (isset($data['filter_status']) && !is_null($data['filter_status'])) {
-			$implode[] = "status = '" . (int)$data['filter_status'] . "'";
+		// 是否有发展下级权限
+		if (isset($data['filter_with_grant_opt']) && !is_null($data['filter_with_grant_opt'])) {
+			$implode[] = "with_grant_opt = '" . (int)$data['filter_with_grant_opt'] . "'";
 		}
 		
 		if ($implode) {
@@ -48,8 +52,7 @@ class ModelSalesmanUser extends Model {
 				'fullname',
 				'email',
 				'date_added',
-				'date_approved',
-				'status'
+				'with_grant_opt'
 		);
 		
 		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
@@ -82,10 +85,10 @@ class ModelSalesmanUser extends Model {
 	}
 	
 	/**
-	 * 查找某一业务员相关信息
+	 * 查找某一下级业务员相关信息
 	 * @param $salesman_id 业务员id
 	 */
-	public function getSalesman($salesman_id) {
+	public function getSubSalesman($salesman_id) {
 		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "salesman WHERE salesman_id = '" . (int)$salesman_id . "'");
 		
 		return $query->row;
@@ -95,8 +98,8 @@ class ModelSalesmanUser extends Model {
 	 * 符合条件的数量
 	 * @param $data 筛选条件
 	 */
-	public function getTotalSalesmans($data = array()) {
-		$sql = "SELECT COUNT(*) AS TOTAL FROM " . DB_PREFIX . "salesman WHERE application_status = '2'";
+	public function getTotalSubSalesmans($data = array()) {
+		$sql = "SELECT COUNT(*) AS TOTAL FROM " . DB_PREFIX . "salesman WHERE parent_id = '" . (int)$this->salesman->getId() . "'";
 		
 		// 查询条件作成
 		$implode = array();
@@ -116,14 +119,9 @@ class ModelSalesmanUser extends Model {
 			$implode[] = "DATE(date_added) = DATE('" . $this->db->escape($data['filter_date_added']) . "')";
 		}
 		
-		// 批准日期
-		if (!empty($data['filter_date_approved'])) {
-			$implode[] = "DATE(date_approved) = DATE('" . $this->db->escape($data['filter_date_approved']) . "')";
-		}
-		
-		// 状态
-		if (isset($data['filter_status']) && !is_null($data['filter_status'])) {
-			$implode[] = "status = '" . (int)$data['filter_status'] . "'";
+		// 是否有发展下级权限
+		if (isset($data['filter_with_grant_opt']) && !is_null($data['filter_with_grant_opt'])) {
+			$implode[] = "with_grant_opt = '" . (int)$data['filter_with_grant_opt'] . "'";
 		}
 		
 		if ($implode) {
@@ -266,27 +264,23 @@ class ModelSalesmanUser extends Model {
 	}
 	
 	/**
-	 * 批准申请为业务员
+	 * 添加下级业务员
+	 * @param $data 下级业务员信息
 	 */
-	public function approve($data) {
-		$this->db->query("UPDATE " . DB_PREFIX . "salesman SET application_status = '" . (int)$data['status'] . "', date_approved = NOW() WHERE salesman_id = '" . (int)$data['salesman_id'] . "'");
-	}
-	
-	/**
-	 * 拒绝申请为业务员
-	 */
-	public function reject($data) {
-		$this->db->query("UPDATE " . DB_PREFIX . "salesman SET application_status = '" . (int)$data['status'] . "' WHERE salesman_id = '" . (int)$data['salesman_id'] . "'");
-	}
-	
-	/**
-	 * 添加新业务员
-	 * @param $data 业务员信息
-	 */
-	public function addSalesman($data) {
+	public function addSubSalesman($data) {
+		
+		// 设置下级业务员的等级
+		$salesman_info = $this->getSubSalesman($this->salesman->getId());
+		if (!empty($salesman_info)) {
+			$level = (int)$salesman_info['level'] + 1;
+		}
+		else {
+			$level = 1;
+		}
+		
 		$this->db->query("INSERT INTO " . DB_PREFIX . "salesman SET fullname = '" . $this->db->escape($data['fullname']) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "', image = '" . $this->db->escape($data['image']) 
 				. "', newsletter = '" . (int)$data['newsletter'] . "', salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "', status = '" . (int)$data['status'] . "', approved = '" . (int)$data['approved'] . "', safe = '" . (int)$data['safe'] 
-				. "', application_status = '2'" . ", date_added = NOW()" . ", date_approved = NOW()" . ", date_first_applied = NOW(), parent_id = '0', level = '1', with_grant_opt = '1'");
+				. "', application_status = '2'" . ", date_added = NOW()" . ", date_approved = NOW()" . ", date_first_applied = NOW()" . ", parent_id = '" . (int)$this->salesman->getId() . "', level = '" . (int)$level . "', with_grant_opt = '" . (int)$data['with_grant_opt'] . "'");
 	
 		$salesman_id = $this->db->getLastId();
 	
@@ -313,14 +307,14 @@ class ModelSalesmanUser extends Model {
 	}
 	
 	/**
-	 * 更新业务员信息
+	 * 更新下级业务员信息
 	 * @param $salesman_id 业务员id
 	 * @param $data 业务员信息
 	 */
-	public function editSalesman($salesman_id, $data) {
+	public function editSubSalesman($salesman_id, $data) {
 	
 		$this->db->query("UPDATE " . DB_PREFIX . "salesman SET fullname = '" . $this->db->escape($data['fullname']) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "', image = '" . $this->db->escape($data['image']) 
-				. "', newsletter = '" . (int)$data['newsletter'] . "', status = '" . (int)$data['status'] . "', approved = '" . (int)$data['approved'] . "', safe = '" . (int)$data['safe'] . "' WHERE salesman_id = '" . (int)$salesman_id . "'");
+				. "', newsletter = '" . (int)$data['newsletter'] . "', status = '" . (int)$data['status'] . "', approved = '" . (int)$data['approved'] . "', safe = '" . (int)$data['safe'] . "' with_grant_opt = '" . (int)$data['with_grant_opt'] . "' WHERE salesman_id = '" . (int)$salesman_id . "'");
 	
 		if ($data['password']) {
 			$this->db->query("UPDATE " . DB_PREFIX . "salesman SET salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "' WHERE salesman_id = '" . (int)$salesman_id . "'");
@@ -406,7 +400,7 @@ class ModelSalesmanUser extends Model {
 	}
 
 	/**
-	 * 取得某业务员的所有地址信息
+	 * 取得某下级业务员的所有地址信息
 	 * @param $salesman_id 业务员id
 	 * @return 所有地址id
 	 */
