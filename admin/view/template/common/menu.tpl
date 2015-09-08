@@ -64,6 +64,9 @@
   		<li><a href="<?php echo $salesman; ?>"><?php echo $text_salesman_user; ?></a></li>
   		<li><a href="<?php echo $salesman_application; ?>"><?php echo $text_salesman_application; ?></a></li>
   		<li><a href="<?php echo $salesman_vip_card; ?>"><?php echo $text_salesman_vip_card; ?></a></li>
+  		<!-- Add by fh 2015/09/07 ST -->
+  		<li><a href="<?php echo $salesman_upload; ?>"><?php echo $text_salesman_upload; ?></a></li>
+  		<!-- Add by fh 2015/09/07 END -->
   	</ul>
   </li>
   <!-- Add by sangsanghu 2015/06/29 END -->
