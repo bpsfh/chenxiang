@@ -30,7 +30,7 @@
             <div class="col-sm-10">
               <?php foreach ($languages as $language) { ?>
               <div class="input-group"> <span class="input-group-addon"><img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /></span>
-                <input type="text" name="file_upload_description[<?php echo $language['language_id']; ?>][name]" value="<?php echo isset($file_upload_description[$language['language_id']]) ? $file_upload_description[$language['language_id']]['name'] : ''; ?>" placeholder="<?php echo $entry_name; ?>" class="form-control" />
+                <input type="text" name="salesman_upload_description[<?php echo $language['language_id']; ?>][name]" value="<?php echo isset($salesman_upload_description[$language['language_id']]) ? $salesman_upload_description[$language['language_id']]['name'] : ''; ?>" placeholder="<?php echo $entry_name; ?>" class="form-control" />
               </div>
               <?php if (isset($error_name[$language['language_id']])) { ?>
               <div class="text-danger"><?php echo $error_name[$language['language_id']]; ?></div>

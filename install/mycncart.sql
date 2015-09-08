@@ -7275,13 +7275,14 @@ CREATE TABLE IF NOT EXISTS `mcc_salesman_address` (
 
 --
 -- 表的结构 `mcc_file_upload`
---
-
-CREATE TABLE IF NOT EXISTS `mcc_file_upload` (
+-- category(文件类别):
+-- 0：身份证； 1：发票； 2：凭证； 3：其他文件；
+CREATE TABLE IF NOT EXISTS `mcc_salesman_upload` (
   `upload_id` int(11) NOT NULL AUTO_INCREMENT,
   `salesman_id` int(11) NOT NULL,
   `filename` varchar(255) NOT NULL,
   `mask` varchar(255) NOT NULL,
+  `category` tinyint(1) NOT NULL,
   `date_added` datetime NOT NULL,
   PRIMARY KEY `upload_id` (`upload_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -7289,10 +7290,10 @@ CREATE TABLE IF NOT EXISTS `mcc_file_upload` (
 -- --------------------------------------------------------
 
 --
--- 表的结构 `mcc_file_upload_description`
+-- 表的结构 `mcc_salesman_upload_description`
 --
 
-CREATE TABLE IF NOT EXISTS `mcc_file_upload_description` (
+CREATE TABLE IF NOT EXISTS `mcc_salesman_upload_description` (
   `upload_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `name` varchar(64) NOT NULL,
