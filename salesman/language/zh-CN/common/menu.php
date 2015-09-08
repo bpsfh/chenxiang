@@ -16,3 +16,6 @@ $_['text_bank_info']                   = '银行信息设置';
 $_['text_customer_group']              = '会员分组管理';
 $_['text_contact_us']                  = '联系我们';
 $_['text_invoice_upload']              = '发票上传';
+
+$_['text_sub_salesman']                = '下级业务员管理';
+$_['text_sub_salesman_user']           = '下级业务员';

@@ -13,6 +13,14 @@
   <li id="vip"><a class="parent"><i class="fa fa-credit-card fa-fw"></i> <span><?php echo $text_vip_card_mgmt; ?></span></a>
   </li>
   <?php } ?>
+  
+  <?php if($isAuthorized && $isWithGrantOpt) { ?>
+    <li><a class="parent"><i class="fa fa-users fa-fw"></i> <span><?php echo $text_sub_salesman; ?></span></a>
+	  <ul>
+	    <li><a href="<?php echo $sub_salesman; ?>"><?php echo $text_sub_salesman_user; ?></a></li>
+	  </ul>
+    </li>
+  <?php } ?>
 
   <?php if($isAuthorized) { ?>
   <li id="financial "><a class="parent"><i class="fa fa-money fa-fw"></i> <span><?php echo $text_financial; ?></span></a>
@@ -39,4 +47,5 @@
       <?php } ?>
     </ul>
   </li>
+  
 </ul>
