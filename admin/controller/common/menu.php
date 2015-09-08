@@ -102,6 +102,10 @@ class ControllerCommonMenu extends Controller {
 		$data['text_salesman_application'] = $this->language->get('text_salesman_application');
 		// Add by sangsanghu 2015/06/29 END
 
+		// Add by fh 2015/09/07 ST
+		$data['text_salesman_upload'] = $this->language->get('text_salesman_upload');
+		// Add by fh 2015/09/07 END
+
 		$data['home'] = $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], 'SSL');
 		$data['affiliate'] = $this->url->link('marketing/affiliate', 'token=' . $this->session->data['token'], 'SSL');
 		$data['api'] = $this->url->link('user/api', 'token=' . $this->session->data['token'], 'SSL');
@@ -182,6 +186,10 @@ class ControllerCommonMenu extends Controller {
 		$data['salesman'] = $this->url->link('salesman/user', 'token=' . $this->session->data['token'], 'SSL');
 		$data['salesman_application'] = $this->url->link('salesman/application', 'token=' . $this->session->data['token'] . "&filter_status=5", 'SSL');
 		// Add by sangsanghu 2015/06/29 END
+
+		// Add by fh 2015/09/07 ST
+		$data['salesman_upload'] = $this->url->link('salesman/upload', 'token=' . $this->session->data['token'] . "&filter_status=5", 'SSL');
+		// Add by fh 2015/09/07 END
 
 		$data['openbay_show_menu'] = $this->config->get('openbaypro_menu');
 		$data['openbay_link_extension'] = $this->url->link('extension/openbay', 'token=' . $this->session->data['token'], 'SSL');

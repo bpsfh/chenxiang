@@ -2,7 +2,7 @@
 <div id="content">
   <div class="page-header">
     <div class="container-fluid">
-      <div class="pull-right"><a href="<?php echo $add; ?>" data-toggle="tooltip" title="<?php echo $button_add; ?>" class="btn btn-primary"><i class="fa fa-plus"></i></a>
+      <div class="pull-right">
         <button type="button" data-toggle="tooltip" title="<?php echo $button_delete; ?>" class="btn btn-danger" onclick="confirm('<?php echo $text_confirm; ?>') ? $('#form-upload').submit() : false;"><i class="fa fa-trash-o"></i></button>
       </div>
       <h1><?php echo $heading_title; ?></h1>
@@ -36,11 +36,27 @@
                 <label class="control-label" for="input-name"><?php echo $entry_name; ?></label>
                 <input type="text" name="filter_name" value="<?php echo $filter_name; ?>" placeholder="<?php echo $entry_name; ?>" id="input-name" class="form-control" />
               </div>
+              <div class="form-group">
+                <label class="control-label" for="input-salesman"><?php echo $entry_salesman; ?></label>
+                <input type="text" name="filter_salesman" value="<?php echo $filter_salesman; ?>" placeholder="<?php echo $entry_salesman; ?>" id="input-salesman" class="form-control" />
+              </div>
             </div>
             <div class="col-sm-4">
               <div class="form-group">
                 <label class="control-label" for="input-filename"><?php echo $entry_filename; ?></label>
                 <input type="text" name="filter_filename" value="<?php echo $filter_filename; ?>" placeholder="<?php echo $entry_filename; ?>" id="input-filename" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label class="control-label" for="input-salesman-son"><?php echo $entry_salesman_son; ?></label>
+                  <select name="filter_salesman_son" id="input-salesman-son" class="form-control">
+                  <?php if ($filter_salesman_son === "1") { ?>
+                  <option value="1" selected="selected"><?php echo $text_salesman_son_yes; ?></option>
+                  <option value="0" ><?php echo $text_salesman_son_no; ?></option>
+                  <?php } else { ?>
+                 <option value="1" ><?php echo $text_salesman_son_yes; ?></option>
+                  <option value="0" selected="selected"><?php echo $text_salesman_son_no; ?></option>
+                  <?php } ?>
+                  </select>
               </div>
             </div>
             <div class="col-sm-4">
@@ -92,7 +108,7 @@
                   <td class="text-left"><?php echo $upload['name']; ?></td>
                   <td class="text-left"><?php echo $upload['filename']; ?></td>
                   <td class="text-right"><?php echo $upload['date_added']; ?></td>
-                  <td class="text-center"><a href="<?php echo $upload['download']; ?>" data-toggle="tooltip" title="<?php echo $button_download; ?>" class="btn btn-info"><i class="fa fa-download"></i></a><a href="<?php echo $upload['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
+                  <td class="text-center"><a href="<?php echo $upload['download']; ?>" data-toggle="tooltip" title="<?php echo $button_download; ?>" class="btn btn-info"><i class="fa fa-download"></i></a></td>
                 </tr>
                 <?php } ?>
                 <?php } else { ?>
@@ -131,6 +147,18 @@ $('#button-filter').on('click', function() {
 
 	if (filter_date_added) {
 		url += '&filter_date_added=' + encodeURIComponent(filter_date_added);
+	}
+
+	var filter_salesman = $('input[name=\'filter_salesman\']').val();
+
+	if (filter_salesman) {
+		url += '&filter_salesman=' + encodeURIComponent(filter_salesman);
+	}
+
+	var filter_salesman_son = $('select[name=\'filter_salesman_son\']').val();
+
+	if (filter_salesman_son) {
+		url += '&filter_salesman_son=' + encodeURIComponent(filter_salesman_son);
 	}
 	location = url;
 });

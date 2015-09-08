@@ -1,36 +1,5 @@
 <?php
 class ModelSalesmanUpload extends Model {
-	public function addUpload($data) {
-		$this->event->trigger('pre.salesman.upload.add', $data);
-
-		$salesman_id = $this->salesman->getId ();
-
-		$this->db->query("INSERT INTO " . DB_PREFIX . "file_upload SET filename = '" . $this->db->escape($data['filename']) . "', mask = '" . $this->db->escape($data['mask']) . "', date_added = NOW() ,salesman_id = '" . (int)$salesman_id . "'");
-
-		$upload_id = $this->db->getLastId();
-
-		foreach ($data['file_upload_description'] as $language_id => $value) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "file_upload_description SET upload_id = '" . (int)$upload_id . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($value['name']) . "'");
-		}
-
-		$this->event->trigger('post.salesman.upload.add', $upload_id);
-
-		return $upload_id;
-	}
-
-	public function editUpload($upload_id, $data) {
-		$this->event->trigger('pre.salesman.upload.edit', $data);
-
-		$this->db->query("UPDATE " . DB_PREFIX . "file_upload SET filename = '" . $this->db->escape($data['filename']) . "', mask = '" . $this->db->escape($data['mask']) . "' WHERE upload_id = '" . (int)$upload_id . "'");
-
-		$this->db->query("DELETE FROM " . DB_PREFIX . "file_upload_description WHERE upload_id = '" . (int)$upload_id . "'");
-
-		foreach ($data['file_upload_description'] as $language_id => $value) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "file_upload_description SET upload_id = '" . (int)$upload_id . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($value['name']) . "'");
-		}
-
-		$this->event->trigger('post.salesman.upload.edit', $upload_id);
-	}
 
 	public function deleteUpload($upload_id) {
 		$this->event->trigger('pre.salesman.upload.delete', $upload_id);
@@ -42,18 +11,24 @@ class ModelSalesmanUpload extends Model {
 	}
 
 	public function getUpload($upload_id) {
-		$salesman_id = $this->salesman->getId ();
 
-		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "file_upload d LEFT JOIN " . DB_PREFIX . "file_upload_description dd ON (d.upload_id = dd.upload_id) WHERE d.upload_id = '" . (int)$upload_id . "' AND dd.language_id = '" . (int)$this->config->get('config_language_id') . "'AND d.salesman_id = '" . (int)$salesman_id . "'");
+		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "file_upload d LEFT JOIN " . DB_PREFIX . "file_upload_description dd ON (d.upload_id = dd.upload_id) WHERE d.upload_id = '" . (int)$upload_id . "' AND dd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
 		return $query->row;
 	}
 
 	public function getUploads($data = array()) {
 
-		$salesman_id = $this->salesman->getId ();
+		$sql = "SELECT * FROM " . DB_PREFIX . "file_upload d LEFT JOIN " . DB_PREFIX . "file_upload_description dd ON (d.upload_id = dd.upload_id) WHERE dd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 
-		$sql = "SELECT * FROM " . DB_PREFIX . "file_upload d LEFT JOIN " . DB_PREFIX . "file_upload_description dd ON (d.upload_id = dd.upload_id) WHERE dd.language_id = '" . (int)$this->config->get('config_language_id') . "'AND d.salesman_id = '" . (int)$salesman_id . "'";
+		if (!empty($data['filter_salesman'])) {
+
+			if($data['filter_salesman_son'] === '1') {
+				$sql = "SELECT * FROM " . DB_PREFIX . "file_upload d LEFT JOIN " . DB_PREFIX . "file_upload_description dd ON (d.upload_id = dd.upload_id) LEFT JOIN " . DB_PREFIX . "salesman s ON (d.salesman_id = s.salesman_id) LEFT JOIN " . DB_PREFIX . "salesman s1 ON (s1.salesman_id = s.parent_id) WHERE (s.fullname LIKE '%" . $this->db->escape($data['filter_salesman']) . "%' OR s1.fullname LIKE '%" . $this->db->escape($data['filter_salesman']) . "%' ) AND dd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+			} else {
+				$sql = "SELECT * FROM " . DB_PREFIX . "file_upload d LEFT JOIN " . DB_PREFIX . "file_upload_description dd ON (d.upload_id = dd.upload_id) LEFT JOIN " . DB_PREFIX . "salesman s ON (d.salesman_id = s.salesman_id) WHERE s.fullname LIKE '%" . $this->db->escape($data['filter_salesman']) . "%' AND dd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+			}
+		}
 
 		if (!empty($data['filter_name'])) {
 			$sql .= " AND dd.name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
@@ -115,11 +90,19 @@ class ModelSalesmanUpload extends Model {
 	}
 
 	public function getTotalUploads($data = array()) {
-		$salesman_id = $this->salesman->getId ();
 
-		$sql = "SELECT COUNT(*) AS total FROM " . DB_PREFIX . "file_upload d LEFT JOIN " . DB_PREFIX . "file_upload_description dd ON (d.upload_id = dd.upload_id) WHERE dd.language_id = '" . (int)$this->config->get('config_language_id') . "'AND d.salesman_id = '" . (int)$salesman_id . "'";
+		$sql = "SELECT COUNT(*) AS total FROM " . DB_PREFIX . "file_upload d LEFT JOIN " . DB_PREFIX . "file_upload_description dd ON (d.upload_id = dd.upload_id) WHERE dd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
 
 		$implode = array();
+
+		if (!empty($data['filter_salesman'])) {
+
+			if($data['filter_salesman_son'] === '1') {
+				$sql = "SELECT COUNT(*) AS total FROM " . DB_PREFIX . "file_upload d LEFT JOIN " . DB_PREFIX . "file_upload_description dd ON (d.upload_id = dd.upload_id) LEFT JOIN " . DB_PREFIX . "salesman s ON (d.salesman_id = s.salesman_id) LEFT JOIN " . DB_PREFIX . "salesman s1 ON (s1.salesman_id = s.parent_id) WHERE (s.fullname LIKE '%" . $this->db->escape($data['filter_salesman']) . "%' OR s1.fullname LIKE '%" . $this->db->escape($data['filter_salesman']) . "%' ) AND dd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+			} else {
+				$sql = "SELECT COUNT(*) AS total FROM " . DB_PREFIX . "file_upload d LEFT JOIN " . DB_PREFIX . "file_upload_description dd ON (d.upload_id = dd.upload_id) LEFT JOIN " . DB_PREFIX . "salesman s ON (d.salesman_id = s.salesman_id) WHERE s.fullname LIKE '%" . $this->db->escape($data['filter_salesman']) . "%' AND dd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+			}
+		}
 
 		if (!empty($data['filter_name'])) {
 			$implode[] = "AND dd.name LIKE '" . $this->db->escape($data['filter_name']) . "%'";
