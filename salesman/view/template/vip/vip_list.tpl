@@ -45,14 +45,8 @@
 			</div>
 			<div class="col-sm-3">
 			  <div class="form-group">
-				<label class="control-label" for="input-bind-status"><?php echo $entry_bind_status; ?></label>
-				<select name="filter_bind_status" id="input-bind-status" class="form-control">
-				  <option value="*"></option>
-				  <option value="0" <?php if(!is_null($filter_bind_status) && (int)$filter_bind_status === 0) echo("selected") ?>><?php echo $text_bind_status_0; ?></option>
-				  <option value="1" <?php if($filter_bind_status && $filter_bind_status == 1) echo("selected") ?>><?php echo $text_bind_status_1; ?></option>
-				  <option value="2" <?php if($filter_bind_status && $filter_bind_status == 2) echo("selected") ?>><?php echo $text_bind_status_2; ?></option>
-				  <option value="3" <?php if($filter_bind_status && $filter_bind_status == 3) echo("selected") ?>><?php echo $text_bind_status_3; ?></option>
-				</select>
+				<label class="control-label" for="input-salesman-id"><?php echo $entry_salesman_id; ?></label>
+				<input type="text" name="filter_salesman_id" value="<?php echo $filter_salesman_id; ?>" placeholder="<?php echo $entry_salesman_id; ?>" id="input-vip-card-num" class="form-control" />
 			  </div>
 			  <div class="form-group">
 				<label class="control-label" for="input-date-bind-to-customer-to"><?php echo $entry_date_bind_to_customer_to; ?></label>
@@ -73,6 +67,14 @@
 				  </span></div>
 			  </div>
 			  <div class="form-group">
+				<label class="control-label" for="input-bind-status"><?php echo $entry_bind_status; ?></label>
+				<select name="filter_bind_status" id="input-bind-status" class="form-control">
+				  <option value="*"></option>
+				  <option value="0" <?php if(!is_null($filter_bind_status) && (int)$filter_bind_status === 0) echo("selected") ?>><?php echo $text_bind_status_0; ?></option>
+				  <option value="1" <?php if($filter_bind_status && $filter_bind_status == 1) echo("selected") ?>><?php echo $text_bind_status_1; ?></option>
+				  <option value="2" <?php if($filter_bind_status && $filter_bind_status == 2) echo("selected") ?>><?php echo $text_bind_status_2; ?></option>
+				  <option value="3" <?php if($filter_bind_status && $filter_bind_status == 3) echo("selected") ?>><?php echo $text_bind_status_3; ?></option>
+				</select>
 			  </div>
 			</div>
 			<div class="col-sm-3">
@@ -104,6 +106,16 @@
                     <?php } else { ?>
                     <a href="<?php echo $sort_vip_card_num; ?>"><?php echo $column_vip_card_num; ?></a>
                     <?php } ?></td>
+                  <td class="text-left"><?php if ($sort == 'v.salesman_id') { ?>
+                    <a href="<?php echo $sort_salesman_id; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_salesman_id; ?></a>
+                    <?php } else { ?>
+                    <a href="<?php echo $sort_salesman_id; ?>"><?php echo $column_salesman_id; ?></a>
+                    <?php } ?></td>
+                  <td class="text-left"><?php if ($sort == 'v.date_bind_to_salesman') { ?>
+                    <a href="<?php echo $sort_date_bind_to_salesman; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_date_bind_to_salesman; ?></a>
+                    <?php } else { ?>
+                    <a href="<?php echo $sort_date_bind_to_salesman; ?>"><?php echo $column_date_bind_to_salesman; ?></a>
+                    <?php } ?></td>
                   <td class="text-left"><?php if ($sort == 'v.bind_status') { ?>
                     <a href="<?php echo $sort_bind_status; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_bind_status; ?></a>
                     <?php } else { ?>
@@ -118,11 +130,6 @@
                     <a href="<?php echo $sort_bind_customer_telephone; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_bind_customer_telephone; ?></a>
                     <?php } else { ?>
                     <a href="<?php echo $sort_bind_customer_telephone; ?>"><?php echo $column_bind_customer_telephone; ?></a>
-                    <?php } ?></td>
-                  <td class="text-left"><?php if ($sort == 'v.date_bind_to_salesman') { ?>
-                    <a href="<?php echo $sort_date_bind_to_salesman; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_date_bind_to_salesman; ?></a>
-                    <?php } else { ?>
-                    <a href="<?php echo $sort_date_bind_to_salesman; ?>"><?php echo $column_date_bind_to_salesman; ?></a>
                     <?php } ?></td>
                   <td class="text-left"><?php if ($sort == 'v.date_bind_to_customer') { ?>
                     <a href="<?php echo $sort_date_bind_to_customer; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_date_bind_to_customer; ?></a>
@@ -144,6 +151,8 @@
                     <?php } ?></td> -->
                   <td class="text-left"><?php echo $vip['num']; ?></td>
                   <td class="text-left"><?php echo $vip['vip_card_num']; ?></td>
+                  <td class="text-left"><?php echo $vip['salesman_id']; ?></td>
+                  <td class="text-left"><?php echo $vip['date_bind_to_salesman']; ?></td>
                   <td class="text-left">
                   <?php if((int)$vip['bind_status'] === 0) {echo ($text_bind_status_0) ;}
                         elseif($vip['bind_status'] == 1) { echo ($text_bind_status_1) ;}
@@ -152,7 +161,6 @@
                   </td>
                   <td class="text-left"><?php echo $vip['bind_customer']; ?></td>
                   <td class="text-left"><?php echo $vip['bind_customer_telephone']; ?></td>
-                  <td class="text-left"><?php echo $vip['date_bind_to_salesman']; ?></td>
                   <td class="text-left"><?php echo $vip['date_bind_to_customer']; ?></td>
                   <td class="text-center">
 	                  <div class="text-left" id="<?php echo ('activate-display-'.$key); ?>" <?php if (!$vip['activate_status']) {echo ('style = "display : none"');} ?>>
@@ -169,7 +177,7 @@
                 <?php } ?>
                 <?php } else { ?>
                 <tr>
-                  <td class="text-center" colspan="8"><?php echo $text_no_results; ?></td>
+                  <td class="text-center" colspan="10"><?php echo $text_no_results; ?></td>
                 </tr>
                 <?php } ?>
               </tbody>
@@ -237,6 +245,12 @@ $('#button-filter').on('click', function() {
 
 	if (filter_vip_card_num) {
 		url += '&filter_vip_card_num=' + encodeURIComponent(filter_vip_card_num);
+	}
+
+	var filter_salesman_id = $('input[name=\'filter_salesman_id\']').val();
+
+	if (filter_salesman_id) {
+		url += '&filter_salesman_id=' + encodeURIComponent(filter_salesman_id);
 	}
 
 	var filter_bind_status = $('select[name=\'filter_bind_status\']').val();
