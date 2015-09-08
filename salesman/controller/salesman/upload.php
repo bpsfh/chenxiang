@@ -410,12 +410,12 @@ class ControllerSalesmanUpload extends Controller {
 			$data['upload_id'] = 0;
 		}
 
-		if (isset($this->request->post['file_upload_description'])) {
-			$data['file_upload_description'] = $this->request->post['file_upload_description'];
+		if (isset($this->request->post['salesman_upload_description'])) {
+			$data['salesman_upload_description'] = $this->request->post['salesman_upload_description'];
 		} elseif (isset($this->request->get['upload_id'])) {
-			$data['file_upload_description'] = $this->model_salesman_upload->getUploadDescriptions($this->request->get['upload_id']);
+			$data['salesman_upload_description'] = $this->model_salesman_upload->getUploadDescriptions($this->request->get['upload_id']);
 		} else {
-			$data['file_upload_description'] = array();
+			$data['salesman_upload_description'] = array();
 		}
 
 		if (isset($this->request->post['filename'])) {
@@ -443,7 +443,7 @@ class ControllerSalesmanUpload extends Controller {
 
 	protected function validateForm() {
 
-		foreach ($this->request->post['file_upload_description'] as $language_id => $value) {
+		foreach ($this->request->post['salesman_upload_description'] as $language_id => $value) {
 			if ((utf8_strlen($value['name']) < 3) || (utf8_strlen($value['name']) > 64)) {
 				$this->error['name'][$language_id] = $this->language->get('error_name');
 			}
