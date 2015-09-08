@@ -23,6 +23,12 @@ class ControllerVipVip extends Controller {
 			$filter_vip_card_num = null;
 		}
 
+		if (isset($this->request->get['filter_salesman_id'])) {
+			$filter_salesman_id = $this->request->get['filter_salesman_id'];
+		} else {
+			$filter_salesman_id = null;
+		}
+
 		if (isset($this->request->get['filter_bind_status'])) {
 			$filter_bind_status = $this->request->get['filter_bind_status'];
 		} else {
@@ -77,6 +83,10 @@ class ControllerVipVip extends Controller {
 			$url .= '&filter_vip_card_num=' . urlencode(html_entity_decode($this->request->get['filter_vip_card_num'], ENT_QUOTES, 'UTF-8'));
 		}
 
+		if (isset($this->request->get['filter_salesman_id'])) {
+			$url .= '&filter_salesman_id=' . urlencode(html_entity_decode($this->request->get['filter_salesman_id'], ENT_QUOTES, 'UTF-8'));
+		}
+
 		if (isset($this->request->get['filter_bind_status'])) {
 			$url .= '&filter_bind_status=' . urlencode(html_entity_decode($this->request->get['filter_bind_status'], ENT_QUOTES, 'UTF-8'));
 		}
@@ -123,6 +133,7 @@ class ControllerVipVip extends Controller {
 
 		$filter_data = array(
 			'filter_vip_card_num'                => $filter_vip_card_num,
+			'filter_salesman_id'                 => $filter_salesman_id,
 			'filter_date_bind_to_salesman_fr'    => $filter_date_bind_to_salesman_fr,
 			'filter_date_bind_to_salesman_to'    => $filter_date_bind_to_salesman_to,
 			'filter_bind_status'                 => $filter_bind_status,
@@ -144,12 +155,13 @@ class ControllerVipVip extends Controller {
 				'vip_card_id'              =>  $result['vip_card_id'],
 				'num'                      => $key+1,
 				'vip_card_num'             => $result['vip_card_num'],
+				'salesman_id'              => $result['salesman_id'],
 				'bind_status'              => $result['bind_status'],
 				'bind_customer'            => $result['bind_customer'],
 				'bind_customer_telephone'  => $result['bind_customer_telephone'],
 				'date_bind_to_salesman'    => date($this->language->get('date_format_short'), strtotime($result['date_bind_to_salesman'])),
 				'date_bind_to_customer'    => date($this->language->get('date_format_short'), strtotime($result['date_bind_to_customer'])),
-				'activate_status'         => ((!is_null($result['bind_status'])) && (int)$result['bind_status'] === 1 ? true : false)
+				'activate_status'          => ((!is_null($result['bind_status'])) && (int)$result['bind_status'] === 1 ? true : false)
 			);
 		}
 
@@ -170,6 +182,7 @@ class ControllerVipVip extends Controller {
 
 		$data['column_num'] = $this->language->get('column_num');
 		$data['column_vip_card_num'] = $this->language->get('column_vip_card_num');
+		$data['column_salesman_id'] = $this->language->get('column_salesman_id');
 		$data['column_bind_status'] = $this->language->get('column_bind_status');
 		$data['column_bind_customer'] = $this->language->get('column_bind_customer');
 		$data['column_date_bind_to_salesman'] = $this->language->get('column_date_bind_to_salesman');
@@ -180,6 +193,7 @@ class ControllerVipVip extends Controller {
 
 
 		$data['entry_vip_card_num'] = $this->language->get('entry_vip_card_num');
+		$data['entry_salesman_id'] = $this->language->get('entry_salesman_id');
 		$data['entry_bind_status'] = $this->language->get('entry_bind_status');
 		$data['entry_date_bind_to_salesman_fr'] = $this->language->get('entry_date_bind_to_salesman_fr');
 		$data['entry_date_bind_to_salesman_to'] = $this->language->get('entry_date_bind_to_salesman_to');
@@ -216,6 +230,10 @@ class ControllerVipVip extends Controller {
 			$url .= '&filter_vip_card_num=' . urlencode(html_entity_decode($this->request->get['filter_vip_card_num'], ENT_QUOTES, 'UTF-8'));
 		}
 
+		if (isset($this->request->get['filter_salesman_id'])) {
+			$url .= '&filter_salesman_id=' . urlencode(html_entity_decode($this->request->get['filter_salesman_id'], ENT_QUOTES, 'UTF-8'));
+		}
+
 		if (isset($this->request->get['filter_bind_status'])) {
 			$url .= '&filter_bind_status=' . urlencode(html_entity_decode($this->request->get['filter_bind_status'], ENT_QUOTES, 'UTF-8'));
 		}
@@ -248,6 +266,7 @@ class ControllerVipVip extends Controller {
 
 // 		$data['sort_num'] = $this->url->link('vip/vip', 'token=' . $this->session->data['token'] . '&sort=num' . $url, 'SSL');
 		$data['sort_vip_card_num'] = $this->url->link('vip/vip', 'token=' . $this->session->data['token'] . '&sort=v.vip_card_num' . $url, 'SSL');
+		$data['sort_salesman_id'] = $this->url->link('vip/vip', 'token=' . $this->session->data['token'] . '&sort=v.salesman_id' . $url, 'SSL');
 		$data['sort_bind_status'] = $this->url->link('vip/vip', 'token=' . $this->session->data['token'] . '&sort=v.bind_status' . $url, 'SSL');
 		$data['sort_bind_customer'] = $this->url->link('vip/vip', 'token=' . $this->session->data['token'] . '&sort=bind_customer' . $url, 'SSL');
 		$data['sort_bind_customer_telephone'] = $this->url->link('vip/vip', 'token=' . $this->session->data['token'] . '&sort=bind_customer_telephone' . $url, 'SSL');
@@ -257,6 +276,10 @@ class ControllerVipVip extends Controller {
 
 		if (isset($this->request->get['filter_vip_card_num'])) {
 			$url .= '&filter_vip_card_num=' . urlencode(html_entity_decode($this->request->get['filter_vip_card_num'], ENT_QUOTES, 'UTF-8'));
+		}
+
+		if (isset($this->request->get['filter_salesman_id'])) {
+			$url .= '&filter_salesman_id=' . urlencode(html_entity_decode($this->request->get['filter_salesman_id'], ENT_QUOTES, 'UTF-8'));
 		}
 
 		if (isset($this->request->get['filter_bind_status'])) {
@@ -298,6 +321,7 @@ class ControllerVipVip extends Controller {
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($vips_total) ? (($page - 1) * $this->config->get('config_limit_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_limit_admin')) > ($vips_total - $this->config->get('config_limit_admin'))) ? $vips_total : ((($page - 1) * $this->config->get('config_limit_admin')) + $this->config->get('config_limit_admin')), $vips_total, ceil($vips_total / $this->config->get('config_limit_admin')));
 
 		$data['filter_vip_card_num'] = $filter_vip_card_num;
+		$data['filter_salesman_id'] = $filter_salesman_id;
 		$data['filter_bind_status'] = $filter_bind_status;
 		$data['filter_date_bind_to_salesman_fr'] = $filter_date_bind_to_salesman_fr;
 		$data['filter_date_bind_to_salesman_to'] = $filter_date_bind_to_salesman_to;

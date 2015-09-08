@@ -7195,6 +7195,24 @@ CREATE TABLE IF NOT EXISTS `mcc_vip_card` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `mcc_vip_card_assign_record`
+-- VIP卡表中每次插入新记录，或者分配业务员变更，操作同时将分配记录记入该VIP卡分配记录表表。
+-- 1.  增加时机：对vip_card表的插入，修改操作的同时，将新记录同时插入本表
+-- 2.  修改时机：上级修改对下级的分配。（应该是，逻辑删除再添加。）
+-- 3.  删除时机：上级撤销对下级的分配。逻辑删除，设置无效Flg
+--
+-- --------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mcc_vip_card_assign_record` (
+  `vip_card_num` varchar(16) NOT NULL,
+  `salesman_id` int(11),
+  `date_created` datetime NOT NULL,
+  `date_modified` datetime NOT NULL,
+  `is_valid` boolean,
+  PRIMARY KEY (`vip_card_num`, `salesman_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+--
 -- Table structure for table `mcc_vip_card_application`
 -- apply_status（申请时间）：
 -- 0：待审批； 1：已批准； 2：已拒绝；

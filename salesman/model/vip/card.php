@@ -101,12 +101,16 @@ class ModelVipCard extends Model {
 	public function getVips($data = array()) {
 		$salesman_id = $this->salesman->getId();
 
-		$sql = "SELECT *,1 AS num, c.fullname AS bind_customer, c.telephone AS bind_customer_telephone FROM " . DB_PREFIX . "vip_card v LEFT JOIN " . DB_PREFIX . "customer c ON (v.customer_id = c.customer_id) WHERE v.salesman_id = '" . (int)$salesman_id . "'";
+		$sql = "SELECT v.*, c.fullname AS bind_customer, c.telephone AS bind_customer_telephone FROM " . DB_PREFIX . "vip_card_assign_record ca INNER JOIN " . DB_PREFIX . "vip_card v ON (ca.vip_card_num = v.vip_card_num) LEFT JOIN " . DB_PREFIX . "customer c ON (v.customer_id = c.customer_id) WHERE ca.salesman_id = '" . (int)$salesman_id . "'";
 
 		$implode = array();
 
 		if (!empty($data['filter_vip_card_num'])) {
 			$implode[] = "v.vip_card_num LIKE '%" . $this->db->escape($data['filter_vip_card_num']) . "%'";
+		}
+
+		if (!empty($data['filter_salesman_id'])) {
+			$implode[] = "v.salesman_id LIKE '%" . $this->db->escape($data['filter_salesman_id']) . "%'";
 		}
 
 		if (isset($data['filter_bind_status']) && !is_null($data['filter_bind_status'])) {
@@ -134,8 +138,8 @@ class ModelVipCard extends Model {
 		}
 
 		$sort_data = array(
-// 			'num',
 			'v.vip_card_num',
+			'v.salesman_id',
 			'v.bind_status',
 			'bind_customer',
 			'bind_customer_telephone',
