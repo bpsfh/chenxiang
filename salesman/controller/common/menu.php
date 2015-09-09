@@ -29,6 +29,7 @@ class ControllerCommonMenu extends Controller {
 		// 下级业务员管理
 		$data['text_sub_salesman'] = $this->language->get('text_sub_salesman');
 		$data['text_sub_salesman_user'] = $this->language->get('text_sub_salesman_user');
+		$data['text_vip_card_application'] = $this->language->get('text_vip_card_application');
 		
 		$this->load->model('sub_salesman/user');
 		$data['isWithGrantOpt'] = $this->model_sub_salesman_user->isWithGrantOpt($this->salesman->getId());
@@ -48,7 +49,10 @@ class ControllerCommonMenu extends Controller {
 		$data['basic_info'] = $this->url->link('salesman/user/edit', 'token=' . $this->session->data['token'], 'SSL');
 		$data['bank_info'] = $this->url->link('salesman/bank_account/edit', 'token=' . $this->session->data['token'], 'SSL');
 		
+		// 下级业务员管理
 		$data['sub_salesman'] = $this->url->link('sub_salesman/user', 'token=' . $this->session->data['token'], 'SSL');
+		$data['vip_card_application'] = $this->url->link('sub_salesman/vip_card', 'token=' . $this->session->data['token'], 'SSL');
+		
 		$data['invoice_upload'] = $this->url->link('salesman/upload/index', 'token=' . $this->session->data['token'], 'SSL');
 
 		return $this->load->view('common/menu.tpl', $data);
