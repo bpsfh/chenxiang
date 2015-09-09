@@ -2,15 +2,16 @@
 /**
  * @author HU
  */
-class ControllerSalesmanVipCard extends Controller {
+class ControllerSubSalesmanVipCard extends Controller {
 	private $error = array();
 	
 	public function index() {
-		$this->load->language('salesman/vip_card');
+		$this->load->language('sub_salesman/vip_card');
 		
 		$this->document->setTitle($this->language->get('heading_title'));
 		
-		$this->load->model('salesman/vip_card_application');
+		$this->load->model('sub_salesman/vip_card_application');
+		$this->load->model('sub_salesman/vip_card');
 		
 		$this->getList();
 	}
@@ -19,14 +20,14 @@ class ControllerSalesmanVipCard extends Controller {
 	 * 拒绝VIP卡的申请
 	 */
 	public function reject() {
-		$this->load->language('salesman/vip_card');
+		$this->load->language('sub_salesman/vip_card');
 
 		$this->document->setTitle($this->language->get('reject_heading_title'));
 		
-		$this->load->model('salesman/vip_card_application');
+		$this->load->model('sub_salesman/vip_card_application');
 		
 		if ($this->request->server['REQUEST_METHOD'] == 'POST') {
-			$this->model_salesman_vip_card_application->rejectApplication($this->request->post);
+			$this->model_sub_salesman_vip_card_application->rejectApplication($this->request->post);
 			
 			$this->session->data['success'] = $this->language->get('text_reject_success');
 			
@@ -56,7 +57,7 @@ class ControllerSalesmanVipCard extends Controller {
 				$url .= '&page=' . $this->request->get['page'];
 			}
 			
-			$this->response->redirect($this->url->link('salesman/vip_card', 'token=' . $this->session->data['token'] . $url, 'SSL'));
+			$this->response->redirect($this->url->link('sub_salesman/vip_card', 'token=' . $this->session->data['token'] . $url, 'SSL'));
 		}
 		
 		$this->getForm();
@@ -66,10 +67,10 @@ class ControllerSalesmanVipCard extends Controller {
 	 * 批准VIP卡申请
 	 */
 	public function approve() {
-		$this->load->language('salesman/vip_card');
+		$this->load->language('sub_salesman/vip_card');
 		
-		$this->load->model('salesman/vip_card_application');
-		$this->load->model('salesman/vip_card');
+		$this->load->model('sub_salesman/vip_card_application');
+		$this->load->model('sub_salesman/vip_card');
 		
 		$url = '';
 			
@@ -98,29 +99,33 @@ class ControllerSalesmanVipCard extends Controller {
 		}
 		
 		if (isset($this->request->get['apply_id'])) {
-			$application = $this->model_salesman_vip_card_application->getApplication($this->request->get['apply_id']);
+			$application = $this->model_sub_salesman_vip_card_application->getApplication($this->request->get['apply_id']);
 			
 			if (!empty($application)) {
 				$apply_qty = $application['apply_qty'];
+				print("apply qty = " . $apply_qty);
 				
-				// 生成申请个数的邀请码，与申请的业务员绑定，插入数据库中
-				for ($i = 0; $i < $apply_qty; $i++) {
-					$vip_card['vip_card_num'] = strtoupper(substr(md5(uniqid(rand(),1)), 8, 16));
-					$vip_card['salesman_id'] = $application['salesman_id'];
+				// 检查当前可用的vip卡数量是否小于申请数量
+				$enabledQty = $this->model_sub_salesman_vip_card->getTotalEnabledVipCard();
+				
+				if ($enabledQty < $apply_qty) {
 					
-					$this->model_salesman_vip_card->addVipCard($vip_card);
+					$this->session->data['warning'] = $this->language->get('text_error_not_enough');
+				} else {
+					// 将当前可用的vip卡分配给下级业务员
+					$this->model_sub_salesman_vip_card->addVipCard($application);
+					
+					// 更新申请表
+					$this->model_sub_salesman_vip_card_application->approveApplication($this->request->get['apply_id']);
+					
+					$this->session->data['success'] = $this->language->get('text_approve_success');
 				}
-				
-				// 更新申请表
-				$this->model_salesman_vip_card_application->approveApplication($this->request->get['apply_id']);
-				
-				$this->session->data['success'] = $this->language->get('text_approve_success');
 			} else {
 				$this->session->data['warning'] = $this->language->get('text_error_not_exist');
 			}
 		}
 			
-		$this->response->redirect($this->url->link('salesman/vip_card', 'token=' . $this->session->data['token'] . $url, 'SSL'));
+		$this->response->redirect($this->url->link('sub_salesman/vip_card', 'token=' . $this->session->data['token'] . $url, 'SSL'));
 	}
 	
 	/**
@@ -201,7 +206,7 @@ class ControllerSalesmanVipCard extends Controller {
 		
 		$data['breadcrumbs'][] = array(
 				'text' => $this->language->get('heading_title'),
-				'href' => $this->url->link('salesman/vip_card', 'token=' . $this->session->data['token'] . $url, 'SSL')
+				'href' => $this->url->link('sub_salesman/vip_card', 'token=' . $this->session->data['token'] . $url, 'SSL')
 		);
 		
 		$filter_data = array(
@@ -214,22 +219,25 @@ class ControllerSalesmanVipCard extends Controller {
 			'limit'             => $this->config->get('config_limit_admin')
 		);
 		
-		$application_total = $this->model_salesman_vip_card_application->getTotalApplications($filter_data);
+		$application_total = $this->model_sub_salesman_vip_card_application->getTotalApplications($filter_data);
 		
-		$results = $this->model_salesman_vip_card_application->getApplicationLists($filter_data);
+		$results = $this->model_sub_salesman_vip_card_application->getApplicationLists($filter_data);
+		// 当前可用VIP卡数量
+		$enabledQty = $this->model_sub_salesman_vip_card->getTotalEnabledVipCard();
+		$data['enabled_qty'] = $enabledQty;
 		
 		$data['applications'] = array();
 		
 		foreach ($results as $result) {
 			if ($result['apply_status'] == 0) {
-				$approve = $this->url->link('salesman/vip_card/approve', 'token=' . $this->session->data['token'] . '&apply_id=' . $result['apply_id'] . $url, 'SSL');
-				$reject = $this->url->link('salesman/vip_card/reject', 'token=' . $this->session->data['token'] . '&apply_id=' . $result['apply_id'] . $url, 'SSL');
+				$approve = $this->url->link('sub_salesman/vip_card/approve', 'token=' . $this->session->data['token'] . '&apply_id=' . $result['apply_id'] . $url, 'SSL');
+				$reject = $this->url->link('sub_salesman/vip_card/reject', 'token=' . $this->session->data['token'] . '&apply_id=' . $result['apply_id'] . $url, 'SSL');
 			} elseif ($result['apply_status'] == 1) {
 				$approve = '';
 				$reject = '';
 			} else {
 				$approve = '';
-				$reject = $this->url->link('salesman/vip_card/reject', 'token=' . $this->session->data['token'] . '&apply_id=' . $result['apply_id'] . $url, 'SSL');
+				$reject = $this->url->link('sub_salesman/vip_card/reject', 'token=' . $this->session->data['token'] . '&apply_id=' . $result['apply_id'] . $url, 'SSL');
 			}
 			
 			$data['applications'][] = array(
@@ -237,7 +245,7 @@ class ControllerSalesmanVipCard extends Controller {
 				'salesman_id'    => $result['salesman_id'],
 				'fullname'       => $result['fullname'],
 				'apply_qty'      => $result['apply_qty'],
-				'date_applied'     => $result['date_applied'],
+				'date_applied'   => $result['date_applied'],
 				'apply_reason'   => $result['apply_reason'],
 				'apply_status'   => $result['apply_status'],
 				'date_processed' => $result['date_processed'],
@@ -250,6 +258,7 @@ class ControllerSalesmanVipCard extends Controller {
 		$data['heading_title'] = $this->language->get('heading_title');
 		
 		$data['text_list'] = $this->language->get('text_list');
+		$data['text_enabled_qty'] = $this->language->get('text_enabled_qty');
 		$data['text_no_results'] = $this->language->get('text_no_results');
 		
 		$data['column_apply_id'] = $this->language->get('column_apply_id');
@@ -318,10 +327,10 @@ class ControllerSalesmanVipCard extends Controller {
 			$url .= '&page=' . $this->request->get['page'];
 		}
 		
-		$data['sort_fullname'] = $this->url->link('salesman/vip_card', 'token=' . $this->session->data['token'] . '&sort=s.fullname' . $url, 'SSL');
-		$data['sort_apply_id'] = $this->url->link('salesman/vip_card', 'token=' . $this->session->data['token'] . '&sort=apply_id' . $url, 'SSL');
-		$data['sort_date_applied'] = $this->url->link('salesman/vip_card', 'token=' . $this->session->data['token'] . '&sort=date_applied' . $url, 'SSL');
-		$data['sort_date_processed'] = $this->url->link('salesman/vip_card', 'token=' . $this->session->data['token'] . '&sort=date_processed' . $url, 'SSL');
+		$data['sort_fullname'] = $this->url->link('sub_salesman/vip_card', 'token=' . $this->session->data['token'] . '&sort=s.fullname' . $url, 'SSL');
+		$data['sort_apply_id'] = $this->url->link('sub_salesman/vip_card', 'token=' . $this->session->data['token'] . '&sort=apply_id' . $url, 'SSL');
+		$data['sort_date_applied'] = $this->url->link('sub_salesman/vip_card', 'token=' . $this->session->data['token'] . '&sort=date_applied' . $url, 'SSL');
+		$data['sort_date_processed'] = $this->url->link('sub_salesman/vip_card', 'token=' . $this->session->data['token'] . '&sort=date_processed' . $url, 'SSL');
 		
 		// 分页
 		$url = '';
@@ -350,7 +359,7 @@ class ControllerSalesmanVipCard extends Controller {
 		$pagination->total = $application_total;
 		$pagination->page = $page;
 		$pagination->limit = $this->config->get('config_limit_admin');
-		$pagination->url = $this->url->link('salesman/vip_card', 'token=' . $this->session->data['token'] . $url . '&page={page}', 'SSL');
+		$pagination->url = $this->url->link('sub_salesman/vip_card', 'token=' . $this->session->data['token'] . $url . '&page={page}', 'SSL');
 		
 		$data['pagination'] = $pagination->render();
 		
@@ -369,7 +378,7 @@ class ControllerSalesmanVipCard extends Controller {
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
 		
-		$this->response->setOutput($this->load->view('salesman/vip_card_application_list.tpl', $data));
+		$this->response->setOutput($this->load->view('sub_salesman/vip_card_application_list.tpl', $data));
 	}
 
 	/**
@@ -378,7 +387,7 @@ class ControllerSalesmanVipCard extends Controller {
 	public function getForm() {
 		// 取得相关申请信息
 		if (isset($this->request->get['apply_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
-			$application = $this->model_salesman_vip_card_application->getApplication($this->request->get['apply_id']);
+			$application = $this->model_sub_salesman_vip_card_application->getApplication($this->request->get['apply_id']);
 		} else {
 			$application = '';
 		}
@@ -439,11 +448,11 @@ class ControllerSalesmanVipCard extends Controller {
 		
 		$data['breadcrumbs'][] = array(
 				'text' => $this->language->get('heading_title'),
-				'href' => $this->url->link('salesman/vip_card', 'token=' . $this->session->data['token'] . $url, 'SSL')
+				'href' => $this->url->link('sub_salesman/vip_card', 'token=' . $this->session->data['token'] . $url, 'SSL')
 		);
 		
-		$data['action'] = $this->url->link('salesman/vip_card/reject', 'token=' . $this->session->data['token'] . $url, 'SSL');
-		$data['cancel'] = $this->url->link('salesman/vip_card', 'token=' . $this->session->data['token'] . $url, 'SSL');
+		$data['action'] = $this->url->link('sub_salesman/vip_card/reject', 'token=' . $this->session->data['token'] . $url, 'SSL');
+		$data['cancel'] = $this->url->link('sub_salesman/vip_card', 'token=' . $this->session->data['token'] . $url, 'SSL');
 		
 		$data['token'] = $this->session->data['token'];
 		
@@ -473,7 +482,7 @@ class ControllerSalesmanVipCard extends Controller {
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
 		
-		$this->response->setOutput($this->load->view('salesman/vip_card_application_form.tpl', $data));
+		$this->response->setOutput($this->load->view('sub_salesman/vip_card_application_form.tpl', $data));
 	}
 	
 	/**
@@ -489,8 +498,8 @@ class ControllerSalesmanVipCard extends Controller {
 			} else {
 				$filter_fullname = '';
 			}
-	
-			$this->load->model('salesman/vip_card_application');
+			
+			$this->load->model('sub_salesman/vip_card_application');
 	
 			$filter_data = array(
 					'filter_name'  => $filter_fullname,
@@ -498,12 +507,12 @@ class ControllerSalesmanVipCard extends Controller {
 					'limit'        => 5
 			);
 	
-			$results = $this->model_salesman_vip_card_application->getSalesmans($filter_data);
+			$results = $this->model_sub_salesman_vip_card_application->getSalesmans($filter_data);
 	
 			foreach ($results as $result) {
 				$json[] = array(
 						'salesman_id'       => $result['salesman_id'],
-						'fullname'         => $result['fullname']
+						'fullname'          => strip_tags(html_entity_decode($result['fullname'], ENT_QUOTES, 'UTF-8'))
 				);
 			}
 		}

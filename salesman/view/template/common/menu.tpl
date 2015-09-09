@@ -18,6 +18,7 @@
     <li><a class="parent"><i class="fa fa-users fa-fw"></i> <span><?php echo $text_sub_salesman; ?></span></a>
 	  <ul>
 	    <li><a href="<?php echo $sub_salesman; ?>"><?php echo $text_sub_salesman_user; ?></a></li>
+	    <li><a href="<?php echo $vip_card_application; ?>"><?php echo $text_vip_card_application; ?></a></li>
 	  </ul>
     </li>
   <?php } ?>
