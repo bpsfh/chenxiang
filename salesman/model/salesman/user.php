@@ -12,7 +12,7 @@ class ModelSalesmanUser extends Model {
 //
 //		$salesman_group_info = $this->model_salesman_user_group->getSalesmanGroup($salesman_group_id);
 
-		$this->db->query("INSERT INTO " . DB_PREFIX . "salesman SET store_id = '" . (int)$this->config->get('config_store_id') . "', fullname = '" . $this->db->escape($data['fullname']) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "', salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "', newsletter = '0', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . 
+		$this->db->query("INSERT INTO " . DB_PREFIX . "salesman SET store_id = '" . (int)$this->config->get('config_store_id') . "', fullname = '" . $this->db->escape($data['fullname']) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "', salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "', newsletter = '0', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) .
 				"', status = '1', approved = '1', application_status = '1', date_added = NOW(), date_first_applied = NOW(), parent_id = '0', level = '1', with_grant_opt = '1'");
 
 		$salesman_id = $this->db->getLastId();
@@ -90,7 +90,7 @@ class ModelSalesmanUser extends Model {
 				}
 			}
 		}
-		
+
 		// 业务员申请履历添加
 		// 业务员创建履历
 		$this->db->query('INSERT INTO ' . DB_PREFIX . "salesman_apply_record SET salesman_id = '" . (int)$salesman_id . "', status = '0'"
@@ -98,6 +98,11 @@ class ModelSalesmanUser extends Model {
 		// 批准业务员申请履历
 		$this->db->query('INSERT INTO ' . DB_PREFIX . "salesman_apply_record SET salesman_id = '" . (int)$salesman_id . "', status = '1'"
 						.", date_processed = NOW()");
+
+		// 业务员申请个人认证图片
+		$this->load->model ( 'salesman/upload' );
+
+		$this->model_salesman_upload->addUpload ($salesman_id, $data);
 
 		$this->event->trigger('post.salesman.add', $salesman_id);
 
@@ -111,6 +116,10 @@ class ModelSalesmanUser extends Model {
 
 		$this->db->query("UPDATE " . DB_PREFIX . "salesman SET fullname = '" . $this->db->escape($data['fullname']) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "', image = '" . $this->db->escape($data['image']) . "', custom_field = '" . $this->db->escape(isset($data['custom_field']) ? serialize($data['custom_field']) : '') . "' WHERE salesman_id = '" . (int)$salesman_id . "'");
 
+		$this->load->model ( 'salesman/upload' );
+
+		$this->model_salesman_upload->editUpload ( $data['upload_id'], $data);
+
 		$this->event->trigger('post.salesman.edit', $salesman_id);
 	}
 
@@ -122,7 +131,7 @@ class ModelSalesmanUser extends Model {
 		$this->event->trigger('post.salesman.edit.password');
 	}
 
-        public function editCode($email, $code) {
+    public function editCode($email, $code) {
                 $this->db->query("UPDATE `" . DB_PREFIX . "salesman` SET code = '" . $this->db->escape($code) . "' WHERE LCASE(email) = '" . $this->db->escape(utf8_strtolower($email)) . "'");
         }
 

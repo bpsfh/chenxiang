@@ -85,6 +85,33 @@
 			              <input type="hidden" name="image" value="<?php echo $image; ?>" id="input-image" />
 			            </div>
 			          </div>
+			          <div class="form-group required">
+			            <label class="col-sm-1 control-label"></label>
+			            <label class="col-sm-1-4 ">
+			              <?php foreach ($languages as $language) { ?>
+			              <select name="salesman_upload_description[<?php echo $language['language_id']; ?>][name]" id="salesman_upload_description" class="form-control" >
+			                 <option value="<?php echo isset($salesman_upload_description[$language['language_id']]) ? $salesman_upload_description[$language['language_id']]['name'] : ''; ?>" ><?php echo $entry_identity; ?></option>
+			              </select>
+			               <?php } ?>
+			            </label>
+			            <div class="col-sm-5">
+			              <div class="input-group">
+			                <input type="text" name="filename" value="<?php echo $filename; ?>" placeholder="<?php echo $entry_identity_img; ?>" id="input-filename" class="form-control" readonly="readonly"/>
+			                <span class="input-group-btn">
+			                <!-- <button type="button" id="button-upload" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-primary"><i class="fa fa-upload"></i> <?php echo $button_upload; ?></button> -->
+			                  <?php if ($filename) { ?>
+			                  <a href="<?php echo $download ?>" data-toggle="tooltip" title="<?php echo $button_download; ?>" class="btn btn-primary"><i class="fa fa-download"></i><?php echo $button_download; ?></a>
+			                  <?php } ?>
+			                </span>
+			              </div>
+			              <?php if ($error_identity_img) { ?>
+			                <div class="text-danger "><?php echo $error_identity_img; ?></div>
+			              <?php } ?>
+			            </div>
+			          </div>
+			          <input type="hidden" name="upload_id" value="<?php echo $upload_id; ?>" id="input-upload-id" class="form-control" />
+			          <input type="hidden" name="mask" value="<?php echo $mask; ?>" id="input-mask" class="form-control" />
+			          <input type="hidden" name="category" value="<?php echo $category; ?>" id="input-category" class="form-control" />
                       <div class="form-group required">
                         <label class="col-sm-2 control-label" for="input-password"><?php echo $entry_password; ?></label>
                         <div class="col-sm-10">
@@ -225,7 +252,7 @@
                           <?php } ?>
                         </div>
                       </div>
-                      
+
                       <div class="form-group required">
                         <label class="col-sm-2 control-label" for="input-postcode<?php echo $address_row; ?>"><?php echo $entry_postcode; ?></label>
                         <div class="col-sm-10">
@@ -235,7 +262,7 @@
                           <?php } ?>
                         </div>
                       </div>
-                      
+
                       <div class="form-group">
                         <label class="col-sm-2 control-label"><?php echo $entry_default; ?></label>
                         <div class="col-sm-10">
@@ -327,16 +354,16 @@ function addAddress() {
 	$('.date').datetimepicker({
 		pickTime: false
 	});
-	
+
 	$('.datetime').datetimepicker({
 		pickDate: true,
 		pickTime: true
 	});
-	
+
 	$('.time').datetimepicker({
 		pickDate: false
-	});	
-		
+	});
+
 	$('#tab-address' + address_row + ' .form-group[data-sort]').detach().each(function() {
 		if ($(this).attr('data-sort') >= 0 && $(this).attr('data-sort') <= $('#tab-address' + address_row + ' .form-group').length) {
 			$('#tab-address' + address_row + ' .form-group').eq($(this).attr('data-sort')).before(this);
@@ -350,10 +377,10 @@ function addAddress() {
 			$('#tab-address' + address_row + ' .form-group:first').before(this);
 		}
 	});
-	
+
 	address_row++;
 }
-//--></script> 
+//--></script>
   <script type="text/javascript"><!--
 function country(element, index, zone_id) {
 	$.ajax({
@@ -397,18 +424,18 @@ function country(element, index, zone_id) {
 }
 
 $('select[name$=\'[country_id]\']').trigger('change');
-//--></script> 
+//--></script>
 
   <script type="text/javascript"><!--
 $('#content').delegate('button[id^=\'button-custom-field\'], button[id^=\'button-address\']', 'click', function() {
 	var node = this;
-	
+
 	$('#form-upload').remove();
-	
+
 	$('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file" /></form>');
 
 	$('#form-upload input[name=\'file\']').trigger('click');
-	
+
 	if (typeof timer != 'undefined') {
     	clearInterval(timer);
 	}
@@ -416,36 +443,36 @@ $('#content').delegate('button[id^=\'button-custom-field\'], button[id^=\'button
 	timer = setInterval(function() {
 		if ($('#form-upload input[name=\'file\']').val() != '') {
 			clearInterval(timer);
-			
+
 			$.ajax({
 				url: 'index.php?route=tool/upload/upload&token=<?php echo $token; ?>',
-				type: 'post',		
+				type: 'post',
 				dataType: 'json',
 				data: new FormData($('#form-upload')[0]),
 				cache: false,
 				contentType: false,
-				processData: false,		
+				processData: false,
 				beforeSend: function() {
 					$(node).button('loading');
 				},
 				complete: function() {
 					$(node).button('reset');
-				},		
+				},
 				success: function(json) {
 					$(node).parent().find('.text-danger').remove();
-					
+
 					if (json['error']) {
 						$(node).parent().find('input[type=\'hidden\']').after('<div class="text-danger">' + json['error'] + '</div>');
 					}
-								
+
 					if (json['success']) {
 						alert(json['success']);
 					}
-					
+
 					if (json['code']) {
 						$(node).parent().find('input[type=\'hidden\']').attr('value', json['code']);
 					}
-				},			
+				},
 				error: function(xhr, ajaxOptions, thrownError) {
 					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
 				}
@@ -465,7 +492,7 @@ $('.datetime').datetimepicker({
 
 $('.time').datetimepicker({
 	pickDate: false
-});	
+});
 
 // Sort the custom fields
 <?php $address_row = 1; ?>
@@ -502,5 +529,56 @@ $('#tab-salesman .form-group[data-sort]').detach().each(function() {
 	}
 });
 <?php } ?>
+//--></script>
+
+<script type="text/javascript"><!--
+$('#button-upload').on('click', function() {
+	$('#form-upload').remove();
+
+	$('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file" /></form>');
+
+	$('#form-upload input[name=\'file\']').trigger('click');
+
+	if (typeof timer != 'undefined') {
+    	clearInterval(timer);
+	}
+
+	timer = setInterval(function() {
+		if ($('#form-upload input[name=\'file\']').val() != '') {
+			clearInterval(timer);
+
+			$.ajax({
+				url: 'index.php?route=salesman/upload/upload&token=<?php echo $token; ?>',
+				type: 'post',
+				dataType: 'json',
+				data: new FormData($('#form-upload')[0]),
+				cache: false,
+				contentType: false,
+				processData: false,
+				beforeSend: function() {
+					$('#button-upload').button('loading');
+				},
+				complete: function() {
+					$('#button-upload').button('reset');
+				},
+				success: function(json) {
+					if (json['error']) {
+						alert(json['error']);
+					}
+
+					if (json['success']) {
+						alert(json['success']);
+
+						$('input[name=\'filename\']').attr('value', json['filename']);
+						$('input[name=\'mask\']').attr('value', json['mask']);
+					}
+				},
+				error: function(xhr, ajaxOptions, thrownError) {
+					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+				}
+			});
+		}
+	}, 500);
+});
 //--></script></div>
 <?php echo $footer; ?>

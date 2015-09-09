@@ -17,10 +17,12 @@ class ControllerSalesmanUpload extends Controller {
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
+		$salesman_id = $this->salesman->getId ();
+
 		$this->load->model('salesman/upload');
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 
-			$this->model_salesman_upload->addUpload($this->request->post);
+			$this->model_salesman_upload->addUpload($salesman_id, $this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_upload');
 

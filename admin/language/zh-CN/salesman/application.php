@@ -17,6 +17,7 @@ $_['text_status_5']			= '未完成';
 $_['text_form']				= '审核申请';
 $_['text_apply_status_2']	= '批准';
 $_['text_apply_status_3']	= '拒绝';
+$_['text_saleman_info'] 	= '查看详细';
 
 // Column
 $_['column_salesman_id']    = '业务员ID';
@@ -28,6 +29,7 @@ $_['column_action']         = '操作';
 $_['column_date_processed'] = '处理时间';
 $_['column_record_id']		= '序列号';
 $_['column_reject_reason']	= '审核建议';
+$_['column_salesman_info']	= '';
 
 // Entry
 $_['entry_fullname']       = '业务员名';

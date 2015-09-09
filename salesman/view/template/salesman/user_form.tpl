@@ -56,33 +56,61 @@
               <?php } ?>
             </div>
           </div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label" for="input-image"><?php echo $entry_image; ?></label>
-						<div class="col-sm-10">
-							<a href="" id="thumb-image" data-toggle="image"
-								class="img-thumbnail"><img src="<?php echo $thumb; ?>" alt=""
-								title="" data-placeholder="<?php echo $placeholder; ?>" /></a> <input
-								type="hidden" name="image" value="<?php echo $image; ?>"
-								id="input-image" />
-						</div>
-					</div>
-					<div class="form-group required">
-						<label class="col-sm-2 control-label" for="input-telephone"><?php echo $entry_telephone; ?></label>
-						<div class="col-sm-10">
-							<input type="text" name="telephone" value="<?php echo $telephone; ?>"
-								placeholder="<?php echo $telephone; ?>" id="input-telephone"
-								class="form-control" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label" for="input-fax"><?php echo $entry_fax; ?></label>
-						<div class="col-sm-10">
-							<input type="text" name="fax" value="<?php echo $fax; ?>"
-								placeholder="<?php echo $fax; ?>" id="input-fax"
-								class="form-control" />
-						</div>
-					</div>
-					<div class="form-group required">
+			<div class="form-group">
+				<label class="col-sm-2 control-label" for="input-image"><?php echo $entry_image; ?></label>
+				<div class="col-sm-10">
+					<a href="" id="thumb-image" data-toggle="image"
+						class="img-thumbnail"><img src="<?php echo $thumb; ?>" alt=""
+						title="" data-placeholder="<?php echo $placeholder; ?>" /></a> <input
+						type="hidden" name="image" value="<?php echo $image; ?>"
+						id="input-image" />
+				</div>
+			</div>
+			<div class="form-group required">
+            <label class="col-sm-1 control-label"></label>
+            <label class="col-sm-1-4 ">
+              <?php foreach ($languages as $language) { ?>
+              <select name="salesman_upload_description[<?php echo $language['language_id']; ?>][name]" id="salesman_upload_description" class="form-control" >
+                 <option value="<?php echo isset($salesman_upload_description[$language['language_id']]) ? $salesman_upload_description[$language['language_id']]['name'] : ''; ?>" ><?php echo $entry_identity; ?></option>
+              </select>
+               <?php } ?>
+            </label>
+            <div class="col-sm-4">
+              <div class="input-group">
+                <input type="text" name="filename" value="<?php echo $filename; ?>" placeholder="<?php echo $entry_identity_img; ?>" id="input-filename" class="form-control" readonly="readonly"/>
+                <span class="input-group-btn">
+                <button type="button" id="button-upload" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-primary"><i class="fa fa-upload"></i> <?php echo $button_upload; ?></button>
+                  <?php if ($filename) { ?>
+                  <a href="<?php echo $download ?>" data-toggle="tooltip" title="<?php echo $button_download; ?>" class="btn btn-primary"><i class="fa fa-download"></i><?php echo $button_download; ?></a>
+                  <?php } ?>
+                </span>
+              </div>
+              <?php if ($error_identity_img) { ?>
+                <div class="text-danger "><?php echo $error_identity_img; ?></div>
+              <?php } ?>
+            </div>
+          </div>
+          <input type="hidden" name="upload_id" value="<?php echo $upload_id; ?>" id="input-upload-id" class="form-control" />
+          <input type="hidden" name="mask" value="<?php echo $mask; ?>" id="input-mask" class="form-control" />
+          <input type="hidden" name="category" value="<?php echo $category; ?>" id="input-category" class="form-control" />
+
+			<div class="form-group required">
+				<label class="col-sm-2 control-label" for="input-telephone"><?php echo $entry_telephone; ?></label>
+				<div class="col-sm-10">
+					<input type="text" name="telephone" value="<?php echo $telephone; ?>"
+						placeholder="<?php echo $telephone; ?>" id="input-telephone"
+						class="form-control" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label" for="input-fax"><?php echo $entry_fax; ?></label>
+				<div class="col-sm-10">
+					<input type="text" name="fax" value="<?php echo $fax; ?>"
+						placeholder="<?php echo $fax; ?>" id="input-fax"
+						class="form-control" />
+				</div>
+			</div>
+			<div class="form-group required">
             <label class="col-sm-2 control-label" for="input-country"><?php echo $entry_country; ?></label>
             <div class="col-sm-10">
               <select name="country_id" id="input-country" class="form-control">
@@ -138,25 +166,25 @@
               <?php } ?>
             </div>
           </div>
-					<div class="form-group required">
-						<label class="col-sm-2 control-label" for="input-password"><?php echo $entry_password; ?></label>
-						<div class="col-sm-10">
-							<input type="password" name="password"
-								value="<?php echo $password; ?>"
-								placeholder="<?php echo $entry_password; ?>" id="input-password"
-								class="form-control" autocomplete="off" />
+			<div class="form-group required">
+				<label class="col-sm-2 control-label" for="input-password"><?php echo $entry_password; ?></label>
+				<div class="col-sm-10">
+					<input type="password" name="password"
+						value="<?php echo $password; ?>"
+						placeholder="<?php echo $entry_password; ?>" id="input-password"
+						class="form-control" autocomplete="off" />
               <?php if ($error_password) { ?>
               <div class="text-danger"><?php echo $error_password; ?></div>
               <?php  } ?>
             </div>
-					</div>
-					<div class="form-group required">
-						<label class="col-sm-2 control-label" for="input-confirm"><?php echo $entry_confirm; ?></label>
-						<div class="col-sm-10">
-							<input type="password" name="confirm"
-								value="<?php echo $confirm; ?>"
-								placeholder="<?php echo $entry_confirm; ?>" id="input-confirm"
-								class="form-control" />
+			</div>
+			<div class="form-group required">
+				<label class="col-sm-2 control-label" for="input-confirm"><?php echo $entry_confirm; ?></label>
+				<div class="col-sm-10">
+					<input type="password" name="confirm"
+						value="<?php echo $confirm; ?>"
+						placeholder="<?php echo $entry_confirm; ?>" id="input-confirm"
+						class="form-control" />
               <?php if ($error_confirm) { ?>
               <div class="text-danger"><?php echo $error_confirm; ?></div>
               <?php  } ?>
@@ -218,4 +246,55 @@ $('select[name=\'country_id\']').on('change', function() {
 
 $('select[name=\'country_id\']').trigger('change');
 --></script>
+
+<script type="text/javascript"><!--
+$('#button-upload').on('click', function() {
+	$('#form-upload').remove();
+
+	$('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file" /></form>');
+
+	$('#form-upload input[name=\'file\']').trigger('click');
+
+	if (typeof timer != 'undefined') {
+    	clearInterval(timer);
+	}
+
+	timer = setInterval(function() {
+		if ($('#form-upload input[name=\'file\']').val() != '') {
+			clearInterval(timer);
+
+			$.ajax({
+				url: 'index.php?route=salesman/upload/upload&token=<?php echo $token; ?>',
+				type: 'post',
+				dataType: 'json',
+				data: new FormData($('#form-upload')[0]),
+				cache: false,
+				contentType: false,
+				processData: false,
+				beforeSend: function() {
+					$('#button-upload').button('loading');
+				},
+				complete: function() {
+					$('#button-upload').button('reset');
+				},
+				success: function(json) {
+					if (json['error']) {
+						alert(json['error']);
+					}
+
+					if (json['success']) {
+						alert(json['success']);
+
+						$('input[name=\'filename\']').attr('value', json['filename']);
+						$('input[name=\'mask\']').attr('value', json['mask']);
+					}
+				},
+				error: function(xhr, ajaxOptions, thrownError) {
+					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+				}
+			});
+		}
+	}, 500);
+});
+//--></script>
 <?php echo $footer; ?>
