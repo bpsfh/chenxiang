@@ -111,25 +111,27 @@
                     <?php } else { ?>
                     <a href="<?php echo $sort_status; ?>"><?php echo $column_status; ?></a>
                     <?php } ?></td>
-                  <td class="text-right"><?php echo $column_action; ?></td>
+                  <td class="text-center"><?php echo $column_salesman_info; ?></td>
+                  <td class="text-center"><?php echo $column_action; ?></td>
                 </tr>
               </thead>
               <tbody>
                 <?php if ($applications) { ?>
                 <?php foreach ($applications as $application) { ?>
                 <tr>
-                  <td class="text-left"><?php echo $application['fullname']; ?></td>
+                  <td class="text-left" style="text-decoration:underline"><a href="<?php echo $application['salesman_info'] ?>" data-toggle="tooltip" title="<?php echo $text_saleman_info; ?>"> <?php echo $application['fullname']; ?></a></td>
                   <td class="text-left"><?php echo $application['email']; ?></td>
                   <td class="text-left"><?php echo $application['date_first_applied']; ?></td>
                   <td class="text-left">
-                  	<?php 
+                  	<?php
                   		if ($application['status'] == 1) { echo $text_status_1;}
 						if ($application['status'] == 2) { echo $text_status_2;}
 						if ($application['status'] == 3) { echo $text_status_3;}
 						if ($application['status'] == 4) { echo $text_status_4;}
                   	?>
                   </td>
-                  <td class="text-right">
+                  <td class="text-center"><a href="<?php echo $application['salesman_info'] ?>" data-toggle="tooltip" title="<?php echo $text_saleman_info; ?>" class="btn btn-info"><i class="fa fa-user"></i><?php echo $text_saleman_info; ?></a></td>
+                  <td class="text-center">
                   	<?php if ($application['status'] == 1 || $application['status'] == 4) { ?>
                     	<a href="<?php echo $application['records']; ?>" data-toggle="tooltip" title="<?php echo $botton_records; ?>" class="btn btn-info"><i class="fa fa-eye"></i></a>
                     	<a href="<?php echo $application['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
@@ -157,40 +159,40 @@
   <script type="text/javascript"><!--
 $('#button-filter').on('click', function() {
 	url = 'index.php?route=salesman/application&token=<?php echo $token; ?>';
-	
+
 	var filter_name = $('input[name=\'filter_name\']').val();
-	
+
 	if (filter_name) {
 		url += '&filter_name=' + encodeURIComponent(filter_name);
 	}
 
 	var filter_email = $('input[name=\'filter_email\']').val();
-	
+
 	if (filter_email) {
 		url += '&filter_email=' + encodeURIComponent(filter_email);
 	}
-	
+
 	var filter_status = $('select[name=\'filter_status\']').val();
-	
+
 	if (filter_status != '*') {
-		url += '&filter_status=' + encodeURIComponent(filter_status); 
-	}	
-	
+		url += '&filter_status=' + encodeURIComponent(filter_status);
+	}
+
 	var filter_date_first_applied = $('input[name=\'filter_date_first_applied\']').val();
-	
+
 	if (filter_date_first_applied) {
 		url += '&filter_date_first_applied=' + encodeURIComponent(filter_date_first_applied);
 	}
-	
+
 	location = url;
 });
-//--></script> 
+//--></script>
   <script type="text/javascript"><!--
   $('input[name=\'filter_name\']').autocomplete({
 		'source': function(request, response) {
 			$.ajax({
 				url: 'index.php?route=salesman/application/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request),
-				dataType: 'json',			
+				dataType: 'json',
 				success: function(json) {
 					response($.map(json, function(item) {
 						return {
@@ -203,14 +205,14 @@ $('#button-filter').on('click', function() {
 		},
 		'select': function(item) {
 			$('input[name=\'filter_name\']').val(item['label']);
-		}	
+		}
 	});
-  
+
   $('input[name=\'filter_email\']').autocomplete({
 		'source': function(request, response) {
 			$.ajax({
 				url: 'index.php?route=salesman/application/autocomplete&token=<?php echo $token; ?>&filter_email=' +  encodeURIComponent(request),
-				dataType: 'json',			
+				dataType: 'json',
 				success: function(json) {
 					response($.map(json, function(item) {
 						return {
@@ -223,12 +225,12 @@ $('#button-filter').on('click', function() {
 		},
 		'select': function(item) {
 			$('input[name=\'filter_email\']').val(item['label']);
-		}	
+		}
 	});
-//--></script> 
+//--></script>
   <script type="text/javascript"><!--
 $('.date').datetimepicker({
 	pickTime: false
 });
 //--></script></div>
-<?php echo $footer; ?> 
+<?php echo $footer; ?>

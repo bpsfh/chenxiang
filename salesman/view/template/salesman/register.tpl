@@ -53,9 +53,35 @@
           </div>
         </fieldset>
         <fieldset>
+          <legend><?php echo $text_your_identity; ?></legend>
+          <div class="form-group required">
+            <label class="col-sm-1 control-label"></label>
+            <label class="col-sm-1-4 ">
+              <?php foreach ($languages as $language) { ?>
+              <select name="salesman_upload_description[<?php echo $language['language_id']; ?>][name]" id="salesman_upload_description" class="form-control" >
+                 <option value="<?php echo $entry_identity; ?>" ><?php echo $entry_identity; ?></option>
+              </select>
+              <?php } ?>
+            </label>
+            <div class="col-sm-4">
+              <div class="input-group">
+                <input type="text" name="filename" value="<?php echo $filename; ?>" placeholder="<?php echo $entry_identity_img; ?>" id="input-filename" class="form-control" readonly="readonly"/>
+                <span class="input-group-btn">
+                <button type="button" id="button-upload" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-primary"><i class="fa fa-upload"></i> <?php echo $button_upload; ?></button>
+                </span>
+              </div>
+              <?php if ($error_identity_img) { ?>
+                <div class="text-danger "><?php echo $error_identity_img; ?></div>
+              <?php } ?>
+            </div>
+          </div>
+              <input type="hidden" name="mask" value="<?php echo $mask; ?>" id="input-mask" class="form-control" />
+              <input type="hidden" name="category" value="<?php echo $category; ?>" id="input-category" class="form-control" />
+        </fieldset>
+        <fieldset>
           <legend><?php echo $text_your_address; ?></legend>
           <div class="form-group">
-            <label class="col-sm-2 control-label" for="input-company"><?php echo $entry_company; ?></label>
+            <label class="col-sm-2  " for="input-company"><?php echo $entry_company; ?></label>
             <div class="col-sm-10">
               <input type="text" name="company" value="<?php echo $company; ?>" placeholder="<?php echo $entry_company; ?>" id="input-company" class="form-control" />
             </div>
@@ -112,7 +138,7 @@
               <?php } ?>
             </div>
           </div>
-          
+
           <div class="form-group required">
             <label class="col-sm-2 control-label" for="input-postcode"><?php echo $entry_postcode; ?></label>
             <div class="col-sm-10">
@@ -122,7 +148,7 @@
               <?php } ?>
             </div>
           </div>
-          
+
         </fieldset>
         <fieldset>
           <legend><?php echo $text_payment; ?></legend>
@@ -174,7 +200,7 @@
             </div>
           </div>
           <div class="payment" id="payment-alipay">
-            
+
             <div class="form-group">
               <label class="col-sm-2 control-label" for="input-alipay-account-name"><?php echo $entry_alipay_account_name; ?></label>
               <div class="col-sm-10">
@@ -188,7 +214,7 @@
               </div>
             </div>
           </div>
-          
+
           <div class="form-group payment" id="payment-cheque">
             <label class="col-sm-2 control-label" for="input-cheque"><?php echo $entry_cheque; ?></label>
             <div class="col-sm-10">
@@ -278,7 +304,7 @@ $('select[name=\'country_id\']').on('change', function() {
 			$('.fa-spin').remove();
 		},
 		success: function(json) {
-     
+
 			if (json['postcode_required'] == '1') {
 				$('input[name=\'postcode\']').parent().parent().addClass('required');
 			} else {
@@ -319,5 +345,56 @@ $('input[name=\'payment\']').on('change', function() {
 });
 
 $('input[name=\'payment\']:checked').trigger('change');
+//--></script>
+
+<script type="text/javascript"><!--
+$('#button-upload').on('click', function() {
+	$('#form-upload').remove();
+
+	$('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file" /></form>');
+
+	$('#form-upload input[name=\'file\']').trigger('click');
+
+	if (typeof timer != 'undefined') {
+    	clearInterval(timer);
+	}
+
+	timer = setInterval(function() {
+		if ($('#form-upload input[name=\'file\']').val() != '') {
+			clearInterval(timer);
+
+			$.ajax({
+				url: 'index.php?route=salesman/upload/upload',
+				type: 'post',
+				dataType: 'json',
+				data: new FormData($('#form-upload')[0]),
+				cache: false,
+				contentType: false,
+				processData: false,
+				beforeSend: function() {
+					$('#button-upload').button('loading');
+				},
+				complete: function() {
+					$('#button-upload').button('reset');
+				},
+				success: function(json) {
+					if (json['error']) {
+						alert(json['error']);
+					}
+
+					if (json['success']) {
+						alert(json['success']);
+
+						$('input[name=\'filename\']').attr('value', json['filename']);
+						$('input[name=\'mask\']').attr('value', json['mask']);
+					}
+				},
+				error: function(xhr, ajaxOptions, thrownError) {
+					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+				}
+			});
+		}
+	}, 500);
+});
 //--></script>
 <?php echo $footer; ?>

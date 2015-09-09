@@ -7276,7 +7276,7 @@ CREATE TABLE IF NOT EXISTS `mcc_salesman_address` (
 --
 -- 表的结构 `mcc_file_upload`
 -- category(文件类别):
--- 0：身份证； 1：发票； 2：凭证； 3：其他文件；
+-- 1：身份证； 2：发票； 3：凭证； 4：其他文件；
 CREATE TABLE IF NOT EXISTS `mcc_salesman_upload` (
   `upload_id` int(11) NOT NULL AUTO_INCREMENT,
   `salesman_id` int(11) NOT NULL,

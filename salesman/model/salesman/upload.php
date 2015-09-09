@@ -1,11 +1,9 @@
 <?php
 class ModelSalesmanUpload extends Model {
-	public function addUpload($data) {
+	public function addUpload($salesman_id, $data) {
 		$this->event->trigger('pre.salesman.upload.add', $data);
 
-		$salesman_id = $this->salesman->getId ();
-
-		$this->db->query("INSERT INTO " . DB_PREFIX . "salesman_upload SET filename = '" . $this->db->escape($data['filename']) . "', mask = '" . $this->db->escape($data['mask']) . "', date_added = NOW() ,salesman_id = '" . (int)$salesman_id . "'");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "salesman_upload SET filename = '" . $this->db->escape($data['filename']) . "', mask = '" . $this->db->escape($data['mask']) . "', date_added = NOW() ,salesman_id = '" . (int)$salesman_id . "' ,category = '" . (int)$this->db->escape($data['category']) . "'");
 
 		$upload_id = $this->db->getLastId();
 
@@ -21,7 +19,7 @@ class ModelSalesmanUpload extends Model {
 	public function editUpload($upload_id, $data) {
 		$this->event->trigger('pre.salesman.upload.edit', $data);
 
-		$this->db->query("UPDATE " . DB_PREFIX . "salesman_upload SET filename = '" . $this->db->escape($data['filename']) . "', mask = '" . $this->db->escape($data['mask']) . "' WHERE upload_id = '" . (int)$upload_id . "'");
+		$this->db->query("UPDATE " . DB_PREFIX . "salesman_upload SET filename = '" . $this->db->escape($data['filename']) . "',category = '" . (int)$this->db->escape($data['category']) . "', mask = '" . $this->db->escape($data['mask']) . "' WHERE upload_id = '" . (int)$upload_id . "'");
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "salesman_upload_description WHERE upload_id = '" . (int)$upload_id . "'");
 
@@ -45,6 +43,13 @@ class ModelSalesmanUpload extends Model {
 		$salesman_id = $this->salesman->getId ();
 
 		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "salesman_upload d LEFT JOIN " . DB_PREFIX . "salesman_upload_description dd ON (d.upload_id = dd.upload_id) WHERE d.upload_id = '" . (int)$upload_id . "' AND dd.language_id = '" . (int)$this->config->get('config_language_id') . "'AND d.salesman_id = '" . (int)$salesman_id . "'");
+
+		return $query->row;
+	}
+
+	public function getSalesmanImgUpload($salesman_id, $category) {
+
+		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "salesman_upload d LEFT JOIN " . DB_PREFIX . "salesman_upload_description dd ON (d.upload_id = dd.upload_id) WHERE  dd.language_id = '" . (int)$this->config->get('config_language_id') . "'AND d.category = '" . (int)$category . "' AND d.salesman_id = '" . (int)$salesman_id . "'limit 1");
 
 		return $query->row;
 	}

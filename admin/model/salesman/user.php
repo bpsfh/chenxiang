@@ -310,6 +310,10 @@ class ModelSalesmanUser extends Model {
 		// 批准业务员申请履历
 		$this->db->query('INSERT INTO ' . DB_PREFIX . "salesman_apply_record SET salesman_id = '" . (int)$salesman_id . "', status = '2'"
 				.", date_processed = NOW()");
+		// 业务员申请个人认证图片
+		// $this->load->model ( 'salesman/upload' );
+
+		// $this->model_salesman_upload->addUpload ($salesman_id, $data);
 	}
 	
 	/**
@@ -340,6 +344,10 @@ class ModelSalesmanUser extends Model {
 				}
 			}
 		}
+		// 业务员申请个人认证图片
+		// $this->load->model ( 'salesman/upload' );
+
+		// $this->model_salesman_upload->editUpload ( $data['upload_id'], $data);
 	}
 
 	/**

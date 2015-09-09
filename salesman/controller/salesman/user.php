@@ -53,6 +53,9 @@ class ControllerSalesmanUser extends Controller {
 			$this->error ['zone'] = $this->language->get ( 'error_zone' );
 		}
 
+		if (!isset($this->request->post['filename']) || $this->request->post['filename']  == '') {
+			$this->error['identity_img'] = $this->language->get('error_identity_img');
+		}
 		return ! $this->error;
 	}
 	public function edit() {
@@ -71,6 +74,7 @@ class ControllerSalesmanUser extends Controller {
 		if (($this->request->server ['REQUEST_METHOD'] == 'POST') && $this->validateForm ()) {
 
 			$this->model_salesman_user->editSalesman ( $this->request->post );
+
 			$this->model_salesman_address->editAddress ( $this->salesman->getAddressId (), $this->request->post );
 
 			$this->session->data ['success'] = $this->language->get ( 'text_success' );
@@ -136,9 +140,13 @@ class ControllerSalesmanUser extends Controller {
 		$data ['entry_default'] = $this->language->get ( 'entry_default' );
 		$data ['entry_telephone'] = $this->language->get ( 'entry_telephone' );
 		$data ['entry_fax'] = $this->language->get ( 'entry_fax' );
+		$data ['entry_identity'] = $this->language->get('entry_identity');
+		$data ['entry_identity_img'] = $this->language->get('entry_identity_img');
 
 		$data ['button_save'] = $this->language->get ( 'button_save' );
 		$data ['button_cancel'] = $this->language->get ( 'button_cancel' );
+		$data ['button_upload'] = $this->language->get('button_upload');
+		$data ['button_download'] = $this->language->get('button_download');
 
 		if (isset ( $this->error ['fullname'] )) {
 			$data ['error_fullname'] = $this->error ['fullname'];
@@ -206,6 +214,12 @@ class ControllerSalesmanUser extends Controller {
 			$data ['error_zone'] = $this->error ['zone'];
 		} else {
 			$data ['error_zone'] = '';
+		}
+
+		if (isset($this->error['identity_img'])) {
+			$data['error_identity_img'] = $this->error['identity_img'];
+		} else {
+			$data['error_identity_img'] = '';
 		}
 
 		$url = '';
@@ -352,6 +366,55 @@ class ControllerSalesmanUser extends Controller {
 			$data ['zone_id'] = '';
 		}
 
+		$this->load->model ( 'salesman/upload' );
+		$user_identity_img_info = $this->model_salesman_upload->getSalesmanImgUpload ( $salesman_id, '1' );
+
+		if (isset($this->request->post['upload_id'])) {
+			$data ['upload_id'] = $this->request->post['upload_id'];
+		} elseif (! empty ( $user_identity_img_info )) {
+			$data ['upload_id'] = $user_identity_img_info ['upload_id'];
+		} else {
+			$data ['upload_id'] = 0;
+		}
+
+		if (isset($this->request->post['salesman_upload_description'])) {
+			$data['salesman_upload_description'] = $this->request->post['salesman_upload_description'];
+		} elseif (! empty ( $user_identity_img_info )) {
+			$data ['salesman_upload_description'] = $this->model_salesman_upload->getUploadDescriptions($user_identity_img_info['upload_id']);
+		} else {
+			$data['salesman_upload_description'] = array();
+		}
+
+		if (isset($this->request->post['filename'])) {
+			$data['filename'] = $this->request->post['filename'];
+		} elseif (! empty ( $user_identity_img_info )) {
+			$data ['filename'] = $user_identity_img_info ['filename'];
+		} else {
+			$data['filename'] = '';
+		}
+
+		if (isset($this->request->post['mask'])) {
+			$data['mask'] = $this->request->post['mask'];
+		} elseif (! empty ( $user_identity_img_info )) {
+			$data ['mask'] = $user_identity_img_info ['mask'];
+		} else {
+			$data['mask'] = '';
+		}
+
+		if (isset($this->request->post['category'])) {
+			$data['category'] = $this->request->post['category'];
+		} elseif (! empty ( $user_identity_img_info )) {
+			$data ['category'] = $user_identity_img_info ['category'];
+		} else {
+			$data['category'] = 1;
+		}
+
+		$data['download'] = $this->url->link('salesman/upload/download', 'token=' . $this->session->data['token'] . '&mask=' . $data['mask'] . $url, 'SSL');
+
+		$this->load->model('localisation/language');
+
+		$data['languages'] = $this->model_localisation_language->getLanguages();
+
 		$this->load->model ( 'localisation/country' );
 
 		$data ['countries'] = $this->model_localisation_country->getCountries ();
@@ -363,6 +426,7 @@ class ControllerSalesmanUser extends Controller {
 		$data ['token'] = $this->session->data ['token'];
 		$this->response->setOutput ( $this->load->view ( 'salesman/user_form.tpl', $data ) );
 	}
+
 	public function country() {
 		$json = array ();
 

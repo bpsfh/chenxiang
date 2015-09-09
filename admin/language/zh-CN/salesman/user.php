@@ -10,6 +10,7 @@ $_['text_list']             = '业务员列表';
 $_['text_add']              = '添加业务员';
 $_['text_edit']             = '编辑业务员';
 $_['text_default']          = '默认';
+$_['text_loading']          = '加载中';
 
 // Column
 $_['column_salesman_id']    = '业务员ID';
@@ -48,6 +49,8 @@ $_['entry_default']         = '默认地址';
 $_['entry_name']            = '业务员名';
 $_['entry_date_added']      = '添加日期';
 $_['entry_date_approved']   = '批准日期';
+$_['entry_identity']        = '身份证';
+$_['entry_identity_img']    = '请上传证件照片';
 
 // Error
 $_['error_warning']         = '警告: 详细检查相关错误！';
@@ -65,3 +68,4 @@ $_['error_country']         = '请选择国家！';
 $_['error_zone']            = '请选择州/省/地区！';
 $_['error_custom_field']    = '%s 必填！';
 $_['error_comment']         = '备注必填！';
+$_['error_identity_img']   = '请上传身份认证图片';

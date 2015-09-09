@@ -18,9 +18,9 @@ class ControllerSalesmanRegister extends Controller {
 
 			// Clear any previous login info when begin new register.
 			if ($this->salesman->isLogged()) {
-				$this->salesman->logout();	
+				$this->salesman->logout();
 			}
-			
+
 			$this->salesman->login($this->request->post['email'], $this->request->post['password'], true);
 
 //			// Add to activity log
@@ -37,8 +37,8 @@ class ControllerSalesmanRegister extends Controller {
 			if($this->salesman->isLogged()) {
 				$this->session->data['token'] = md5(mt_rand());
 
-				if (isset($this->request->post['redirect']) 
-					&& (strpos($this->request->post['redirect'], HTTP_SERVER) === 0 
+				if (isset($this->request->post['redirect'])
+					&& (strpos($this->request->post['redirect'], HTTP_SERVER) === 0
 						|| strpos($this->request->post['redirect'], HTTPS_SERVER) === 0 )) {
 					$this->response->redirect($this->request->post['redirect'] . '&token=' . $this->session->data['token']);
 				} else {
@@ -46,7 +46,7 @@ class ControllerSalesmanRegister extends Controller {
 				}
 			}
 		}
-	
+
 		$data['heading_title'] = $this->language->get('heading_title');
 
 		$data['text_select'] = $this->language->get('text_select');
@@ -61,6 +61,8 @@ class ControllerSalesmanRegister extends Controller {
 		$data['text_paypal'] = $this->language->get('text_paypal');
 		$data['text_bank'] = $this->language->get('text_bank');
 		$data['text_alipay'] = $this->language->get('text_alipay');
+		$data['text_your_identity'] = $this->language->get('text_your_identity');
+		$data['text_loading'] = $this->language->get('text_loading');
 
 		$data['entry_fullname'] = $this->language->get('entry_fullname');
 		$data['entry_email'] = $this->language->get('entry_email');
@@ -84,8 +86,12 @@ class ControllerSalesmanRegister extends Controller {
 		$data['entry_alipay'] = $this->language->get('entry_alipay');
 		$data['entry_password'] = $this->language->get('entry_password');
 		$data['entry_confirm'] = $this->language->get('entry_confirm');
+		$data['entry_identity'] = $this->language->get('entry_identity');
+		$data['entry_identity_img'] = $this->language->get('entry_identity_img');
+
 
 		$data['button_continue'] = $this->language->get('button_continue');
+		$data['button_upload'] = $this->language->get('button_upload');
 
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
@@ -151,6 +157,12 @@ class ControllerSalesmanRegister extends Controller {
 			$data['error_zone'] = $this->error['zone'];
 		} else {
 			$data['error_zone'] = '';
+		}
+
+		if (isset($this->error['identity_img'])) {
+			$data['error_identity_img'] = $this->error['identity_img'];
+		} else {
+			$data['error_identity_img'] = '';
 		}
 
 		$data['action'] = $this->url->link('salesman/register', '', 'SSL');
@@ -266,7 +278,7 @@ class ControllerSalesmanRegister extends Controller {
 		} else {
 			$data['bank_account_number'] = '';
 		}
-		
+
 		if (isset($this->request->post['alipay_account_name'])) {
 			$data['alipay_account_name'] = $this->request->post['alipay_account_name'];
 		} else {
@@ -290,6 +302,35 @@ class ControllerSalesmanRegister extends Controller {
 		} else {
 			$data['confirm'] = '';
 		}
+
+		if (isset($this->request->post['salesman_upload_description'])) {
+			$data['salesman_upload_description'] = $this->request->post['salesman_upload_description'];
+		} else {
+			$data['salesman_upload_description'] = array();
+		}
+
+		if (isset($this->request->post['filename'])) {
+			$data['filename'] = $this->request->post['filename'];
+		} else {
+			$data['filename'] = '';
+		}
+
+		if (isset($this->request->post['mask'])) {
+			$data['mask'] = $this->request->post['mask'];
+		} else {
+			$data['mask'] = '';
+		}
+
+		if (isset($this->request->post['category'])) {
+			$data['category'] = $this->request->post['category'];
+		} else {
+			$data['category'] = 1;
+		}
+
+		$this->load->model('localisation/language');
+
+		$data['languages'] = $this->model_localisation_language->getLanguages();
+
 
 		// TODO
 		if ($this->config->get('config_salesman_id')) {
@@ -326,6 +367,7 @@ class ControllerSalesmanRegister extends Controller {
 			$this->response->setOutput($this->load->view('default/template/salesman/register.tpl', $data));
 		}
 		*/
+
 		$this->response->setOutput($this->load->view('salesman/register.tpl', $data));
 	}
 
@@ -388,6 +430,9 @@ class ControllerSalesmanRegister extends Controller {
 			}
 		}
 
+		if (!isset($this->request->post['filename']) || $this->request->post['filename']  == '') {
+			$this->error['identity_img'] = $this->language->get('error_identity_img');
+		}
 		return !$this->error;
 	}
 

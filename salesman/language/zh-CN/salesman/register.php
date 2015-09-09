@@ -17,6 +17,9 @@ $_['text_paypal']               = 'PayPal';
 $_['text_alipay']               = '支付宝';
 $_['text_bank']                 = '银行转账';
 $_['text_agree']                = '我已经阅读并同意 <a class="fancybox" href="%s" alt="%s"><b>%s</b></a>条款';
+$_['text_your_identity']        = '您的身份认证';
+$_['text_loading']              = '加载中';
+
 
 // Entry
 $_['entry_fullname']            = '姓名';
@@ -41,6 +44,8 @@ $_['entry_alipay_account_name'] = '支付宝账户姓名';
 $_['entry_alipay'] 				= '支付宝账户';
 $_['entry_password']            = '密码';
 $_['entry_confirm']             = '确认密码';
+$_['entry_identity']            = '身份证';
+$_['entry_identity_img']        = '请上传证件照片';
 
 // Error
 $_['error_exists']              = '警告: E-Mail 地址已被注册！';
@@ -49,9 +54,11 @@ $_['error_email']               = 'E-Mail 地址无效！';
 $_['error_telephone']           = '电话必须为 3 - 32字符！';
 $_['error_password']            = '密码必须为 4 - 20字符！';
 $_['error_confirm']             = '确认密码与密码不一致！';
-$_['error_address']           = '地址必须为 3 - 128字符！';
+$_['error_address']             = '地址必须为 3 - 128字符！';
 $_['error_city']                = '所在城市必须为 2 - 128字符！';
 $_['error_country']             = '请选择国家';
 $_['error_zone']                = '请选择州/省/地区！';
 $_['error_postcode']            = '邮政编码必须为 2 - 10字符！';
 $_['error_agree']               = '警告:必须同意 %s!';
+$_['error_identity_img']        = '请上传身份认证图片';
+

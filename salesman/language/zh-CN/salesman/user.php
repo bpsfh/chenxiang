@@ -9,6 +9,7 @@ $_['text_home']         = '主页';
 // Text
 $_['text_edit']         = '编辑基本信息';
 $_['text_success']      = '更新成功';
+$_['text_loading']      = '加载中';
 
 // Column
 $_['column_username']   = '用户名';
@@ -45,6 +46,8 @@ $_['entry_zone']           = '州/省/地区';
 $_['entry_default']        = '默认地址';
 $_['entry_telephone'] 	   = '收件人电话';
 $_['entry_fax'] 	       = '传真';
+$_['entry_identity']       = '身份证';
+$_['entry_identity_img']   = '请上传证件照片';
 
 
 // Error
@@ -56,3 +59,4 @@ $_['error_country']        = '请选择国家';
 $_['error_zone']           = '请选择州/省/地区！';
 $_['error_custom_field']   = '%s 必须！';
 $_['error_telephone']      = '收件人电话必须为3到32字节！';
+$_['error_identity_img']   = '请上传身份认证图片';
