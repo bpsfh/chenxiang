@@ -622,4 +622,8 @@ input[type="checkbox"]:checked::after, .checkbox input[type="checkbox"]:checked:
 	margin-bottom: 0;
 	padding-top: 9px;
 }
+
+.navbar-brand {
+	padding: 7px 15px;
+}
 /* Add by sangsanghu 2015/07/01 END */
