@@ -624,3 +624,7 @@ input[type="checkbox"]:checked::after, .checkbox input[type="checkbox"]:checked:
 .fS15 {
 	font-size: 15px;
 }
+
+.navbar-brand {
+	padding: 7px 15px;
+}
