@@ -133,6 +133,9 @@ $_['tab_online']                    = '在线会员';
 $_['tab_activity']                  = '最新活动';
 $_['tab_recurring']                 = '分期付款';
 $_['tab_action']                    = '操作';
+// Add sangsanghu 2015/09/10 ST
+$_['tab_salesman']                  = '业务员';
+// Add sangsanghu 2015/09/10 END
 
 // Error
 $_['error_exception']               = '错读代码(%s): %s in %s on line %s';

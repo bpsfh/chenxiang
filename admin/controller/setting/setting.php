@@ -74,6 +74,10 @@ class ControllerSettingSetting extends Controller {
 		$data['entry_currency_auto'] = $this->language->get('entry_currency_auto');
 		$data['entry_length_class'] = $this->language->get('entry_length_class');
 		$data['entry_weight_class'] = $this->language->get('entry_weight_class');
+		// Add sangsanghu 2015/09/10 ST
+		$data['entry_commission_def_percent'] = $this->language->get('entry_commission_def_percent');
+		$data['entry_settle_suspend_days'] = $this->language->get('entry_settle_suspend_days');
+		// Add sangsanghu 2015/09/10 END
 		$data['entry_product_limit'] = $this->language->get('entry_product_limit');
 		$data['entry_product_description_length'] = $this->language->get('entry_product_description_length');
 		$data['entry_limit_admin'] = $this->language->get('entry_limit_admin');
@@ -220,6 +224,9 @@ class ControllerSettingSetting extends Controller {
 		$data['help_encryption'] = $this->language->get('help_encryption');
 		$data['help_compression'] = $this->language->get('help_compression');
 		$data['help_google_analytics'] = $this->language->get('help_google_analytics');
+		// Add sangsanghu 2015/09/10 ST
+		$data['help_commission_def_percent'] = $this->language->get('help_commission_def_percent');
+		// Add sangsanghu 2015/09/10 END
 
 		$data['button_save'] = $this->language->get('button_save');
 		$data['button_cancel'] = $this->language->get('button_cancel');
@@ -412,6 +419,20 @@ class ControllerSettingSetting extends Controller {
 		} else {
 			$data['error_error_filename'] = '';
 		}
+		
+		// Add sangsanghu 2015/09/10 ST
+		if (isset($this->error['commission_def_percent'])) {
+			$data['error_commission_def_percent'] = $this->error['commission_def_percent'];
+		} else {
+			$data['error_commission_def_percent'] = '';
+		}
+		
+		if (isset($this->error['settle_suspend_days'])) {
+			$data['error_settle_suspend_days'] = $this->error['settle_suspend_days'];
+		} else {
+			$data['error_settle_suspend_days'] = '';
+		}
+		// Add sangsanghu 2015/09/10 END
 
 		if (isset($this->error['product_limit'])) {
 			$data['error_product_limit'] = $this->error['product_limit'];
@@ -665,6 +686,20 @@ class ControllerSettingSetting extends Controller {
 		} else {
 			$data['config_weight_class_id'] = $this->config->get('config_weight_class_id');
 		}
+		
+		// Add sangsanghu 2015/09/10 ST
+		if (isset($this->request->post['config_commission_def_percent'])) {
+			$data['config_commission_def_percent'] = $this->request->post['config_commission_def_percent'];
+		} else {
+			$data['config_commission_def_percent'] = $this->config->get('config_commission_def_percent');
+		}
+		
+		if (isset($this->request->post['config_settle_suspend_days'])) {
+			$data['config_settle_suspend_days'] = $this->request->post['config_settle_suspend_days'];
+		} else {
+			$data['config_settle_suspend_days'] = $this->config->get('config_settle_suspend_days');
+		}
+		// Add sangsanghu 2015/09/10 END
 
 		$this->load->model('localisation/weight_class');
 
@@ -1399,6 +1434,25 @@ class ControllerSettingSetting extends Controller {
 				$this->error['error_filename'] = $this->language->get('error_malformed_filename');
 			}
 		}
+		
+		// Add sangsanghu 2015/09/10 ST
+		if (!$this->request->post['config_commission_def_percent']) {
+			$this->error['commission_def_percent'] = $this->language->get('error_commission_def_percent');
+		} else {
+			if (!preg_match('/^[0-9]*[1-9][0-9]*$/', $this->request->post['config_commission_def_percent'])
+					|| ((int)$this->request->post['config_commission_def_percent'] > 100)) {
+				$this->error['commission_def_percent'] = $this->language->get('error_commission_def_percent0');
+			}
+		}
+		
+		if (!$this->request->post['config_settle_suspend_days']) {
+			$this->error['settle_suspend_days'] = $this->language->get('error_settle_suspend_days');
+		} else {
+			if (!preg_match('/^[0-9]*[1-9][0-9]*$/', $this->request->post['config_settle_suspend_days'])) {
+				$this->error['settle_suspend_days'] = $this->language->get('error_settle_suspend_days0');
+			}
+		}
+		// Add sangsanghu 2015/09/10 END
 
 		if (!$this->request->post['config_product_limit']) {
 			$this->error['product_limit'] = $this->language->get('error_limit');
