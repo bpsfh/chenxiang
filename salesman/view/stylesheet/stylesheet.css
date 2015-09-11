@@ -616,3 +616,15 @@ input[type="checkbox"]:checked::after, .checkbox input[type="checkbox"]:checked:
     visibility: unset;
 }
 /* Menu Fix For System -> Layout -> Banner */
+
+.cRed {
+	color: red;
+}
+
+.fS15 {
+	font-size: 15px;
+}
+
+.navbar-brand {
+	padding: 7px 15px;
+}

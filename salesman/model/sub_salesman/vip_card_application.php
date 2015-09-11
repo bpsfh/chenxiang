@@ -2,7 +2,7 @@
 /**
  * @author HU
  */
-class ModelSalesmanVipCardApplication extends Model {
+class ModelSubSalesmanVipCardApplication extends Model {
 	
 	/**
 	 * 根据筛选条件查找全部申请的数据
@@ -10,7 +10,7 @@ class ModelSalesmanVipCardApplication extends Model {
 	 */
 	public function getApplicationLists($data = array()) {
 		$sql = "SELECT *, s.fullname FROM " . DB_PREFIX . "vip_card_application vca LEFT JOIN " . DB_PREFIX . "salesman s ON (vca.salesman_id = s.salesman_id) 
-				WHERE s.parent_id = '0'";
+				WHERE s.parent_id = '" . (int)$this->salesman->getId() . "'";
 		
 		// 查询条件作成
 		$implode = array();
@@ -76,7 +76,8 @@ class ModelSalesmanVipCardApplication extends Model {
 	 * @param $data
 	 */
 	public function getTotalApplications($data = array()) {
-		$sql = "SELECT COUNT(*) AS TOTAL FROM " . DB_PREFIX . "vip_card_application vca LEFT JOIN " . DB_PREFIX . "salesman s ON (vca.salesman_id = s.salesman_id) WHERE s.parent_id = '0'";
+		$sql = "SELECT COUNT(*) AS TOTAL FROM " . DB_PREFIX . "vip_card_application vca LEFT JOIN " . DB_PREFIX . "salesman s ON (vca.salesman_id = s.salesman_id)
+				 WHERE s.parent_id = '" . (int)$this->salesman->getId() . "'";
 		
 		// 查询条件作成
 		$implode = array();
@@ -110,7 +111,6 @@ class ModelSalesmanVipCardApplication extends Model {
 	 * @param $apply_id 申请id
 	 */
 	public function approveApplication($apply_id) {
-		print ($apply_id);
 		$this->db->query("UPDATE " . DB_PREFIX . "vip_card_application SET apply_status = '1'" . ", date_processed = NOW()"
 				 . " WHERE apply_id = '" . (int)$apply_id . "'");
 	}
@@ -120,7 +120,7 @@ class ModelSalesmanVipCardApplication extends Model {
 	 */
 	public function getApplication($apply_id) {
 		$sql = "SELECT *, s.fullname FROM " . DB_PREFIX . "vip_card_application vca LEFT JOIN "
-				 . DB_PREFIX . "salesman s ON (vca.salesman_id = s.salesman_id) WHERE vca.apply_id = '" . (int)$apply_id . "'";
+				 . DB_PREFIX . "salesman s ON (vca.salesman_id = s.salesman_id) WHERE vca.apply_id = '" . (int)$apply_id . "' AND s.parent_id = '" . $this->salesman->getId() . "'";
 		
 		$query = $this->db->query($sql);
 		return $query->row;
@@ -140,7 +140,7 @@ class ModelSalesmanVipCardApplication extends Model {
 	 * @param $data 筛选条件
 	 */
 	public function getSalesmans($data = array()) {
-		$sql = "SELECT * FROM " . DB_PREFIX . "salesman WHERE fullname LIKE '%" . $this->db->escape($data['filter_name']) . "%' AND parent_id = '0'";
+		$sql = "SELECT * FROM " . DB_PREFIX . "salesman WHERE fullname LIKE '%" . $this->db->escape($data['filter_name']) . "%' AND parent_id = '" . $this->salesman->getId() . "'";
 		
 		if (isset($data['start']) || isset($data['limit'])) {
 			if ($data['start'] < 0) {

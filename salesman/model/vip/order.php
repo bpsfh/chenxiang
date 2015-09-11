@@ -44,25 +44,40 @@ class ModelVipOrder extends Model {
 	}
 	
 	public function getOrders($data = array()) {
+
+		$def_site_commission_percent = 5;
 		
 		$sql = " SELECT vc.vip_card_id ";
+		$sql .= " , vc.salesman_id ";
+		$sql .= " , s.fullname";
+		$sql .= " , s.email";
 		$sql .= " , vc.customer_id ";
+		$sql .= " , c.fullname";
+		$sql .= " , c.email";
 		$sql .= " , op.order_id ";
 		$sql .= " , o.date_added";
 		$sql .= " , SUM(op.total) AS total ";
-		$sql .= " , SUM(op.total) * 0.05 AS commission ";
-		$sql .= " FROM `" . DB_PREFIX . "order_product` op ";
-		$sql .= " INNER JOIN `" . DB_PREFIX . "order` o ON op.order_id = o.order_id ";
-		$sql .= " INNER JOIN `" . DB_PREFIX . "customer` c ON o.customer_id = c.customer_id ";
-		$sql .= " INNER JOIN `" . DB_PREFIX . "vip_card` vc ON o.customer_id = vc.customer_id ";
+		$sql .= " , CASE WHEN pc.commission IS NULL THEN SUM(op.price * op.quantity * IFNULL(sp.sub_commission_def_percent, " . $def_site_commission_percent. ")) / 100 ";
+		$sql .= "        ELSE SUM(op.price * op.quantity * pc.commission) ";
+		$sql .= "   END AS commission ";
+		$sql .= " FROM `" . DB_PREFIX . "vip_card_assign_record` ca ";
+		$sql .= " INNER JOIN `" . DB_PREFIX . "vip_card` vc ON ca.vip_card_num = vc.vip_card_num ";
+		$sql .= " INNER JOIN `" . DB_PREFIX . "customer` c ON vc.customer_id = c.customer_id ";
+		$sql .= " INNER JOIN `" . DB_PREFIX . "order` o ON c.customer_id = o.customer_id ";
+		$sql .= " INNER JOIN `" . DB_PREFIX . "order_product` op ON o.order_id = op.order_id ";
+		$sql .= " INNER JOIN `" . DB_PREFIX . "salesman` s ON vc.salesman_id = s.salesman_id ";
+		$sql .= " LEFT JOIN `" . DB_PREFIX . "salesman` sp ON s.parent_id = sp.salesman_id ";
+		$sql .= " LEFT JOIN `" . DB_PREFIX . "product_commission` pc ON s.parent_id = sp.salesman_id and op.product_id = pc.product_id ";
 		
 		$implode = array();
 
 		$implode[] = "o.order_status_id = 5"; 
 
+		$implode[] = "ca.is_valid = 1"; 
+
 		// salesman_id is necessary
 		if(!empty($data['salesman_id'])) {
-			$implode[] = "vc.salesman_id = '" . $this->db->escape($data['salesman_id']) . "'";
+			$implode[] = "ca.salesman_id = '" . $this->db->escape($data['salesman_id']) . "'";
 		} else {
 			$implode[] = "0 = 1";
 		}
@@ -83,7 +98,7 @@ class ModelVipOrder extends Model {
 			$sql .= " WHERE " . implode(" AND ", $implode);
 		}
 		
-		$sql .= " GROUP BY vc.vip_card_id, vc.customer_id, o.order_id ";
+		$sql .= " GROUP BY vc.salesman_id, s.fullname, s.email, vc.vip_card_id, vc.customer_id, c.fullname, c.email, o.order_id ";
 
 		$query = $this->db->query($sql);
 

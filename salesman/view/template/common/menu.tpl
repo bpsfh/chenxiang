@@ -19,20 +19,21 @@
 	  <ul>
 	    <li><a href="<?php echo $sub_salesman; ?>"><?php echo $text_sub_salesman_user; ?></a></li>
 	    <li><a href="<?php echo $sub_salesman_contact; ?>"><?php echo $text_sub_salesman_contact; ?></a></li>
+	    <li><a href="<?php echo $vip_card_application; ?>"><?php echo $text_vip_card_application; ?></a></li>
 	  </ul>
     </li>
   <?php } ?>
 
   <?php if($isAuthorized) { ?>
-  <li id="financial "><a class="parent"><i class="fa fa-money fa-fw"></i> <span><?php echo $text_financial; ?></span></a>
+  <li id="finance"><a class="parent"><i class="fa fa-money fa-fw"></i> <span><?php echo $text_finance; ?></span></a>
     <ul>
-      <li><a href="<?php echo $commission_srch; ?>"><?php echo $text_commission_srch; ?></a></li>
-      <li><a href="<?php echo $settle_srch; ?>"><?php echo $text_settle_srch; ?></a></li>
-      <li><a href="<?php echo $settle_account; ?>"><?php echo $text_settle_account; ?></a></li>
+      <li><a href="<?php echo $unit_commission; ?>"><?php echo $text_unit_commission; ?></a></li>
+      <li><a href="<?php echo $order_commissions; ?>"><?php echo $text_order_commissions; ?></a></li>
+      <li><a href="<?php echo $commissions_apply; ?>"><?php echo $text_commissions_apply; ?></a></li>
     </ul>
   </li>
   <?php } else { ?>
-  <li id="financial "><a class="parent"><i class="fa fa-money fa-fw"></i> <span><?php echo $text_financial; ?></span></a>
+  <li id="finance"><a class="parent"><i class="fa fa-money fa-fw"></i> <span><?php echo $text_finance; ?></span></a>
   </li>
   <?php } ?>
 

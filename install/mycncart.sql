@@ -7100,6 +7100,8 @@ CREATE TABLE IF NOT EXISTS `mcc_salesman` (
   `parent_id` int(11) NOT NULL DEFAULT '0',             -- new field, refer to salesman_id except default 0 respect for the site admin.
   `level` int(3),                                       -- new field
   `with_grant_opt` tinyint(1) NOT NULL DEFAULT '0',     -- new field
+  `sub_settle_suspend_days` int(2) NOT NULL DEFAULT '7',    -- new field: suspend days setting for subordinate(salesman) settlement.
+  `sub_commission_def_percent` int(2) NOT NULL DEFAULT '5', -- new field: default commission percent setting for subordinate settlement, use when commission for product is not setted.
   `safe` tinyint(1) NOT NULL,
   `code` varchar(40) NOT NULL,
   `token` varchar(255) NOT NULL,
@@ -7114,8 +7116,8 @@ CREATE TABLE IF NOT EXISTS `mcc_salesman` (
 -- Dumping data for table `mcc_salesman`
 --
 
-INSERT INTO `mcc_salesman` (`salesman_group_id`, `store_id`, `fullname`, `email`, `telephone`, `fax`, `image`, `password`, `salt`, `newsletter`, `address_id`, `custom_field`, `ip`, `status`, `approved`, `application_status`, `parent_id`, `level`, `with_grant_opt`, `safe`, `code`, `token`, `date_added`, `date_first_applied`, `date_approved`) VALUES (
-'1', '0', 'jie zhang', 'jie-zhang@sz-rontech.com', '18662186718', '', '', 'e002c7877aa12eab9baca606f5ed9f52e1bc11ba', '7869d568e', '0', '0', 'a:0:{}', '192.168.0.100', '1', '1', '2', '0', '1', '1', '0', '', '', '2015-05-28 15:13:27', '2015-05-28 15:13:27', '2015-05-28 15:13:27');
+INSERT INTO `mcc_salesman` (`salesman_group_id`, `store_id`, `fullname`, `email`, `telephone`, `fax`, `image`, `password`, `salt`, `newsletter`, `address_id`, `custom_field`, `ip`, `status`, `approved`, `application_status`, `parent_id`, `level`, `with_grant_opt`, `sub_settle_suspend_days`, `sub_commission_def_percent`, `safe`, `code`, `token`, `date_added`, `date_first_applied`, `date_approved`) VALUES (
+'1', '0', 'jie zhang', 'jie-zhang@sz-rontech.com', '18662186718', '', '', 'e002c7877aa12eab9baca606f5ed9f52e1bc11ba', '7869d568e', '0', '0', 'a:0:{}', '192.168.0.100', '1', '1', '2', '0', '1', '1', '7', '5', '0', '', '', '2015-05-28 15:13:27', '2015-05-28 15:13:27', '2015-05-28 15:13:27');
 
 -- --------------------------------------------------------
 
@@ -7196,7 +7198,7 @@ CREATE TABLE IF NOT EXISTS `mcc_vip_card` (
 
 --
 -- Table structure for table `mcc_vip_card_assign_record`
--- VIP卡表中每次插入新记录，或者分配业务员变更，操作同时将分配记录记入该VIP卡分配记录表表。
+-- VIP卡表中每次插入新记录，或者分配业务员变更，操作同时将分配记录记入该VIP卡分配记录表。
 -- 1.  增加时机：对vip_card表的插入，修改操作的同时，将新记录同时插入本表
 -- 2.  修改时机：上级修改对下级的分配。（应该是，逻辑删除再添加。）
 -- 3.  删除时机：上级撤销对下级的分配。逻辑删除，设置无效Flg
@@ -7301,9 +7303,26 @@ CREATE TABLE IF NOT EXISTS `mcc_salesman_upload_description` (
   KEY `language_id` (`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mcc_salesman_login`
+-- 下级业务员产品别单位佣金表
+--    未设置时，对产品，取父业务员表中设置的[下级业务员默认佣金百分比]字段，与产品单价计算取得。
+--    设置后，设置值优先。
+--
+CREATE TABLE IF NOT EXISTS `mcc_product_commission` (
+  `product_id` int(11) NOT NULL,
+  `salesman_id` int(11) NOT NULL,       -- the id of parent salesman, by who the record is added.
+  `commission` decimal(15,2) NOT NULL DEFAULT '0.00', 
+  `start_date` datetime NOT NULL,       -- the date which this price is setted.
+  `end_date` datetime NULL,              -- the date which this price is updated: a new price is valid and this will be invalid.   
+  PRIMARY KEY (`product_id`, `salesman_id`, `start_date`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
 --
 -- 表的结构 `mcc_salesman_contact`
---
+-- reply_flg 0(已提出) 1(已答复)
 
 CREATE TABLE IF NOT EXISTS `mcc_salesman_contact` (
   `contact_id` int(11) NOT NULL AUTO_INCREMENT,
