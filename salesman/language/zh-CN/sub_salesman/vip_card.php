@@ -2,7 +2,7 @@
 //@author HU
 
 // Heading
-$_['heading_title']         = 'VIP卡申请一览';
+$_['heading_title']         = '下级VIP卡申请一览';
 $_['reject_heading_title']  = '拒绝申请';
 
 // Text
