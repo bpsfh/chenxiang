@@ -34,8 +34,7 @@
                 <input type="text" name="filter_name" value="<?php echo $filter_name; ?>" placeholder="<?php echo $entry_name; ?>" id="input-name" class="form-control" />
               </div>
             </div>
-           <div class="col-sm-3">
-              </div>
+            <div class="col-sm-3">
               <button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button>
             </div>
           </div>
@@ -88,21 +87,22 @@
   <script type="text/javascript"><!--
 $('#button-filter').on('click', function() {
 	url = 'index.php?route=finance/unit_commission&token=<?php echo $token; ?>';
-	
+
 	var filter_name = $('input[name=\'filter_name\']').val();
-	
+
 	if (filter_name) {
 		url += '&filter_name=' + encodeURIComponent(filter_name);
 	}
 
 	location = url;
+
 });
 //--></script> 
   <script type="text/javascript"><!--
   $('input[name=\'filter_name\']').autocomplete({
 		'source': function(request, response) {
 			$.ajax({
-				url: 'index.php?route=finance/unit_commission/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request),
+				url: 'index.php?route=finance/unit_commission/autocomplete&token=<?php echo $token; ?>&filter_name=' + encodeURIComponent(request),
 				dataType: 'json',			
 				success: function(json) {
 					response($.map(json, function(item) {
@@ -118,6 +118,5 @@ $('#button-filter').on('click', function() {
 			$('input[name=\'filter_name\']').val(item['label']);
 		}	
 	});
-  
 //--></script></div>
 <?php echo $footer; ?> 

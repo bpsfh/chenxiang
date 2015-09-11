@@ -189,7 +189,7 @@ class ControllerFinanceUnitCommission extends Controller {
 	 */
 	public function autocomplete() {
 		$json = array();
-	
+
 		if (isset($this->request->get['filter_name'])) {
 			if (isset($this->request->get['filter_name'])) {
 				$filter_name = $this->request->get['filter_name'];
@@ -205,12 +205,12 @@ class ControllerFinanceUnitCommission extends Controller {
 					'limit'        => 5
 			);
 	
-			$results = $this->model_unit_commission->getUnitCommission($filter_data);
+			$results = $this->model_finance_unit_commission->getProductCommission($filter_data);
 	
 			foreach ($results as $result) {
 				$json[] = array(
-						'product_id'       => $result['product_id'],
-						'name'              => strip_tags(html_entity_decode($result['fullname'], ENT_QUOTES, 'UTF-8')),
+					'product_id'       => $result['product_id'],
+					'name'             => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8'))
 				);
 			}
 		}

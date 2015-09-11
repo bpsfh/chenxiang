@@ -35,13 +35,16 @@ class ModelFinanceUnitCommission extends Model {
 		$sql .= " INNER JOIN `" . DB_PREFIX . "product_description` pd ON p.product_id = pd.product_id ";//AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 		$sql .= " LEFT JOIN `" . DB_PREFIX . "product_commission` pc ON p.product_id = pc.product_id AND pc.start_date <= NOW() AND pc.end_date IS NULL ";
 		$sql .= " LEFT JOIN `" . DB_PREFIX . "salesman` sp ON pc.salesman_id = sp.salesman_id ";
+		$sql .= " LEFT JOIN `" . DB_PREFIX . "salesman` s ON s.parent_id = sp.salesman_id ";
 
 		$clause_salesman_id = "";
 		if(!empty($data['salesman_id'])) {
 			$clause_salesman_id = " s.salesman_id = '" . $this->db->escape($data['salesman_id']) . "' ";
 		}
 
-		$sql .= " LEFT JOIN `" . DB_PREFIX . "salesman` s ON s.parent_id = sp.salesman_id AND " . $clause_salesman_id;
+		if(!empty($clause_salesman_id)) {
+			$sql .= " AND " . $clause_salesman_id;
+		}
 		
 		$implode = array();
 
@@ -51,8 +54,8 @@ class ModelFinanceUnitCommission extends Model {
 			$implode[] = " 1 = 0 ";
 		}
 
-		if(!empty($data['name'])) {
-			$implode[] = " pd.name LIKE '%" . $this->db->escape($data['name']) . "%'";
+		if(!empty($data['filter_name'])) {
+			$implode[] = " pd.name LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
 		}
 		
 		if ($implode) {
