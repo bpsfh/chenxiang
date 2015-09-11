@@ -93,7 +93,8 @@ $_['text_salesman']                    = '业务员管理';
 $_['text_salesman_vip_card']           = 'VIP卡申请一览';
 $_['text_salesman_user']               = '业务员';
 $_['text_salesman_application']        = '业务员申请一览';
-// Add by sangsanghu 2015/06/24 END 
+// Add by sangsanghu 2015/06/24 END
 // Add by fh 2015/09/07 ST
 $_['text_salesman_upload']             = '业务员上传资料一览';
+$_['text_salesman_contact']            = '业务员咨询';
 // Add by fh 2015/09/07 END

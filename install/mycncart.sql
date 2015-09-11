@@ -7320,6 +7320,21 @@ CREATE TABLE IF NOT EXISTS `mcc_product_commission` (
   PRIMARY KEY (`product_id`, `salesman_id`, `start_date`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- --------------------------------------------------------
+--
+-- 表的结构 `mcc_salesman_contact`
+-- reply_flg 0(已提出) 1(已答复)
 
-
+CREATE TABLE IF NOT EXISTS `mcc_salesman_contact` (
+  `contact_id` int(11) NOT NULL AUTO_INCREMENT,
+  `contact_title` varchar(255) ,
+  `contact_email` varchar(96),
+  `contact_phone` varchar(32),
+  `contact_content` varchar(500) ,
+  `contact_from` int(11) NOT NULL,
+  `contact_to` int(11) ,
+  `reply_content` varchar(500) ,
+  `date_contacted` datetime NOT NULL,
+  `date_replied` datetime ,
+  `reply_flg` boolean,
+  PRIMARY KEY `contact_id` (`contact_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;

@@ -28,10 +28,13 @@ class ControllerCommonMenu extends Controller {
 		$data['text_customer_group'] = $this->language->get('text_customer_group');
 		$data['text_contact_us'] = $this->language->get('text_contact_us');
 		$data['text_invoice_upload'] = $this->language->get('text_invoice_upload');
-		
+
 		// 下级业务员管理
 		$data['text_sub_salesman'] = $this->language->get('text_sub_salesman');
 		$data['text_sub_salesman_user'] = $this->language->get('text_sub_salesman_user');
+
+		$data['text_sub_salesman_contact'] = $this->language->get('text_sub_salesman_contact');
+
 		$data['text_vip_card_application'] = $this->language->get('text_vip_card_application');
 		
 		$this->load->model('sub_salesman/user');
@@ -64,7 +67,9 @@ class ControllerCommonMenu extends Controller {
 		$data['vip_card_application'] = $this->url->link('sub_salesman/vip_card', 'token=' . $this->session->data['token'], 'SSL');
 		
 		$data['invoice_upload'] = $this->url->link('salesman/upload/index', 'token=' . $this->session->data['token'], 'SSL');
-
+		$data['contact_us'] = $this->url->link('salesman/contact/index', 'token=' . $this->session->data['token'], 'SSL');
+		$data['sub_salesman_contact'] = $this->url->link('sub_salesman/contact/index', 'token=' . $this->session->data['token'], 'SSL');
+		
 		return $this->load->view('common/menu.tpl', $data);
 	}
 }

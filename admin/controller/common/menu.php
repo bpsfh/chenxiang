@@ -104,6 +104,7 @@ class ControllerCommonMenu extends Controller {
 
 		// Add by fh 2015/09/07 ST
 		$data['text_salesman_upload'] = $this->language->get('text_salesman_upload');
+		$data['text_salesman_contact'] = $this->language->get('text_salesman_contact');
 		// Add by fh 2015/09/07 END
 
 		$data['home'] = $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], 'SSL');
@@ -189,6 +190,7 @@ class ControllerCommonMenu extends Controller {
 
 		// Add by fh 2015/09/07 ST
 		$data['salesman_upload'] = $this->url->link('salesman/upload', 'token=' . $this->session->data['token'] . "&filter_status=5", 'SSL');
+		$data['salesman_contact'] = $this->url->link('salesman/contact', 'token=' . $this->session->data['token'] . "&filter_status=5", 'SSL');
 		// Add by fh 2015/09/07 END
 
 		$data['openbay_show_menu'] = $this->config->get('openbaypro_menu');

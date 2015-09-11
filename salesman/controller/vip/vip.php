@@ -160,7 +160,7 @@ class ControllerVipVip extends Controller {
 				'bind_customer'            => $result['bind_customer'],
 				'bind_customer_telephone'  => $result['bind_customer_telephone'],
 				'date_bind_to_salesman'    => date($this->language->get('date_format_short'), strtotime($result['date_bind_to_salesman'])),
-				'date_bind_to_customer'    => date($this->language->get('date_format_short'), strtotime($result['date_bind_to_customer'])),
+				'date_bind_to_customer'    => (!is_null($contact['date_bind_to_customer'])? (date($this->language->get('date_format_short'), strtotime($result['date_bind_to_customer']))) : null),
 				'activate_status'          => ((!is_null($result['bind_status'])) && (int)$result['bind_status'] === 1 ? true : false)
 			);
 		}
