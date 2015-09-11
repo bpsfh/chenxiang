@@ -201,6 +201,7 @@ class ControllerFinanceUnitCommission extends Controller {
 	
 			$filter_data = array(
 					'filter_name'  => $filter_name,
+					'salesman_id'  => $this->salesman->getId(),
 					'start'        => 0,
 					'limit'        => 5
 			);
