@@ -7100,8 +7100,8 @@ CREATE TABLE IF NOT EXISTS `mcc_salesman` (
   `parent_id` int(11) NOT NULL DEFAULT '0',             -- new field, refer to salesman_id except default 0 respect for the site admin.
   `level` int(3),                                       -- new field
   `with_grant_opt` tinyint(1) NOT NULL DEFAULT '0',     -- new field
-  `sub_settle_suspend_days` int(2) NOT NULL DEFAULT '7',    -- new field: suspend days setting for subordinate(salesman) settlement.
-  `sub_commission_def_percent` int(2) NOT NULL DEFAULT '5', -- new field: default commission percent setting for subordinate settlement, use when commission for product is not setted.
+  `sub_settle_suspend_days` int(2) NOT NULL,            -- new field: suspend days setting for subordinate(salesman) settlement.
+  `sub_commission_def_percent` int(2) NOT NULL,         -- new field: default commission percent setting for subordinate settlement, use when commission for product is not setted.
   `safe` tinyint(1) NOT NULL,
   `code` varchar(40) NOT NULL,
   `token` varchar(255) NOT NULL,
