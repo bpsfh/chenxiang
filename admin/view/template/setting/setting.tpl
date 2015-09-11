@@ -330,6 +330,26 @@
                   </select>
                 </div>
               </div>
+              <!-- Add sangsanghu 2015/09/10 ST -->
+              <div class="form-group required">
+                <label class="col-sm-2 control-label" for="input-commission_def_percent"><span data-toggle="tooltip" title="<?php echo $help_commission_def_percent; ?>"><?php echo $entry_commission_def_percent; ?></span></label>
+                <div class="col-sm-10">
+                  <input type="text" name="config_commission_def_percent" value="<?php echo $config_commission_def_percent; ?>" placeholder="<?php echo $entry_commission_def_percent; ?>" id="input-commission_def_percent" class="form-control" />
+                  <?php if ($error_commission_def_percent) { ?>
+                  <div class="text-danger"><?php echo $error_commission_def_percent; ?></div>
+                  <?php } ?>
+                </div>
+              </div>
+              <div class="form-group required">
+                <label class="col-sm-2 control-label" for="input-settle_suspend_days"><span data-toggle="tooltip" title="<?php echo $help_settle_suspend_days; ?>"><?php echo $entry_settle_suspend_days; ?></span></label>
+                <div class="col-sm-10">
+                  <input type="text" name="config_settle_suspend_days" value="<?php echo $config_settle_suspend_days; ?>" placeholder="<?php echo $entry_settle_suspend_days; ?>" id="input-settle_suspend_days" class="form-control" />
+                  <?php if ($error_settle_suspend_days) { ?>
+                  <div class="text-danger"><?php echo $error_settle_suspend_days; ?></div>
+                  <?php } ?>
+                </div>
+              </div>
+              <!-- Add sangsanghu 2015/09/10 ST -->
             </div>
             <div class="tab-pane" id="tab-option">
               <fieldset>

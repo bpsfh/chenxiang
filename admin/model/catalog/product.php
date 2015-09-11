@@ -118,6 +118,16 @@ class ModelCatalogProduct extends Model {
 				$this->db->query("INSERT INTO `" . DB_PREFIX . "product_recurring` SET `product_id` = " . (int)$product_id . ", customer_group_id = " . (int)$recurring['customer_group_id'] . ", `recurring_id` = " . (int)$recurring['recurring_id']);
 			}
 		}
+		
+		// Add sangsanghu 2015/09/10 ST
+		if (isset($data['product_commission'])) {
+			$this->load->model('catalog/commission');
+			
+			$commission_info['product_id'] = $product_id;
+			$commission_info['product_commission'] = $data['product_commission'];
+			$this->model_catalog_commission->addProductCommission($commission_info);
+		}
+		// Add sangsanghu 2015/09/10 END
 
 		$this->cache->delete('product');
 
@@ -274,6 +284,16 @@ class ModelCatalogProduct extends Model {
 				$this->db->query("INSERT INTO `" . DB_PREFIX . "product_recurring` SET `product_id` = " . (int)$product_id . ", customer_group_id = " . (int)$product_recurring['customer_group_id'] . ", `recurring_id` = " . (int)$product_recurring['recurring_id']);
 			}
 		}
+		
+		// Add sangsanghu 2015/09/11 ST
+		if (isset($data['product_commission'])) {
+			$this->load->model('catalog/commission');
+				
+			$commission_info['product_id'] = $product_id;
+			$commission_info['product_commission'] = $data['product_commission'];
+			$this->model_catalog_commission->editProductCommission($commission_info);
+		}
+		// Add sangsanghu 2015/09/11 END
 
 		$this->cache->delete('product');
 
@@ -333,6 +353,9 @@ class ModelCatalogProduct extends Model {
 		$this->db->query("DELETE FROM " . DB_PREFIX . "review WHERE product_id = '" . (int)$product_id . "'");
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_recurring WHERE product_id = " . (int)$product_id);
 		$this->db->query("DELETE FROM " . DB_PREFIX . "url_alias WHERE query = 'product_id=" . (int)$product_id . "'");
+		// Add sangsanghu 2015/09/11 ST
+		$this->db->query("DELETE FROM " . DB_PREFIX . "product_commission WHERE product_id = '" . (int)$product_id . "'");
+		// Add sangsanghu 2015/09/11 END
 
 		$this->cache->delete('product');
 

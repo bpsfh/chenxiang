@@ -591,6 +591,9 @@ class ControllerCatalogProduct extends Controller {
 		$data['entry_reward'] = $this->language->get('entry_reward');
 		$data['entry_layout'] = $this->language->get('entry_layout');
 		$data['entry_recurring'] = $this->language->get('entry_recurring');
+		// Add sangsanghu 2015/09/10 ST
+		$data['entry_commission'] = $this->language->get('entry_commission');
+		// Add sangsanghu 2015/09/10 END
 
 		$data['help_keyword'] = $this->language->get('help_keyword');
 		$data['help_sku'] = $this->language->get('help_sku');
@@ -632,6 +635,9 @@ class ControllerCatalogProduct extends Controller {
 		$data['tab_reward'] = $this->language->get('tab_reward');
 		$data['tab_design'] = $this->language->get('tab_design');
 		$data['tab_openbay'] = $this->language->get('tab_openbay');
+		// Add sangsanghu 2015/09/10 ST
+		$data['tab_salesman'] = $this->language->get('tab_salesman');
+		// Add sangsanghu 2015/09/10 END
 
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
@@ -668,6 +674,14 @@ class ControllerCatalogProduct extends Controller {
 		} else {
 			$data['error_keyword'] = '';
 		}
+		
+		// Add sangsanghu 2015/09/10 ST
+		if (isset($this->error['commission'])) {
+			$data['error_commission'] = $this->error['commission'];
+		} else {
+			$data['error_commission'] = '';
+		}
+		// Add sangsanghu 2015/09/10 END
 		
 		$url = '';
 
@@ -1296,6 +1310,23 @@ class ControllerCatalogProduct extends Controller {
 		$this->load->model('design/layout');
 
 		$data['layouts'] = $this->model_design_layout->getLayouts();
+		
+		// Add sangsanghu 2015/09/10 ST
+		// commission
+		if (isset($this->request->post['product_commission'])) {
+			$data['product_commission'] = $this->request->post['product_commission'];
+		} else {
+			$data['product_commission'] = '';
+		}
+		
+		$this->load->model('catalog/commission');
+		
+		if (isset($this->request->get['product_id'])) {
+			$data['commission'] = $this->model_catalog_commission->getVaildCommission($this->request->get['product_id']);
+		} else {
+			$data['commission'] = '';
+		}
+		// Add sangsanghu 2015/09/10 END
 
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
@@ -1336,6 +1367,16 @@ class ControllerCatalogProduct extends Controller {
 				$this->error['keyword'] = sprintf($this->language->get('error_keyword'));
 			}
 		}
+		
+		// Add sangsanghu 2015/09/10 ST
+		if (isset($this->request->post['product_commission']) && isset($this->request->post['price'])) {
+			
+			if (!preg_match('/^(([0-9]+\\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\\.[0-9]+)|([0-9]*[1-9][0-9]*))$/', $this->request->post['product_commission'])
+					|| ((int)$this->request->post['product_commission'] > (int)$this->request->post['price'])) {
+				$this->error['commission'] = $this->language->get('error_commission');
+			}
+		}
+		// Add sangsanghu 2015/09/10 END
 
 		if ($this->error && !isset($this->error['warning'])) {
 			$this->error['warning'] = $this->language->get('error_warning');
