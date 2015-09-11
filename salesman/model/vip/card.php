@@ -1,10 +1,10 @@
 <?php
 class ModelVipCard extends Model {
-	
+
 	public function getTotalVipCardsCnt($data = array()) {
-		
+
 		$sql = "SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "vip_card`";
-		
+
 		$implode = array();
 
 		if(!empty($data['salesman_id'])) {
@@ -18,24 +18,24 @@ class ModelVipCard extends Model {
 		if ($implode) {
 			$sql .= " WHERE " . implode(" AND ", $implode);
 		}
-		
+
 		$query = $this->db->query($sql);
 
 		return $query->row['total'];
 	}
-	
+
 	public function getBindedVipCardsCnt($data = array()) {
-		
+
 		$sql = "SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "vip_card`";
-		
+
 		$implode = array();
 
 		$implode[] = "bind_status = 3";
-		
+
 		if(!empty($data['salesman_id'])) {
 			$implode[] = "salesman_id = " . $this->db->escape($data['salesman_id']);
 		}
-		
+
 		if (!empty($data['filter_date_start'])) {
 			$implode[] = "DATE(date_bind_to_customer) >= '" . $this->db->escape($data['filter_date_start']) . "'";
 		}
@@ -47,31 +47,31 @@ class ModelVipCard extends Model {
 		if ($implode) {
 			$sql .= " WHERE " . implode(" AND ", $implode);
 		}
-		
+
 		$query = $this->db->query($sql);
 
 		return $query->row['total'];
 	}
-	
+
 	public function getBindedRate($data = array()) {
 		$total = $this->getTotalVipCardsCnt($data);
 		$bind = $this->getBindedVipCardsCnt($data);
 		return $total == 0 ? 0 : round($bind / $total * 100, 2);
 	}
-	
+
 	public function getBindedCntByDate($data = array()) {
 		$customer_data = array();
 
 		$sql = "SELECT COUNT(*) AS total, TIMESTAMPDIFF(DAY, '" . $this->db->escape($data['filter_date_start']) . "', vc.date_bind_to_salesman) AS day FROM `" . DB_PREFIX . "vip_card`";
-		
+
 		$implode = array();
 
 		$implode[] = "bind_status = 3";
-		
+
 		if(!empty($data['salesman_id'])) {
 			$implode[] = "salesman_id = " . $this->db->escape($data['salesman_id']);
 		}
-		
+
 		if (!empty($data['filter_date_start'])) {
 			$implode[] = "DATE(date_bind_to_customer) >= '" . $this->db->escape($data['filter_date_start']) . "'";
 		}
@@ -85,7 +85,7 @@ class ModelVipCard extends Model {
 		}
 
 		$sql .= "GROUP BY DATE(vc.date_bind_to_salesman)";
-		
+
 		$query = $this->db->query($sql);
 
 		foreach ($query->rows as $result) {
@@ -94,7 +94,7 @@ class ModelVipCard extends Model {
 				'total' => $result['total']
 			);
 		}
-		
+
 		return $customer_data;
 	}
 
@@ -125,12 +125,12 @@ class ModelVipCard extends Model {
 			$implode[] = "DATE(v.date_bind_to_salesman) <= DATE('" . $this->db->escape($data['filter_date_bind_to_salesman_to']) . "')";
 		}
 
-		if (!empty($data['filter_date_bind_to_salesman_fr'])) {
-			$implode[] = "DATE(v.date_bind_to_salesman) >= DATE('" . $this->db->escape($data['filter_date_bind_to_salesman_fr']) . "')";
+		if (!empty($data['filter_date_bind_to_customer_fr'])) {
+			$implode[] = "DATE(v.date_bind_to_customer) >= DATE('" . $this->db->escape($data['filter_date_bind_to_customer_fr']) . "')";
 		}
 
-		if (!empty($data['filter_date_bind_to_salesman_to'])) {
-			$implode[] = "DATE(v.date_bind_to_salesman) <= DATE('" . $this->db->escape($data['filter_date_bind_to_salesman_to']) . "')";
+		if (!empty($data['filter_date_bind_to_customer_to'])) {
+			$implode[] = "DATE(v.date_bind_to_customer) <= DATE('" . $this->db->escape($data['filter_date_bind_to_customer_to']) . "')";
 		}
 
 		if ($implode) {
@@ -198,12 +198,12 @@ class ModelVipCard extends Model {
 			$implode[] = "DATE(date_bind_to_salesman) <= DATE('" . $this->db->escape($data['filter_date_bind_to_salesman_to']) . "')";
 		}
 
-		if (!empty($data['filter_date_bind_to_salesman_fr'])) {
-			$implode[] = "DATE(date_bind_to_salesman) >= DATE('" . $this->db->escape($data['filter_date_bind_to_salesman_fr']) . "')";
+		if (!empty($data['filter_date_bind_to_customer_fr'])) {
+			$implode[] = "DATE(date_bind_to_customer) >= DATE('" . $this->db->escape($data['filter_date_bind_to_customer_fr']) . "')";
 		}
 
-		if (!empty($data['filter_date_bind_to_salesman_to'])) {
-			$implode[] = "DATE(date_bind_to_salesman) <= DATE('" . $this->db->escape($data['filter_date_bind_to_salesman_to']) . "')";
+		if (!empty($data['filter_date_bind_to_customer_to'])) {
+			$implode[] = "DATE(date_bind_to_customer) <= DATE('" . $this->db->escape($data['filter_date_bind_to_customer_to']) . "')";
 		}
 
 		if ($implode) {

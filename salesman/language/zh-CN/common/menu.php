@@ -19,3 +19,5 @@ $_['text_invoice_upload']              = '发票上传';
 
 $_['text_sub_salesman']                = '下级业务员管理';
 $_['text_sub_salesman_user']           = '下级业务员';
+$_['text_sub_salesman_contact']        = '下级业务员咨询';
+

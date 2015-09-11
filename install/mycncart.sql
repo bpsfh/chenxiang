@@ -7300,3 +7300,22 @@ CREATE TABLE IF NOT EXISTS `mcc_salesman_upload_description` (
   PRIMARY KEY `upload_id` (`upload_id`),
   KEY `language_id` (`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- 表的结构 `mcc_salesman_contact`
+--
+
+CREATE TABLE IF NOT EXISTS `mcc_salesman_contact` (
+  `contact_id` int(11) NOT NULL AUTO_INCREMENT,
+  `contact_title` varchar(255) ,
+  `contact_email` varchar(96),
+  `contact_phone` varchar(32),
+  `contact_content` varchar(500) ,
+  `contact_from` int(11) NOT NULL,
+  `contact_to` int(11) ,
+  `reply_content` varchar(500) ,
+  `date_contacted` datetime NOT NULL,
+  `date_replied` datetime ,
+  `reply_flg` boolean,
+  PRIMARY KEY `contact_id` (`contact_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
