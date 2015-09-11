@@ -50,6 +50,10 @@ $_['entry_currency']                   = '货币';
 $_['entry_currency_auto']              = '自动更新汇率';
 $_['entry_length_class']               = '尺寸单位';
 $_['entry_weight_class']               = '重量单位';
+// Add sangsanghu 2015/09/10 ST
+$_['entry_commission_def_percent']     = '业务员佣金默认百分比';
+$_['entry_settle_suspend_days']        = '佣金申请滞后期';
+// Add sangsanghu 2015/09/10 END
 $_['entry_product_limit']              = '每页默认商品数量 (商品目录)';
 $_['entry_product_description_length'] = '商品描述字数(商品目录)';
 $_['entry_limit_admin']                = '网站后台每页显示数量';
@@ -196,6 +200,9 @@ $_['help_password']                    = '允许已经遗忘的密码登陆系�
 $_['help_encryption']                  = '请提供一个密钥, 让处理订单时可加密个人的资料。';
 $_['help_compression']                 = 'GZIP 可更有效地转移到要求的客户端。压缩级别必须在0 - 9';
 $_['help_google_analytics']            = '登录您的<a onclick="window.open(\'http：//www.google.com/analytics/\');"><u>Google Analytics</u></a>账户，或者登录到您的<a onclick="window.open(\'http：//tongji.baidu.coms/\');"><u>百度统计</u></a>账户，然后创建您的网店概述拷贝粘贴统计代码到框内。';
+// Add sangsanghu 2015/09/10 ST
+$_['help_commission_def_percent']      = '结算佣金时，一级业务员默认的佣金百分比';
+// Add sangsanghu 2015/09/10 END
 
 // Error
 $_['error_warning']                    = '警告:请仔细检查相关错误！';
@@ -230,3 +237,9 @@ $_['error_ftp_password']               = 'FTP 密码必填！';
 $_['error_error_filename']             = '错误日志文件名必填！';
 $_['error_malformed_filename']	       = '错误的日志文件名称!';
 $_['error_encryption']                 = '加密密钥必须为3-32字符！';
+// Add sangsanghu 2015/09/10 ST
+$_['error_commission_def_percent']     = '业务员佣金默认百分比必须填写！';
+$_['error_commission_def_percent0']    = '业务员佣金默认百分比必须为小于100的整数！';
+$_['error_settle_suspend_days']        = '佣金申请滞后期必须填写！';
+$_['error_settle_suspend_days0']       = '佣金申请滞后期必须为整数！';
+// Add sangsanghu 2015/09/10 END

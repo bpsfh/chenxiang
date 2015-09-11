@@ -37,6 +37,9 @@
             <li><a href="#tab-image" data-toggle="tab"><?php echo $tab_image; ?></a></li>
             <li><a href="#tab-reward" data-toggle="tab"><?php echo $tab_reward; ?></a></li>
             <li><a href="#tab-design" data-toggle="tab"><?php echo $tab_design; ?></a></li>
+            <!-- ADD sangsanghu 2015/09/10 ST -->
+            <li><a href="#tab_salesman" data-toggle="tab"><?php echo $tab_salesman; ?></a></li>
+            <!-- ADD sangsanghu 2015/09/10 END -->
           </ul>
           <div class="tab-content">
             <div class="tab-pane active" id="tab-general">
@@ -909,6 +912,39 @@
                 </table>
               </div>
             </div>
+            <!-- ADD sangsanghu 2015/09/10 ST -->
+            <div class="tab-pane" id="tab_salesman">
+              <?php if (!empty($commission)) {?>
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <td class="text-left"><?php echo $entry_commission; ?></td>
+                        <td class="text-left"><?php echo $entry_date_start; ?></td>
+                        <td class="text-left"><?php echo $entry_date_end; ?></td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="text-left"><?php echo $commission['commission']; ?></td>
+                        <td class="text-left"><?php echo $commission['start_date']; ?></td>
+                        <td class="text-left"><?php echo $commission['end_date']; ?></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              <?php }?>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-product_commission"><?php echo $entry_commission; ?></label>
+                    <div class="col-sm-10">
+                      <input type="text" name="product_commission" value="<?php echo $product_commission; ?>" placeholder="<?php echo $entry_commission; ?>" id="input-product_commission; ?>" class="form-control" />
+                      <?php if ($error_commission) { ?>
+                      <div class="text-danger"><?php echo $error_commission; ?></div>
+                      <?php } ?>
+                    </div>
+              </div>
+            </div>
+            <!-- ADD sangsanghu 2015/09/10 END -->
           </div>
         </form>
       </div>

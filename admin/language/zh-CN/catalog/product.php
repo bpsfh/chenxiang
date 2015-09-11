@@ -80,6 +80,9 @@ $_['entry_tag']          	 = '商品标签';
 $_['entry_reward']           = '奖励积分';
 $_['entry_layout']           = '布局覆盖';
 $_['entry_recurring']        = '分期付款';
+// Add sangsanghu 2015/09/10 ST
+$_['entry_commission']       = '业务员佣金';
+// Add sangsanghu 2015/09/10 END
 
 // Help
 $_['help_keyword']           = '不要用空格，使用-链接关键字，确保该关键词为全站唯一。';
@@ -106,3 +109,6 @@ $_['error_name']             = '商品名称必须介于3-255字符之间！';
 $_['error_meta_title']       = 'Meta 标题必须介于3-255字符之间！';
 $_['error_model']            = '商品型号必须介于1-64字符之间！';
 $_['error_keyword']          = '该 SEO keyword 已经存在了！';
+// Add sangsanghu 2015/09/10 ST
+$_['error_commission']       = '业务员佣金必须为小于产品价格的正浮点数！';
+// Add sangsanghu 2015/09/10 END
