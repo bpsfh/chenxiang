@@ -7306,7 +7306,7 @@ CREATE TABLE IF NOT EXISTS `mcc_salesman_upload_description` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `mcc_salesman_login`
+-- Table structure for table `mcc_product_commission`
 -- 下级业务员产品别单位佣金表
 --    未设置时，对产品，取父业务员表中设置的[下级业务员默认佣金百分比]字段，与产品单价计算取得。
 --    设置后，设置值优先。
@@ -7320,9 +7320,12 @@ CREATE TABLE IF NOT EXISTS `mcc_product_commission` (
   PRIMARY KEY (`product_id`, `salesman_id`, `start_date`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+----------------------------------------------------------
+
 --
 -- 表的结构 `mcc_salesman_contact`
--- reply_flg 0(已提出) 1(已答复)
+-- 业务员管理后台：联系我们及答复表
+-- reply_flg: 0(已提出) 1(已答复)
 
 CREATE TABLE IF NOT EXISTS `mcc_salesman_contact` (
   `contact_id` int(11) NOT NULL AUTO_INCREMENT,
