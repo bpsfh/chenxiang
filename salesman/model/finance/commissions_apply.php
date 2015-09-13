@@ -47,6 +47,7 @@ class ModelFinanceCommissionsApply extends Model {
 		$sql .= "  , IF(cma.apply_id IS NOT NULL, cma.amount_total, dyna.amount_total) AS amount_total ";
 		$sql .= "  , IF(cma.apply_id IS NOT NULL, cma.commission_total, dyna.commission_total) AS commission_total ";
 		$sql .= "  , IF(cma.apply_id IS NOT NULL, cma.status, dyna.status) AS status ";
+		$sql .= "  , IF(cma.apply_id IS NOT NULL, cma.apply_date, NULL) AS apply_date ";
 		$sql .= "  , IF(cma.apply_id IS NOT NULL, IF(cma.status = 4, 1, 0), 0) AS payment_status ";
 		$sql .= "  , IF(cma.apply_id IS NOT NULL, cma.comments, NULL) AS comments ";
 

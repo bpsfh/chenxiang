@@ -38,13 +38,15 @@
                   <option value="1" <?php if($filter_settle_status && $filter_settle_status == 1) echo("selected") ?>><?php echo $text_settle_status_1; ?></option>
                   <option value="2" <?php if($filter_settle_status && $filter_settle_status == 2) echo("selected") ?>><?php echo $text_settle_status_2; ?></option>
                   <option value="3" <?php if($filter_settle_status && $filter_settle_status == 3) echo("selected") ?>><?php echo $text_settle_status_3; ?></option>
+                  <option value="4" <?php if($filter_settle_status && $filter_settle_status == 4) echo("selected") ?>><?php echo $text_settle_status_4; ?></option>
+                  <option value="9" <?php if($filter_settle_status && $filter_settle_status == 9) echo("selected") ?>><?php echo $text_settle_status_9; ?></option>
                 </select>
               </div>
             </div>
 
             <div class="col-sm-3">
               <div class="form-group">
-                <label class="control-label" for="input-fullname"><?php echo $entry_name; ?></label>
+                <label class="control-label" for="input-fullname"><?php echo $entry_settlement_id; ?></label>
                 <input type="text" name="filter_settlement_id" value="<?php echo $filter_settlement_id; ?>" placeholder="<?php echo $entry_settlement_id; ?>" id="input-name" class="form-control" />
               </div>
             </div>
@@ -125,11 +127,20 @@
                 <td class="text-left"><?php echo $settlement['num']; ?></td>
                 <td class="text-left"><?php echo $settlement['settlement_id']; ?></td>
                 <td class="text-left"><?php echo $settlement['period']; ?></td>
-                <td class="text-left"><?php echo $settlement['settlement_id']; ?></td>
-                <td class="text-left"><?php echo $settlement['commission']; ?></td>
-                <td class="text-left"><?php echo $settlement['apply_date']; ?></td>
-                <td class="text-left"><?php echo $settlement['status']; ?></td>
-                <td class="text-left"><?php echo $settlement['payment_status']; ?></td>
+                <td class="text-right"><?php echo $settlement['commission']; ?></td>
+                <td class="text-center"><?php echo $settlement['apply_date']; ?></td>
+                <td class="text-center">
+                	<?php if($settlement['status'] == 0) { echo $text_settle_status_0; }?>
+                	<?php if($settlement['status'] == 1) { echo $text_settle_status_1; }?>
+                	<?php if($settlement['status'] == 2) { echo $text_settle_status_2; }?>
+                	<?php if($settlement['status'] == 3) { echo $text_settle_status_3; }?>
+                	<?php if($settlement['status'] == 4) { echo $text_settle_status_4; }?>
+                	<?php if($settlement['status'] == 9) { echo $text_settle_status_9; }?>
+                </td>
+                <td class="text-center">
+                	<?php if($settlement['payment_status'] == 0) { echo $text_payment_status_0; }?>
+                	<?php if($settlement['payment_status'] == 1) { echo $text_payment_status_1; }?>
+                </td>
                 <td class="text_center">
                    <div class="text-right" id="<?php echo ('apply-'.$key); ?>"<?php if ($settlement['status'] != 0) {echo ('style = "display : none"');} ?>>
 <a href="javascript:void(0)" id="<?php echo ('apply-button-'.$key); ?>" onclick="apply(<?php echo ('\''.$settlement['num'].'\',\''.$key.'\''); ?>);" class="btn btn-success" title="<?php echo $column_apply; ?>" ><i class="fa fa-share"></i> </a>
