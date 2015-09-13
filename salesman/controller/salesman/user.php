@@ -58,20 +58,22 @@ class ControllerSalesmanUser extends Controller {
 		}
 		
 		// Add sangsanghu 2015/09/11 ST
-		if (!isset($this->request->post['sub_commission_def_percent']) || !$this->request->post['sub_commission_def_percent']) {
-			$this->error['sub_commission_def_percent'] = $this->language->get('error_commission_def_percent');
-		} else {
-			if ((!preg_match('/^[0-9]*[1-9][0-9]*$/', $this->request->post['sub_commission_def_percent']))
-					|| ($this->request->post['sub_commission_def_percent'] > $this->model_salesman_user->getParentCommission())) {
-						$this->error['sub_commission_def_percent'] = sprintf($this->language->get('error_commission_def_percent0'), $this->model_salesman_user->getParentCommission() . "%");
+		if (isset($this->request->post['sub_commission_def_percent']) && isset($this->request->post['sub_settle_suspend_days'])) {
+			if (!$this->request->post['sub_commission_def_percent']) {
+				$this->error['sub_commission_def_percent'] = $this->language->get('error_commission_def_percent');
+			} else {
+				if ((!preg_match('/^[0-9]*[1-9][0-9]*$/', $this->request->post['sub_commission_def_percent']))
+						|| ($this->request->post['sub_commission_def_percent'] > $this->model_salesman_user->getParentCommission())) {
+							$this->error['sub_commission_def_percent'] = sprintf($this->language->get('error_commission_def_percent0'), $this->model_salesman_user->getParentCommission() . "%");
+						}
 			}
-		}
-		
-		if (!$this->request->post['sub_settle_suspend_days']) {
-			$this->error['sub_settle_suspend_days'] = $this->language->get('error_settle_suspend_days');
-		} else {
-			if (!preg_match('/^[0-9]*[1-9][0-9]*$/', $this->request->post['sub_settle_suspend_days'])) {
-				$this->error['sub_settle_suspend_days'] = $this->language->get('error_settle_suspend_days0');
+			
+			if (!$this->request->post['sub_settle_suspend_days']) {
+				$this->error['sub_settle_suspend_days'] = $this->language->get('error_settle_suspend_days');
+			} else {
+				if (!preg_match('/^[0-9]*[1-9][0-9]*$/', $this->request->post['sub_settle_suspend_days'])) {
+					$this->error['sub_settle_suspend_days'] = $this->language->get('error_settle_suspend_days0');
+				}
 			}
 		}
 		// Add sangsanghu 2015/09/11 END
@@ -365,6 +367,10 @@ class ControllerSalesmanUser extends Controller {
 		}
 		
 		// Add sangsanghu 2015/09/11 ST
+		if (!empty($user_info)) {
+			$data['with_grant_opt'] = $user_info['with_grant_opt'];
+		}
+		
 		// 下级业务员佣金默认百分比
 		if (isset($this->request->post['sub_settle_suspend_days'])) {
 			$data['sub_settle_suspend_days'] = $this->request->post['sub_settle_suspend_days'];

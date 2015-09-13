@@ -191,6 +191,7 @@
             </div>
 					</div>
 					<!-- Add sangsanghu 2015/09/11 ST -->
+					<?php if (isset($with_grant_opt) && $with_grant_opt) {?>
 					<div class="form-group required">
 						<label class="col-sm-2 control-label" for="input-sub_commission_def_percent"><?php echo $entry_commission_def_percent; ?></label>
 						<div class="col-sm-10">
@@ -211,6 +212,7 @@
               				<?php  } ?>
             			</div>
 					</div>
+					<?php }?>
 					<!-- Add sangsanghu 2015/09/11 END -->
 				</form>
 			</div>
