@@ -3,38 +3,74 @@ class ModelFinanceOrderCommissions extends Model {
 
 	public function getTotalOrderCommissions($data = array()) {
 
-		$sql = "SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "order` o ";
-		$sql .= "INNER JOIN `" . DB_PREFIX . "customer` c ON o.customer_id = c.customer_id ";
-		$sql .= "INNER JOIN `" . DB_PREFIX . "vip_card` vc ON o.customer_id = vc.customer_id ";
+		// Get the default commission percent setting value setted for the first class salesman.
+		$def_site_commission_percent = 0;
+		$sql = " SELECT value ";
+		$sql .= " FROM `" . DB_PREFIX . "setting` s ";
+		$sql .= " WHERE store_id = 0 AND code = 'config' and s.key = 'config_commission_def_percent'";
 
-		if(empty($data["filter_date_end"])) {
-			$data['filter_date_end'] = date('Y-m-d', time());
+		$query = $this->db->query($sql);
+
+		if (!empty($query->row)) {
+			$def_site_commission_percent = $query->row['value'];
 		}
+		$sql = " SELECT COUNT(*) AS total FROM";
+		$sql .= " (SELECT DATE(o.date_added) AS date";
+		$sql .= " 	,COUNT(*) AS order_num";
+		$sql .= " 	,SUM(p.price * op.quantity) AS order_total";
+		$sql .= " 	,SUM(pcv.commission * op.quantity) AS commissions_total";
+		$sql .= " 	,ca.apply_date";
+		$sql .= " FROM `" . DB_PREFIX . "vip_card_assign_record` vca";
+		$sql .= " INNER JOIN `" . DB_PREFIX . "vip_card` vc ON vca.vip_card_num = vc.vip_card_num";
+		$sql .= " INNER JOIN `" . DB_PREFIX . "order` o ON (vc.customer_id = o.customer_id AND o.order_status_id = 5)";
+		$sql .= " INNER JOIN `" . DB_PREFIX . "order_product` op ON o.order_id = op.order_id";
+		$sql .= " INNER JOIN `" . DB_PREFIX . "product` p ON op.product_id = p.product_id";
+
+		// Get the commission setted by the parent salesman for the subordinate.
+		$sql .= " INNER JOIN ";
+		$sql .= " (SELECT p.product_id";
+		$sql .= "	 , pd.name ";
+		$sql .= "	 , CASE WHEN pc.commission IS NOT NULL THEN pc.commission ";
+		$sql .= "  	      ELSE p.price * sps.sub_commission_def_percent / 100 ";
+		$sql .= "  	 END AS commission ";
+
+		$sql .= " 	FROM `" . DB_PREFIX . "product` p ";
+		$sql .= " 	INNER JOIN `" . DB_PREFIX . "product_description` pd ON p.product_id = pd.product_id AND pd.language_id = 1 ";//AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+		$sql .= " 	JOIN ( ";
+		$sql .= "       	SELECT ";
+		$sql .= "           	  IFNULL(sp.salesman_id, 0) AS salesman_id ";
+		$sql .= "           	, CASE WHEN sp.salesman_id IS NULL THEN " . $def_site_commission_percent . " ";
+		$sql .= "                  	ELSE sp.sub_commission_def_percent ";
+		$sql .= "             	END AS sub_commission_def_percent ";
+		$sql .= "       	FROM `" . DB_PREFIX . "salesman` s " ;
+		$sql .= "       	LEFT JOIN `" . DB_PREFIX . "salesman` sp ON s.parent_id = sp.salesman_id " ;
+		$sql .= "       	WHERE s.salesman_id = '" . $this->db->escape($data['salesman_id']) . "') sps ";
+		$sql .= " 	LEFT JOIN `" . DB_PREFIX . "product_commission` pc ON p.product_id = pc.product_id AND sps.salesman_id = pc.salesman_id AND pc.start_date <= NOW() AND pc.end_date IS NULL ) pcv";
+		$sql .= "  ON op.product_id = pcv.product_id";
+		// GET commissions apply status
+		$sql .= " LEFT JOIN `" . DB_PREFIX . "commissions_apply` ca ON (o.date_added >= ca.period_from AND o.date_added <= ca.period_to )";
+
+		$sql .= "  WHERE vca.salesman_id = '" . $this->salesman->getId () ."'";
 
 		$implode = array();
 
-		$implode[] = " o.order_status_id = 5 ";
-
-		// salesman_id is necessary
-		if(!empty($data['salesman_id'])) {
-			$implode[] = "vc.salesman_id = '" . $this->db->escape($data['salesman_id']) . "'";
-		} else {
-			$implode[] = "0 = 1";
+		if($data['filter_commissions_status'] == 1) {
+			$implode[] = "ca.apply_date IS NOT NULL";
 		}
 
 		if (!empty($data['filter_date_start'])) {
-			$implode[] = "DATE(date_bind_to_salesman) >= '" . $this->db->escape($data['filter_date_start']) . "'";
+			$implode[] = "DATE(o.date_added) >= '" . $this->db->escape($data['filter_date_start']) . "'";
 		}
 
 		if (!empty($data['filter_date_end'])) {
-			$implode[] = "DATE(date_bind_to_salesman) <= '" . $this->db->escape($data['filter_date_end']) . "'";
+			$implode[] = "DATE(o.date_added) <= '" . $this->db->escape($data['filter_date_end']) . "'";
 		}
 
 		if ($implode) {
-			$sql .= " WHERE " . implode(" AND ", $implode);
+			$sql .= " AND " . implode(" AND ", $implode);
 		}
 
-		$sql .= " GROUP BY DATE(o.date_added) ";
+		$sql .= " GROUP BY DATE(o.date_added),ca.apply_date ) ot";
 
 		$query = $this->db->query($sql);
 
@@ -43,206 +79,109 @@ class ModelFinanceOrderCommissions extends Model {
 
 	public function getOrderCommissions($data = array()) {
 
-		$def_site_commission_percent = 5;
+		// Get the default commission percent setting value setted for the first class salesman.
+		$def_site_commission_percent = 0;
+		$sql = " SELECT value ";
+		$sql .= " FROM `" . DB_PREFIX . "setting` s ";
+		$sql .= " WHERE store_id = 0 AND code = 'config' and s.key = 'config_commission_def_percent'";
 
-		$sql = " SELECT vc.vip_card_id ";
-		$sql .= " , vc.salesman_id ";
-		$sql .= " , s.fullname";
-		$sql .= " , s.email";
-		$sql .= " , vc.customer_id ";
-		$sql .= " , c.fullname";
-		$sql .= " , c.email";
-		$sql .= " , op.order_id ";
-		$sql .= " , o.date_added";
-		$sql .= " , SUM(op.total) AS total ";
-		$sql .= " , CASE WHEN pc.commission IS NULL THEN SUM(op.price * op.quantity * IFNULL(sp.sub_commission_def_percent, " . $def_site_commission_percent. ")) / 100 ";
-		$sql .= "        ELSE SUM(op.price * op.quantity * pc.commission) ";
-		$sql .= "   END AS commission ";
-		$sql .= " FROM `" . DB_PREFIX . "vip_card_assign_record` ca ";
-		$sql .= " INNER JOIN `" . DB_PREFIX . "vip_card` vc ON ca.vip_card_num = vc.vip_card_num ";
-		$sql .= " INNER JOIN `" . DB_PREFIX . "customer` c ON vc.customer_id = c.customer_id ";
-		$sql .= " INNER JOIN `" . DB_PREFIX . "order` o ON c.customer_id = o.customer_id ";
-		$sql .= " INNER JOIN `" . DB_PREFIX . "order_product` op ON o.order_id = op.order_id ";
-		$sql .= " INNER JOIN `" . DB_PREFIX . "salesman` s ON vc.salesman_id = s.salesman_id ";
-		$sql .= " LEFT JOIN `" . DB_PREFIX . "salesman` sp ON s.parent_id = sp.salesman_id ";
-		$sql .= " LEFT JOIN `" . DB_PREFIX . "product_commission` pc ON s.parent_id = sp.salesman_id and op.product_id = pc.product_id ";
+		$query = $this->db->query($sql);
+
+		if (!empty($query->row)) {
+			$def_site_commission_percent = $query->row['value'];
+		}
+		$sql = " SELECT DATE(o.date_added) AS date";
+		$sql .= " 	,COUNT(*) AS order_num";
+		$sql .= " 	,SUM(p.price * op.quantity) AS order_total";
+		$sql .= " 	,SUM(pcv.commission * op.quantity) AS commissions_total";
+		$sql .= " 	,ca.apply_date AS commissions_status";
+		$sql .= " FROM `" . DB_PREFIX . "vip_card_assign_record` vca";
+		$sql .= " INNER JOIN `" . DB_PREFIX . "vip_card` vc ON vca.vip_card_num = vc.vip_card_num";
+		$sql .= " INNER JOIN `" . DB_PREFIX . "order` o ON (vc.customer_id = o.customer_id AND o.order_status_id = 5)";
+		$sql .= " INNER JOIN `" . DB_PREFIX . "order_product` op ON o.order_id = op.order_id";
+		$sql .= " INNER JOIN `" . DB_PREFIX . "product` p ON op.product_id = p.product_id";
+
+		// Get the commission setted by the parent salesman for the subordinate.
+		$sql .= " INNER JOIN ";
+		$sql .= " (SELECT p.product_id";
+		$sql .= "	 , pd.name ";
+		$sql .= "	 , CASE WHEN pc.commission IS NOT NULL THEN pc.commission ";
+		$sql .= "  	      ELSE p.price * sps.sub_commission_def_percent / 100 ";
+		$sql .= "  	 END AS commission ";
+
+		$sql .= " 	FROM `" . DB_PREFIX . "product` p ";
+		$sql .= " 	INNER JOIN `" . DB_PREFIX . "product_description` pd ON p.product_id = pd.product_id AND pd.language_id = 1 ";//AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+		$sql .= " 	JOIN ( ";
+		$sql .= "       	SELECT ";
+		$sql .= "           	  IFNULL(sp.salesman_id, 0) AS salesman_id ";
+		$sql .= "           	, CASE WHEN sp.salesman_id IS NULL THEN " . $def_site_commission_percent . " ";
+		$sql .= "                  	ELSE sp.sub_commission_def_percent ";
+		$sql .= "             	END AS sub_commission_def_percent ";
+		$sql .= "       	FROM `" . DB_PREFIX . "salesman` s " ;
+		$sql .= "       	LEFT JOIN `" . DB_PREFIX . "salesman` sp ON s.parent_id = sp.salesman_id " ;
+		$sql .= "       	WHERE s.salesman_id = '" . $this->db->escape($data['salesman_id']) . "') sps ";
+		$sql .= " 	LEFT JOIN `" . DB_PREFIX . "product_commission` pc ON p.product_id = pc.product_id AND sps.salesman_id = pc.salesman_id AND pc.start_date <= NOW() AND pc.end_date IS NULL ) pcv";
+		$sql .= "  ON op.product_id = pcv.product_id";
+		// GET commissions apply status
+		$sql .= " LEFT JOIN `" . DB_PREFIX . "commissions_apply` ca ON (o.date_added >= ca.period_from AND o.date_added <= ca.period_to )";
+
+		$sql .= "  WHERE vca.salesman_id = '" . $this->salesman->getId () ."'";
 
 		$implode = array();
 
-		$implode[] = "o.order_status_id = 5";
-
-		$implode[] = "ca.is_valid = 1";
-
-		// salesman_id is necessary
-		if(!empty($data['salesman_id'])) {
-			$implode[] = "ca.salesman_id = '" . $this->db->escape($data['salesman_id']) . "'";
-		} else {
-			$implode[] = "0 = 1";
-		}
-
-		if(!empty($data['vip_card_id'])) {
-			$implode[] = "vc.vip_card_id = '" . $this->db->escape($data['vip_card_id']) . "'";
+		if($data['filter_commissions_status'] == 1) {
+			$implode[] = "ca.apply_date IS NOT NULL";
 		}
 
 		if (!empty($data['filter_date_start'])) {
-			$implode[] = "DATE(date_bind_to_salesman) >= '" . $this->db->escape($data['filter_date_start']) . "'";
+			$implode[] = "DATE(o.date_added) >= '" . $this->db->escape($data['filter_date_start']) . "'";
 		}
 
 		if (!empty($data['filter_date_end'])) {
-			$implode[] = "DATE(date_bind_to_salesman) <= '" . $this->db->escape($data['filter_date_end']) . "'";
+			$implode[] = "DATE(o.date_added) <= '" . $this->db->escape($data['filter_date_end']) . "'";
 		}
 
 		if ($implode) {
-			$sql .= " WHERE " . implode(" AND ", $implode);
+			$sql .= " AND " . implode(" AND ", $implode);
 		}
 
-		$sql .= " GROUP BY vc.salesman_id, s.fullname, s.email, vc.vip_card_id, vc.customer_id, c.fullname, c.email, o.order_id ";
+		$sql .= " GROUP BY DATE(o.date_added),ca.apply_date";
+
+		$sort_data = array(
+				'date',
+				'order_num',
+				'commissions_total',
+				'order_total',
+				'commissions_status'
+		);
+
+		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
+			$sql .= " ORDER BY " . $data['sort'];
+		} else {
+			$sql .= " ORDER BY DATE(o.date_added)";
+		}
+
+		if (isset($data['order']) && ($data['order'] == 'DESC')) {
+			$sql .= " DESC";
+		} else {
+			$sql .= " ASC";
+		}
+
+		if (isset($data['start']) || isset($data['limit'])) {
+			if ($data['start'] < 0) {
+				$data['start'] = 0;
+			}
+
+			if ($data['limit'] < 1) {
+				$data['limit'] = 20;
+			}
+
+			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+		}
 
 		$query = $this->db->query($sql);
 
 		return $query->rows;
-	}
-
-	public function getTotalSalesAmount($data = array()) {
-
-		$sql = "SELECT SUM(op.total) AS total FROM `" . DB_PREFIX . "order_product` op ";
-		$sql .= "INNER JOIN `" . DB_PREFIX . "order` o ON op.order_id = o.order_id ";
-		$sql .= "INNER JOIN `" . DB_PREFIX . "customer` c ON o.customer_id = c.customer_id ";
-		$sql .= "INNER JOIN `" . DB_PREFIX . "vip_card` vc ON o.customer_id = vc.customer_id ";
-
-		$implode = array();
-
-		$implode[] = " o.order_status_id = 5 ";
-
-		// salesman_id is necessary
-		if(!empty($data['salesman_id'])) {
-			$implode[] = "vc.salesman_id = " . $this->db->escape($data['salesman_id']);
-		} else {
-			$implode[] = "0 = 1";
-		}
-
-		if (!empty($data['filter_date_start'])) {
-			$implode[] = "DATE(date_bind_to_salesman) >= '" . $this->db->escape($data['filter_date_start']) . "'";
-		}
-
-		if (!empty($data['filter_date_end'])) {
-			$implode[] = "DATE(date_bind_to_salesman) <= '" . $this->db->escape($data['filter_date_end']) . "'";
-		}
-
-		if ($implode) {
-			$sql .= " WHERE " . implode(" AND ", $implode);
-		}
-
-		$query = $this->db->query($sql);
-
-		return $query->row['total'];
-	}
-
-
-	public function getTotalOrdersByDate($data = array()) {
-		$customer_data = array();
-
-		for ($i = strtotime($data['filter_date_start']), $j = 0; $i <= strtotime($data['filter_date_end']);
-			 $i = strtotime('+1 Day', $i), $j++) {
-			$customer_data[$j] = array(
-				'day'  => $j,
-				'total' => 0
-			);
-		}
-
-		$sql = "SELECT COUNT(*) AS total ";
-		$sql .= " , TIMESTAMPDIFF(DAY, '" . $this->db->escape($data['filter_date_start']) . "', o.date_added) AS day ";
-		$sql .= " FROM `" . DB_PREFIX . "order` o ";
-		$sql .= " INNER JOIN `" . DB_PREFIX . "customer` c ON o.customer_id = c.customer_id ";
-		$sql .= " INNER JOIN `" . DB_PREFIX . "vip_card` vc ON o.customer_id = vc.customer_id ";
-
-		$implode = array();
-
-		$implode[] = "o.order_status_id = 5";
-
-		if(!empty($data['salesman_id'])) {
-			$implode[] = "salesman_id = '" . $this->db->escape($data['salesman_id']) . "'";
-		} else {
-			$implode[] = " 0 = 1 ";
-		}
-
-		if (!empty($data['filter_date_start'])) {
-			$implode[] = "DATE(date_bind_to_salesman) >= '" . $this->db->escape($data['filter_date_start']) . "'";
-		}
-
-		if (!empty($data['filter_date_end'])) {
-			$implode[] = "DATE(date_bind_to_salesman) <= '" . $this->db->escape($data['filter_date_end']) . "'";
-		}
-
-		if ($implode) {
-			$sql .= " WHERE " . implode(" AND ", $implode);
-		}
-
-		$sql .= " GROUP BY DATE(o.date_added) ";
-
-		$query = $this->db->query($sql);
-
-		foreach ($query->rows as $result) {
-			$customer_data[$result['day']] = array(
-				'day'  => $result['day'],
-				'total' => $result['total']
-			);
-		}
-
-		return $customer_data;
-	}
-
-
-	public function getTotalSalesByDate($data = array()) {
-		$customer_data = array();
-
-		for ($i = strtotime($data['filter_date_start']), $j = 0; $i <= strtotime($data['filter_date_end']);
-			 $i = strtotime('+1 Day', $i), $j++) {
-			$customer_data[$j] = array(
-				'day'  => $j,
-				'total' => 0
-			);
-		}
-
-		$sql = "SELECT SUM(op.total) AS total ";
-		$sql .= " , TIMESTAMPDIFF(DAY, '" . $this->db->escape($data['filter_date_start']) . "', o.date_added) AS day ";
-		$sql .= " FROM `" . DB_PREFIX . "order_product` op ";
-		$sql .= " INNER JOIN `" . DB_PREFIX . "order` o ON op.order_id = o.order_id ";
-		$sql .= " INNER JOIN `" . DB_PREFIX . "customer` c ON o.customer_id = c.customer_id ";
-		$sql .= " INNER JOIN `" . DB_PREFIX . "vip_card` vc ON o.customer_id = vc.customer_id ";
-
-		$implode = array();
-
-		$implode[] = " o.order_status_id = 5 ";
-
-		if(!empty($data['salesman_id'])) {
-			$implode[] = "salesman_id = '" . $this->db->escape($data['salesman_id']) . "'";
-		}
-
-		if (!empty($data['filter_date_start'])) {
-			$implode[] = "DATE(date_bind_to_salesman) >= '" . $this->db->escape($data['filter_date_start']) . "'";
-		}
-
-		if (!empty($data['filter_date_end'])) {
-			$implode[] = "DATE(date_bind_to_salesman) <= '" . $this->db->escape($data['filter_date_end']) . "'";
-		}
-
-		if ($implode) {
-			$sql .= " WHERE " . implode(" AND ", $implode);
-		}
-
-		$sql .= " GROUP BY DATE(o.date_added) ";
-
-		$query = $this->db->query($sql);
-
-		foreach ($query->rows as $result) {
-			$customer_data[$result['day']] = array(
-				'day'  => $result['day'],
-				'total' => $result['total']
-			);
-		}
-
-		return $customer_data;
 	}
 
 }
