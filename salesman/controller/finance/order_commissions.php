@@ -52,7 +52,7 @@ class ControllerFinanceOrderCommissions extends Controller {
 		}
 
 		if (isset($this->request->get['filter_commissions_status'])) {
-			$url .= '&commissions_status=' . $this->request->get['commissions_status'];
+			$url .= '&filter_commissions_status=' . $this->request->get['filter_commissions_status'];
 		}
 
 		if (isset($this->request->get['page'])) {
@@ -96,6 +96,8 @@ class ControllerFinanceOrderCommissions extends Controller {
 			'filter_date_start'	     => $filter_date_start,
 			'filter_date_end'	     => $filter_date_end,
 			'filter_commissions_status'  => $filter_commissions_status,
+			'sort'                   => $sort,
+			'order'                  => $order,
 			'start'                  => ($page - 1) * $this->config->get('config_limit_admin'),
 			'limit'                  => $this->config->get('config_limit_admin')
 		);
@@ -103,16 +105,17 @@ class ControllerFinanceOrderCommissions extends Controller {
 		$order_total = $this->model_finance_order_commissions->getTotalOrderCommissions($filter_data);
 
 		$results = $this->model_finance_order_commissions->getOrderCommissions($filter_data);
-
-		foreach ($results as $key=>$result) {
-			$data['commissions'][] = array(
-				'num'                 => $key+1,
-				'commissions_status'  => $result['commissions_status'],
-				'order_num'           => $result['order_total'],
-				'order_total'         => $result['order_total'],
-				'commissions_total'   => $result['commissions_total'],
-				'date'                => date($this->language->get('date_format_short'), strtotime($result['date'])),
-			);
+		if (!empty($results)) {
+			foreach ($results as $key=>$result) {
+				$data['commissions'][] = array(
+					'num'                 => $key+1,
+					'commissions_status'  => (!is_null($result['commissions_status'])? 1: 0),
+					'order_num'           => $result['order_num'],
+ 					'order_total'         => $this->currency->format($result['order_total'], $this->config->get('config_currency')),
+					'commissions_total'   => $this->currency->format($result['commissions_total'], $this->config->get('config_currency')),
+					'date'                => date($this->language->get('date_format_short'), strtotime($result['date'])),
+				);
+			}
 		}
 
 		$data['heading_title'] = $this->language->get('heading_title');

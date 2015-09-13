@@ -79,15 +79,10 @@
                     <?php } else { ?>
                     <a href="<?php echo $sort_commissions_status; ?>"><?php echo $column_commissions_status; ?></a>
                     <?php } ?></td>
-                <!-- <td class="text-left"><?php echo $column_date; ?></td>
-                <td class="text-left"><?php echo $column_order_num ?></td>
-                <td class="text-right"><?php echo $column_order_total; ?></td>
-                <td class="text-right"><?php echo $column_commissions_total; ?></td>
-                <td class="text-right"><?php echo $column_commissions_status; ?></td> -->
               </tr>
             </thead>
             <tbody>
-              <?php if ($commissions) { ?>
+              <?php if (isset($commissions)) { ?>
               <?php foreach ($commissions as $commission) { ?>
               <tr>
                 <td class="text-left"><?php echo $commission['num']; ?></td>
@@ -95,8 +90,9 @@
                 <td class="text-left"><?php echo $commission['order_num']; ?></td>
                 <td class="text-right"><?php echo $commission['order_total']; ?></td>
                 <td class="text-right"><?php echo $commission['commissions_total']; ?></td>
-                <td class="text-right"><?php echo $commission['commissions_status']; ?></td>
-              </tr>
+                <td class="text-center">
+                  <?php if(!is_null($commission['commissions_status']) && (int)$commission['commissions_status'] === 0) echo $text_commissions_status_0; ?>
+                  <?php if($commission['commissions_status'] == 1)  echo $text_commissions_status_1; ?></td>
               <?php } ?>
               <?php } else { ?>
               <tr>
@@ -130,7 +126,7 @@
 		}
 
 		var filter_commissions_status = $('select[name=\'filter_commissions_status\']').val();
-		    filter_commissions_status
+
 		if (filter_commissions_status != '*') {
 			url += '&filter_commissions_status=' + encodeURIComponent(filter_commissions_status);
 		}
