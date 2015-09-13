@@ -26,12 +26,23 @@ class ModelFinanceUnitCommission extends Model {
 
 	public function getProductCommission($data = array()) {
 
-		$def_site_commission_percent = 5;
+		// Get the default commission percent setting value setted for the first class salesman. 
+		$def_site_commission_percent = 0;
+		$sql = " SELECT value ";
+		$sql .= " FROM `" . DB_PREFIX . "setting` s ";
+		$sql .= " WHERE store_id = 0 AND code = 'config' and s.key = 'config_commission_def_percent'";
+  
+		$query = $this->db->query($sql);
 
+		if (!empty($query->row)) {
+			$def_site_commission_percent = $query->row['config_commission_def_percent'];
+  		}
+
+		// Get the commission setted by the parent salesman for the subordinate.
 		$sql = " SELECT p.product_id";
 		$sql .= " , pd.name ";
 		$sql .= " , CASE WHEN pc.commission IS NOT NULL THEN pc.commission ";
-		$sql .= "        ELSE p.price * IFNULL(sps.sub_commission_def_percent, 5) / 100 ";
+		$sql .= "        ELSE p.price * sps.sub_commission_def_percent / 100 ";
 		$sql .= "   END AS commission ";
 
 		$sql .= " FROM `" . DB_PREFIX . "product` p ";
