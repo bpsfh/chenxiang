@@ -48,14 +48,15 @@ class ModelFinanceCommissionsApply extends Model {
 		$sql .= "  , IF(cma.apply_id IS NOT NULL, cma.commission_total, dyna.commission_total) AS commission_total ";
 		$sql .= "  , IF(cma.apply_id IS NOT NULL, cma.status, dyna.status) AS status ";
 		$sql .= "  , IF(cma.apply_id IS NOT NULL, IF(cma.status = 4, 1, 0), 0) AS payment_status ";
+		$sql .= "  , IF(cma.apply_id IS NOT NULL, cma.comments, NULL) AS comments ";
 
 		$sql .= " FROM (";
 
 		// product order
-		$sql .= " SELECT salesman_id ";
+		$sql .= " SELECT ca.salesman_id ";
 		$sql .= " , NULL AS apply_id ";
-		$sql .= " , DATE_SUB(o.date_modified, INTERVAL DAY(o.date_modified) - 1 DAY) AS peroid_from "; 
-		$sql .= " , LAST_DAY(o.date_modified) AS peroid_to "; 
+		$sql .= " , DATE(DATE_SUB(o.date_modified, INTERVAL DAY(o.date_modified) - 1 DAY)) AS period_from "; 
+		$sql .= " , DATE(LAST_DAY(o.date_modified)) AS period_to "; 
 		$sql .= " , COUNT(DISTINCT o.order_id) AS order_total ";
 		$sql .= " , SUM(op.quantity * op.price) AS amount_total ";
 		$sql .= " , SUM(op.quantity * comm.commission) AS commission_total ";
@@ -120,21 +121,20 @@ class ModelFinanceCommissionsApply extends Model {
 		}
 	
 		$sql .= " GROUP BY ";
-		$sql .= "   salesman_id ";
-		$sql .= " , DATE_SUB(o.date_modified, INTERVAL DAY(o.date_modified) - 1 DAY) "; 
-		$sql .= " , LAST_DAY(o.date_modified) "; 
+		$sql .= "   ca.salesman_id ";
+		$sql .= " , DATE(DATE_SUB(o.date_modified, INTERVAL DAY(o.date_modified) - 1 DAY)) "; 
+		$sql .= " , DATE(LAST_DAY(o.date_modified)) "; 
 	
 		$sql .= " ) dyna "; 
 
 		$sql .= " LEFT JOIN `" . DB_PREFIX . "commissions_apply` cma ";
 		$sql .= " ON dyna.salesman_id = cma.salesman_id AND dyna.period_from = cma.period_from AND dyna.period_to = cma.period_to ";
+		$sql .= " AND cma.salesman_id = '" . $this->db->escape($data['salesman_id']) . "'";
 
 		$implode = array();
 
 		// salesman_id is necessary
-		if(!empty($data['salesman_id'])) {
-			$implode[] = "cma.salesman_id = '" . $this->db->escape($data['salesman_id']) . "'";
-		} else {
+		if(empty($data['salesman_id'])) {
 			$implode[] = "0 = 1";
 		}
 
