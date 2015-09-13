@@ -192,7 +192,7 @@ class ControllerSalesmanUser extends Controller {
 		}
 
 		if (isset($this->request->get['filter_date_approved'])) {
-			$url .= '&filter_date_added=' . $this->request->get['filter_date_approved'];
+			$url .= '&filter_date_approved=' . $this->request->get['filter_date_approved'];
 		}
 
 		if (isset($this->request->get['filter_status'])) {
