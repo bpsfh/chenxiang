@@ -32,6 +32,7 @@ class ControllerCommonMenu extends Controller {
 		// 下级业务员管理
 		$data['text_sub_salesman'] = $this->language->get('text_sub_salesman');
 		$data['text_sub_salesman_user'] = $this->language->get('text_sub_salesman_user');
+		$data['text_sub_salesman_commission'] = $this->language->get('text_sub_salesman_commission');
 
 		$data['text_sub_salesman_contact'] = $this->language->get('text_sub_salesman_contact');
 
@@ -65,6 +66,7 @@ class ControllerCommonMenu extends Controller {
 		// 下级业务员管理
 		$data['sub_salesman'] = $this->url->link('sub_salesman/user', 'token=' . $this->session->data['token'], 'SSL');
 		$data['vip_card_application'] = $this->url->link('sub_salesman/vip_card', 'token=' . $this->session->data['token'], 'SSL');
+		$data['sub_unit_commission'] = $this->url->link('sub_salesman/unit_commission', 'token=' . $this->session->data['token'], 'SSL');
 		
 		$data['invoice_upload'] = $this->url->link('salesman/upload/index', 'token=' . $this->session->data['token'], 'SSL');
 		$data['contact_us'] = $this->url->link('salesman/contact/index', 'token=' . $this->session->data['token'], 'SSL');

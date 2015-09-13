@@ -1,6 +1,6 @@
 <?php
 /**
- * @author jie-z 
+ * @author HU 
  */
 class ControllerSubSalesmanUnitCommission extends Controller {
 	private $error = array();
@@ -15,6 +15,32 @@ class ControllerSubSalesmanUnitCommission extends Controller {
 	
 		$this->load->model('sub_salesman/unit_commission');
 	
+		$this->getList();
+	}
+	
+	/**
+	 * 编辑（插入/更新）下级佣金信息
+	 */
+	public function edit() {
+		$this->load->language('sub_salesman/unit_commission');
+	
+		$this->document->setTitle($this->language->get('heading_title'));
+	
+		$this->load->model('sub_salesman/unit_commission');
+		
+		if (isset($this->request->post['selected']) && $this->validateForm()) {
+			foreach ($this->request->post['selected'] as $product_id) {
+				if (isset($this->request->post['commissions']) && isset($this->request->post['commissions'][$product_id])) {
+					$sub_commission['product_id'] = $product_id;
+					$sub_commission['commission'] = $this->request->post['commissions'][$product_id]['sub_commission'];
+					
+					$this->model_sub_salesman_unit_commission->editProdCommission($sub_commission);
+				}
+			}
+			
+			$this->session->data['success'] = $this->language->get('text_success');
+		}
+		
 		$this->getList();
 	}
 
@@ -76,11 +102,14 @@ class ControllerSubSalesmanUnitCommission extends Controller {
 			'text' => $this->language->get('heading_title'),
 			'href' => $this->url->link('sub_salesman/unit_commission', 'token=' . $this->session->data['token'] . $url, 'SSL')
 		);
+		
+		$data['edit'] = $this->url->link('sub_salesman/unit_commission/edit', 'token=' . $this->session->data['token'] . $url, 'SSL');
 
 		$data['products'] = array();
 
 		$filter_data = array(
 			'filter_name'              => $filter_name,
+			'salesman_id'              => $this->salesman->getId(),
 			'sort'                     => $sort,
 			'order'                    => $order,
 			'start'                    => ($page - 1) * $this->config->get('config_limit_admin'),
@@ -89,15 +118,21 @@ class ControllerSubSalesmanUnitCommission extends Controller {
 
 		$product_total = $this->model_sub_salesman_unit_commission->getTotalProducts($filter_data);
 
-		$results = $this->model_sub_salesman_unit_commission->getProductCommission($filter_data);
+		$parent_results = $this->model_sub_salesman_unit_commission->getParentProdCommission($filter_data);
+		
+		$sub_results = $this->model_sub_salesman_unit_commission->getSubProdCommission($filter_data);
 
-		foreach ($results as $result) {
-						
-			$data['products'][] = array(
-				'product_id'     => $result['product_id'],
-				'name'       	 => $result['name'],
-				'commission'     => $result['commission'],
-			);
+		foreach ($parent_results as $parent_result) {
+			foreach ($sub_results as $sub_result) {
+				if ($parent_result['product_id'] == $sub_result['product_id']) {
+					$data['products'][] = array(
+							'product_id'     => $parent_result['product_id'],
+							'name'       	 => $parent_result['name'],
+							'commission'     => $parent_result['commission'],
+							'sub_commission' => $sub_result['commission']
+					);
+				}
+			}
 		}
 
 		$data['heading_title'] = $this->language->get('heading_title');
@@ -108,10 +143,12 @@ class ControllerSubSalesmanUnitCommission extends Controller {
 		$data['column_product_id'] = $this->language->get('column_product_id');
 		$data['column_name'] = $this->language->get('column_name');
 		$data['column_commission'] = $this->language->get('column_commission');
+		$data['column_sub_commission'] = $this->language->get('column_sub_commission');
 
 		$data['entry_name'] = $this->language->get('entry_name');
 
 		$data['button_filter'] = $this->language->get('button_filter');
+		$data['button_edit'] = $this->language->get('button_edit');
 
 		$data['token'] = $this->session->data['token'];
 
@@ -121,6 +158,12 @@ class ControllerSubSalesmanUnitCommission extends Controller {
 		} else {
 			$data['error_warning'] = '';
 		}
+		
+		if (isset($this->error['commission'])) {
+			$data['error_commission'] = (array)$this->error['commission'];
+		} else {
+			$data['error_commission'] = '';
+		}
 
 		if (isset($this->session->data['success'])) {
 			$data['success'] = $this->session->data['success'];
@@ -128,6 +171,18 @@ class ControllerSubSalesmanUnitCommission extends Controller {
 			unset($this->session->data['success']);
 		} else {
 			$data['success'] = '';
+		}
+		
+		if (isset($this->request->post['selected'])) {
+			$data['selected'] = (array)$this->request->post['selected'];
+		} else {
+			$data['selected'] = array();
+		}
+		
+		if (isset($this->request->post['commissions'])) {
+			$data['commissions'] = (array)$this->request->post['commissions'];
+		} else {
+			$data['commissions'] = array();
 		}
 
 		$url = '';
@@ -146,9 +201,9 @@ class ControllerSubSalesmanUnitCommission extends Controller {
 			$url .= '&page=' . $this->request->get['page'];
 		}
 
-		$data['sort_product_id'] = $this->url->link('finance/unit_commission', 'token=' . $this->session->data['token'] . '&sort=product_id' . $url, 'SSL');
-		$data['sort_name'] = $this->url->link('finance/unit_commission', 'token=' . $this->session->data['token'] . '&sort=name' . $url, 'SSL');
-		$data['sort_commission'] = $this->url->link('finance/unit_commission', 'token=' . $this->session->data['token'] . '&sort=commission' . $url, 'SSL');
+		$data['sort_product_id'] = $this->url->link('sub_salesman/unit_commission', 'token=' . $this->session->data['token'] . '&sort=product_id' . $url, 'SSL');
+		$data['sort_name'] = $this->url->link('sub_salesman/unit_commission', 'token=' . $this->session->data['token'] . '&sort=name' . $url, 'SSL');
+		$data['sort_commission'] = $this->url->link('sub_salesman/unit_commission', 'token=' . $this->session->data['token'] . '&sort=commission' . $url, 'SSL');
 
 		$url = '';
 
@@ -168,7 +223,7 @@ class ControllerSubSalesmanUnitCommission extends Controller {
 		$pagination->total = $product_total;
 		$pagination->page = $page;
 		$pagination->limit = $this->config->get('config_limit_admin');
-		$pagination->url = $this->url->link('finance/unit_commission', 'token=' . $this->session->data['token'] . $url . '&page={page}', 'SSL');
+		$pagination->url = $this->url->link('sub_salesman/unit_commission', 'token=' . $this->session->data['token'] . $url . '&page={page}', 'SSL');
 
 		$data['pagination'] = $pagination->render();
 
@@ -183,7 +238,7 @@ class ControllerSubSalesmanUnitCommission extends Controller {
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
 
-		$this->response->setOutput($this->load->view('finance/unit_commission.tpl', $data));
+		$this->response->setOutput($this->load->view('sub_salesman/unit_commission.tpl', $data));
 	}
 
 	/**
@@ -199,7 +254,7 @@ class ControllerSubSalesmanUnitCommission extends Controller {
 				$filter_name = '';
 			}
 	
-			$this->load->model('finance/unit_commission');
+			$this->load->model('sub_salesman/unit_commission');
 	
 			$filter_data = array(
 					'filter_name'  => $filter_name,
@@ -208,7 +263,7 @@ class ControllerSubSalesmanUnitCommission extends Controller {
 					'limit'        => 5
 			);
 	
-			$results = $this->model_finance_unit_commission->getProductCommission($filter_data);
+			$results = $this->model_sub_salesman_unit_commission->getParentProdCommission($filter_data);
 	
 			foreach ($results as $result) {
 				$json[] = array(
@@ -230,4 +285,22 @@ class ControllerSubSalesmanUnitCommission extends Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 	
+	protected function validateForm() {
+		
+		foreach ($this->request->post['selected'] as $product_id) {
+			if (isset($this->request->post['commissions']) && isset($this->request->post['commissions'][$product_id])) {
+				
+				if (!preg_match('/^(([0-9]+\\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\\.[0-9]+)|([0-9]*[1-9][0-9]*))$/', $this->request->post['commissions'][$product_id]['sub_commission'])
+						|| ((int)$this->request->post['commissions'][$product_id]['sub_commission'] > (int)$this->request->post['commissions'][$product_id]['commission'])) {
+							$this->error['commission'][$product_id] = $this->language->get('error_commission');
+				}
+			}
+		}
+		
+		if ($this->error && !isset($this->error['warning'])) {
+			$this->error['warning'] = $this->language->get('error_warning');
+		}
+		
+		return !$this->error;
+	}
 }
