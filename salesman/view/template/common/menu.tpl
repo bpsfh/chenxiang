@@ -14,16 +14,6 @@
   </li>
   <?php } ?>
 
-  <?php if($isAuthorized && $isWithGrantOpt) { ?>
-    <li><a class="parent"><i class="fa fa-users fa-fw"></i> <span><?php echo $text_sub_salesman; ?></span></a>
-	  <ul>
-	    <li><a href="<?php echo $sub_salesman; ?>"><?php echo $text_sub_salesman_user; ?></a></li>
-	    <li><a href="<?php echo $vip_card_application; ?>"><?php echo $text_vip_card_application; ?></a></li>
-	    <li><a href="<?php echo $sub_salesman_contact; ?>"><?php echo $text_sub_salesman_contact; ?></a></li>
-	  </ul>
-    </li>
-  <?php } ?>
-
   <?php if($isAuthorized) { ?>
   <li id="finance"><a class="parent"><i class="fa fa-money fa-fw"></i> <span><?php echo $text_finance; ?></span></a>
     <ul>
@@ -45,9 +35,19 @@
       <?php if($isAuthorized) { ?>
       <li><a href="<?php echo $invoice_upload; ?>"><?php echo $text_invoice_upload; ?></a></li>
       <!--<li><a href="<?php echo $customer_group; ?>"><?php echo $text_customer_group; ?></a></li>-->
-      <li><a href="<?php echo $system_notice; ?>"><?php echo $text_system_notice; ?></a></li>
+      <!--<li><a href="<?php echo $system_notice; ?>"><?php echo $text_system_notice; ?></a></li>-->
       <?php } ?>
     </ul>
   </li>
+
+  <?php if($isAuthorized && $isWithGrantOpt) { ?>
+    <li><a class="parent"><i class="fa fa-users fa-fw"></i> <span><?php echo $text_sub_salesman; ?></span></a>
+	  <ul>
+	    <li><a href="<?php echo $sub_salesman; ?>"><?php echo $text_sub_salesman_user; ?></a></li>
+	    <li><a href="<?php echo $vip_card_application; ?>"><?php echo $text_vip_card_application; ?></a></li>
+	    <li><a href="<?php echo $sub_salesman_contact; ?>"><?php echo $text_sub_salesman_contact; ?></a></li>
+	  </ul>
+    </li>
+  <?php } ?>
 
 </ul>

@@ -7323,6 +7323,34 @@ CREATE TABLE IF NOT EXISTS `mcc_product_commission` (
 ----------------------------------------------------------
 
 --
+-- Table structure for table `mcc_commissions_apply`
+-- 结算申请表
+--    记录未生成时，将期间内订单明细*明细产品佣金，合计显示。
+--    记录生成后（非取消，非拒绝状态），去本表中记录优先显示。
+--    状态：
+--    1: 申请；2: 申请取消； 3: 申请批准; 4: 结算完成; 9: 申请拒绝
+--
+CREATE TABLE IF NOT EXISTS `mcc_commissions_apply` (
+  `apply_id` int(11) NOT NULL AUTO_INCREMENT,
+  `salesman_id` int(11) NOT NULL,
+  `period_from` datetime NOT NULL,        -- commission start date applied to be calculated.
+  `period_to` datetime NULL,              -- commission end date applied to be calculated.
+  `order_total` int(11) NOT NULL,
+  `amount_total` decimal(15,2) NOT NULL DEFAULT '0.00',
+  `commission_total` decimal(15,2) NOT NULL DEFAULT '0.00',
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `apply_date` datetime NOT NULL,
+  `cancel_date` datetime ,
+  `approve_date` datetime,
+  `reject_date` datetime ,
+  `comments` varchar(255),
+  `pay_date` datetime,
+  PRIMARY KEY (`apply_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+----------------------------------------------------------
+
+--
 -- 表的结构 `mcc_salesman_contact`
 -- 业务员管理后台：联系我们及答复表
 -- reply_flg: 0(已提出) 1(已答复)
