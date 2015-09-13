@@ -59,6 +59,15 @@ class ControllerSubSalesmanUser extends Controller {
 			if (isset($this->request->get['page'])) {
 				$url .= '&page=' . $this->request->get['page'];
 			}
+			
+			// 检查“下级业务员佣金默认百分比”等值是否已经设置
+			$this->load->model('salesman/user');
+			
+			$salesman_info = $this->model_salesman_user->getSalesman($this->salesman->getId());
+			if ((!empty($salesman_info)) && 
+					($salesman_info['sub_settle_suspend_days'] == 0 || $salesman_info['sub_commission_def_percent'] == 0)) {
+				$this->session->data['warning'] = $this->language->get('warning_commission');
+			}
 	
 			$this->response->redirect($this->url->link('sub_salesman/user', 'token=' . $this->session->data['token'] . $url, 'SSL'));
 		}
@@ -275,6 +284,16 @@ class ControllerSubSalesmanUser extends Controller {
 			unset($this->session->data['success']);
 		} else {
 			$data['success'] = '';
+		}
+		
+		if (isset($this->session->data['warning'])) {
+			$data['warning'] = $this->session->data['warning'];
+			$data['warning_commission_set'] = $this->language->get('warning_commission_set');
+			$data['edit_salesman'] = $this->url->link('salesman/user/edit', 'token=' . $this->session->data['token'], 'SSL');
+		
+			unset($this->session->data['warning']);
+		} else {
+			$data['warning'] = '';
 		}
 
 		$url = '';
@@ -589,7 +608,7 @@ class ControllerSubSalesmanUser extends Controller {
 		} elseif (!empty($salesman_info)) {
 			$data['with_grant_opt'] = $salesman_info['with_grant_opt'];
 		} else {
-			$data['with_grant_opt'] = true;
+			$data['with_grant_opt'] = false;
 		}
 	
 		if (isset($this->request->post['approved'])) {
