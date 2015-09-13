@@ -35,7 +35,7 @@ class ModelFinanceUnitCommission extends Model {
 		$query = $this->db->query($sql);
 
 		if (!empty($query->row)) {
-			$def_site_commission_percent = $query->row['config_commission_def_percent'];
+			$def_site_commission_percent = $query->row['value'];
   		}
 
 		// Get the commission setted by the parent salesman for the subordinate.
@@ -56,7 +56,7 @@ class ModelFinanceUnitCommission extends Model {
 		$sql .= "       FROM `" . DB_PREFIX . "salesman` s " ;
 		$sql .= "       LEFT JOIN `" . DB_PREFIX . "salesman` sp ON s.parent_id = sp.salesman_id " ;
 		$sql .= "       WHERE s.salesman_id = '" . $this->db->escape($data['salesman_id']) . "') sps ";
-		$sql .= " LEFT JOIN `" . DB_PREFIX . "product_commission` pc ON p.product_id = pc.product_id AND pc.start_date <= NOW() AND pc.end_date IS NULL ";
+		$sql .= " LEFT JOIN `" . DB_PREFIX . "product_commission` pc ON p.product_id = pc.product_id AND sps.salesman_id = pc.salesman_id AND pc.start_date <= NOW() AND pc.end_date IS NULL ";
 
 		$implode = array();
 
