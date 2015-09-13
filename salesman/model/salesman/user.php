@@ -114,7 +114,14 @@ class ModelSalesmanUser extends Model {
 
 		$salesman_id = $this->salesman->getId();
 
-		$this->db->query("UPDATE " . DB_PREFIX . "salesman SET fullname = '" . $this->db->escape($data['fullname']) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "', image = '" . $this->db->escape($data['image']) . "', custom_field = '" . $this->db->escape(isset($data['custom_field']) ? serialize($data['custom_field']) : '') . "' WHERE salesman_id = '" . (int)$salesman_id . "'");
+		if (isset($data['sub_commission_def_percent']) && isset($data['sub_settle_suspend_days'])) {
+			$this->db->query("UPDATE " . DB_PREFIX . "salesman SET fullname = '" . $this->db->escape($data['fullname']) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax'])
+					. "', image = '" . $this->db->escape($data['image']) . "', custom_field = '" . $this->db->escape(isset($data['custom_field']) ? serialize($data['custom_field']) : '') . "', sub_settle_suspend_days = '" . (int)$data['sub_settle_suspend_days']
+					. "', sub_commission_def_percent = '" . (int)$data['sub_commission_def_percent'] . "' WHERE salesman_id = '" . (int)$salesman_id . "'");
+		} else {
+			$this->db->query("UPDATE " . DB_PREFIX . "salesman SET fullname = '" . $this->db->escape($data['fullname']) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax'])
+					. "', image = '" . $this->db->escape($data['image']) . "', custom_field = '" . $this->db->escape(isset($data['custom_field']) ? serialize($data['custom_field']) : '') . "' WHERE salesman_id = '" . (int)$salesman_id . "'");
+		}
 
 		$this->load->model ( 'salesman/upload' );
 
@@ -185,7 +192,7 @@ class ModelSalesmanUser extends Model {
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "salesman_login WHERE email = '" . $this->db->escape(utf8_strtolower((string)$email)) . "' AND ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "'");
 
 		if (!$query->num_rows) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "salesman_login SET email = '" . $this->db->escape(utf8_strtolower((string)$email)) . "', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "', total = 1, date_added = '" . $this->db->escape(date('Y-m-d H:i:s')) . "', date_modified = '" . $this->db->escape(date('Y-m-d H:i:s')) . "'");
+			$this->db->query("INSERT INTO " . commission . "salesman_login SET email = '" . $this->db->escape(utf8_strtolower((string)$email)) . "', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "', total = 1, date_added = '" . $this->db->escape(date('Y-m-d H:i:s')) . "', date_modified = '" . $this->db->escape(date('Y-m-d H:i:s')) . "'");
 		} else {
 			$this->db->query("UPDATE " . DB_PREFIX . "salesman_login SET total = (total + 1), date_modified = '" . $this->db->escape(date('Y-m-d H:i:s')) . "' WHERE salesman_login_id = '" . (int)$query->row['salesman_login_id'] . "'");
 		}
@@ -199,5 +206,17 @@ class ModelSalesmanUser extends Model {
 
 	public function deleteLoginAttempts($email) {
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "salesman_login` WHERE email = '" . $this->db->escape(utf8_strtolower($email)) . "'");
+	}
+	
+	/**
+	 * 查看当前设置的佣金是否合理
+	 * 应当小于上级给自己设置的佣金百分比
+	 */
+	public function getParentCommission() {
+		$commission_info = $this->db->query("SELECT CASE WHEN parent_id = 0 THEN (SELECT value FROM " . DB_PREFIX . "setting M WHERE store_id = 0 AND code = 'config' AND M.key = 'config_commission_def_percent')
+														ELSE (SELECT sub_commission_def_percent FROM " . DB_PREFIX . "salesman WHERE salesman_id = s.parent_id) END AS commission_def_percent FROM "
+													 . DB_PREFIX . "salesman s WHERE salesman_id = '" . (int)$this->salesman->getId() . "'");
+		
+		return $commission_info->row['commission_def_percent'];
 	}
 }

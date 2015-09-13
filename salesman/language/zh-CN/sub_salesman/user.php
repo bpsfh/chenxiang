@@ -69,3 +69,7 @@ $_['error_country']         = '请选择国家！';
 $_['error_zone']            = '请选择州/省/地区！';
 $_['error_custom_field']    = '%s 必填！';
 $_['error_comment']         = '备注必填！';
+
+// Warning
+$_['warning_commission']    = '提示： 你对下级业务员的佣金默认百分比或者请求滞后期还没有设置！';
+$_['warning_commission_set'] = '点击此去设置';

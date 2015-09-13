@@ -56,6 +56,26 @@ class ControllerSalesmanUser extends Controller {
 		if (!isset($this->request->post['filename']) || $this->request->post['filename']  == '') {
 			$this->error['identity_img'] = $this->language->get('error_identity_img');
 		}
+		
+		// Add sangsanghu 2015/09/11 ST
+		if (!isset($this->request->post['sub_commission_def_percent']) || !$this->request->post['sub_commission_def_percent']) {
+			$this->error['sub_commission_def_percent'] = $this->language->get('error_commission_def_percent');
+		} else {
+			if ((!preg_match('/^[0-9]*[1-9][0-9]*$/', $this->request->post['sub_commission_def_percent']))
+					|| ($this->request->post['sub_commission_def_percent'] > $this->model_salesman_user->getParentCommission())) {
+						$this->error['sub_commission_def_percent'] = sprintf($this->language->get('error_commission_def_percent0'), $this->model_salesman_user->getParentCommission() . "%");
+			}
+		}
+		
+		if (!$this->request->post['sub_settle_suspend_days']) {
+			$this->error['sub_settle_suspend_days'] = $this->language->get('error_settle_suspend_days');
+		} else {
+			if (!preg_match('/^[0-9]*[1-9][0-9]*$/', $this->request->post['sub_settle_suspend_days'])) {
+				$this->error['sub_settle_suspend_days'] = $this->language->get('error_settle_suspend_days0');
+			}
+		}
+		// Add sangsanghu 2015/09/11 END
+		
 		return ! $this->error;
 	}
 	public function edit() {
@@ -142,6 +162,9 @@ class ControllerSalesmanUser extends Controller {
 		$data ['entry_fax'] = $this->language->get ( 'entry_fax' );
 		$data ['entry_identity'] = $this->language->get('entry_identity');
 		$data ['entry_identity_img'] = $this->language->get('entry_identity_img');
+		
+		$data ['entry_commission_def_percent'] = $this->language->get('entry_commission_def_percent');
+		$data ['entry_settle_suspend_days'] = $this->language->get('entry_settle_suspend_days');
 
 		$data ['button_save'] = $this->language->get ( 'button_save' );
 		$data ['button_cancel'] = $this->language->get ( 'button_cancel' );
@@ -221,6 +244,21 @@ class ControllerSalesmanUser extends Controller {
 		} else {
 			$data['error_identity_img'] = '';
 		}
+		
+		// Add sangsanghu 2015/09/11 ST
+		if (isset($this->error['sub_commission_def_percent'])) {
+			$data['error_sub_commission_def_percent'] = $this->error['sub_commission_def_percent'];
+		} else {
+			$data['error_sub_commission_def_percent'] = '';
+		}
+		
+		if (isset($this->error['sub_settle_suspend_days'])) {
+			$data['error_sub_settle_suspend_days'] = $this->error['sub_settle_suspend_days'];
+		} else {
+			$data['error_sub_settle_suspend_days'] = '';
+		}
+		
+		// Add sangsanghu 2015/09/11 END
 
 		$url = '';
 
@@ -325,6 +363,26 @@ class ControllerSalesmanUser extends Controller {
 		} else {
 			$data ['fax'] = '';
 		}
+		
+		// Add sangsanghu 2015/09/11 ST
+		// 下级业务员佣金默认百分比
+		if (isset($this->request->post['sub_settle_suspend_days'])) {
+			$data['sub_settle_suspend_days'] = $this->request->post['sub_settle_suspend_days'];
+		} elseif (!empty($user_info)) {
+			$data['sub_settle_suspend_days'] = $user_info['sub_settle_suspend_days'];
+		} else {
+			$data['sub_settle_suspend_days'] = '';
+		}
+		
+		// 下级业务员佣金申请滞后期
+		if (isset($this->request->post['sub_commission_def_percent'])) {
+			$data['sub_commission_def_percent'] = $this->request->post['sub_commission_def_percent'];
+		} elseif (!empty($user_info)) {
+			$data['sub_commission_def_percent'] = $user_info['sub_commission_def_percent'];
+		} else {
+			$data['sub_commission_def_percent'] = '';
+		}
+		// Add sangsanghu 2015/09/11 END
 
 		if (isset ( $this->request->post ['address'] )) {
 			$data ['address'] = $this->request->post ['address'];

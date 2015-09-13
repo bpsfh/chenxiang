@@ -45,6 +45,7 @@
 	  <ul>
 	    <li><a href="<?php echo $sub_salesman; ?>"><?php echo $text_sub_salesman_user; ?></a></li>
 	    <li><a href="<?php echo $vip_card_application; ?>"><?php echo $text_vip_card_application; ?></a></li>
+	    <li><a href="<?php echo $sub_unit_commission; ?>"><?php echo $text_sub_salesman_commission; ?></a></li>
 	    <li><a href="<?php echo $sub_salesman_contact; ?>"><?php echo $text_sub_salesman_contact; ?></a></li>
 	  </ul>
     </li>

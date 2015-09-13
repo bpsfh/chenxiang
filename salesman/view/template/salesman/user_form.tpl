@@ -190,6 +190,28 @@
               <?php  } ?>
             </div>
 					</div>
+					<!-- Add sangsanghu 2015/09/11 ST -->
+					<div class="form-group required">
+						<label class="col-sm-2 control-label" for="input-sub_commission_def_percent"><?php echo $entry_commission_def_percent; ?></label>
+						<div class="col-sm-10">
+							<input type="text" name="sub_commission_def_percent" value="<?php echo $sub_commission_def_percent; ?>" placeholder="<?php echo $entry_commission_def_percent; ?>" id="input-sub_commission_def_percent"
+								class="form-control" />
+              				<?php if ($error_sub_commission_def_percent) { ?>
+              					<div class="text-danger"><?php echo $error_sub_commission_def_percent; ?></div>
+              				<?php  } ?>
+            			</div>
+					</div>
+					<div class="form-group required">
+						<label class="col-sm-2 control-label" for="input-sub_settle_suspend_days"><?php echo $entry_settle_suspend_days; ?></label>
+						<div class="col-sm-10">
+							<input type="text" name="sub_settle_suspend_days" value="<?php echo $sub_settle_suspend_days; ?>" placeholder="<?php echo $entry_settle_suspend_days; ?>" id="input-sub_settle_suspend_days"
+								class="form-control" />
+              				<?php if ($error_sub_settle_suspend_days) { ?>
+              					<div class="text-danger"><?php echo $error_sub_settle_suspend_days; ?></div>
+              				<?php  } ?>
+            			</div>
+					</div>
+					<!-- Add sangsanghu 2015/09/11 END -->
 				</form>
 			</div>
 		</div>
