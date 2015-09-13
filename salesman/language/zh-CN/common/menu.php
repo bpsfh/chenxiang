@@ -21,3 +21,4 @@ $_['text_sub_salesman']                = '下级业务员管理';
 $_['text_sub_salesman_user']           = '下级业务员';
 $_['text_sub_salesman_contact']        = '下级业务员咨询';
 $_['text_vip_card_application']        = '下级VIP卡申请一览';
+$_['text_sub_salesman_commission']     = '下级业务员佣金一览';

@@ -26,6 +26,9 @@ $_['entry_email']      	= '帐户名';
 $_['entry_image']      	= '图像';
 $_['entry_status']     	= '状态';
 
+$_['entry_commission_def_percent']     = '下级业务员佣金默认百分比';
+$_['entry_settle_suspend_days']        = '佣金申请滞后期';
+
 // Error
 $_['error_permission'] 	= '警告: 无权限修改管理员！';
 $_['error_account']    	= '警告: 不能删除自己！';
@@ -35,6 +38,11 @@ $_['error_password']   	= '密码必须为4-20字符！';
 $_['error_confirm']    	= '密码和确认密码不一致！';
 $_['error_firstname']  	= '名称必须为1-32字符！';
 $_['error_lastname']   	= '姓氏必须为1-32字符！';
+
+$_['error_commission_def_percent']     = '业务员佣金默认百分比必须填写并且大于0！';
+$_['error_commission_def_percent0']    = '业务员佣金默认百分比必须为小于上级设置的佣金百分比（%s）的整数！';
+$_['error_settle_suspend_days']        = '佣金申请滞后期必须填写并且大于0！';
+$_['error_settle_suspend_days0']       = '佣金申请滞后期必须为整数！';
 
 // Address
 // Entry
