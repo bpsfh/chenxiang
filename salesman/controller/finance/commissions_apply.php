@@ -14,6 +14,25 @@ class ControllerFinanceCommissionsApply extends Controller {
 
 		$this->getList();
 	}
+	
+	/**
+	 * 提交申请
+	 */
+	public function apply() {
+		$this->load->language('finance/commissions_apply');
+	
+		$this->document->setTitle($this->language->get('heading_title'));
+	
+		$this->load->model('finance/commissions_apply');
+		
+		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
+			$this->model_finance_commissions_apply->apply($this->request->post);
+			
+			$this->session->data['success'] = $this->language->get('text_success');
+		}
+		
+		$this->getList();
+	}
 
 	/**
 	 * 下级结算申请一览
@@ -26,10 +45,10 @@ class ControllerFinanceCommissionsApply extends Controller {
 			$filter_settle_status = null;
 		}
 		
-		if (isset($this->request->get['filter_settlement_id'])) {
-			$filter_settlement_id = $this->request->get['filter_settlement_id'];
+		if (isset($this->request->get['filter_apply_id'])) {
+			$filter_apply_id = $this->request->get['filter_apply_id'];
 		} else {
-			$filter_settlement_id = null;
+			$filter_apply_id = null;
 		}
 		
 		if (isset($this->request->get['filter_period_from'])) {
@@ -68,8 +87,8 @@ class ControllerFinanceCommissionsApply extends Controller {
 			$url .= '&filter_settle_status=' . $this->request->get['filter_settle_status'];
 		}
 		
-		if (isset($this->request->get['filter_settlement_id'])) {
-			$url .= '&filter_settlement_id=' . $this->request->get['filter_settlement_id'];
+		if (isset($this->request->get['filter_apply_id'])) {
+			$url .= '&filter_apply_id=' . $this->request->get['filter_apply_id'];
 		}
 		
 		if (isset($this->request->get['filter_period_from'])) {
@@ -101,14 +120,14 @@ class ControllerFinanceCommissionsApply extends Controller {
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('finance/commission_apply', 'token=' . $this->session->data['token'] . $url, 'SSL')
+			'href' => $this->url->link('finance/commissions_apply', 'token=' . $this->session->data['token'] . $url, 'SSL')
 		);
 
 		$data['settlements'] = array();
 
 		$filter_data = array(
-			'filter_settle_status'     => $filter_settle_status,
-			'filter_settlement_id'     => $filter_settlement_id,
+			'filter_status'            => $filter_settle_status,
+			'filter_apply_id'          => $filter_apply_id,
 			'filter_period_from'       => $filter_period_from,
 			'filter_period_to'         => $filter_period_to,
 			'salesman_id'              => $this->salesman->getId(),
@@ -118,9 +137,9 @@ class ControllerFinanceCommissionsApply extends Controller {
 			'limit'                    => $this->config->get('config_limit_admin')
 		);
 
-		$product_total = $this->model_finance_commissions_apply->getTotalSettlements($filter_data);
-
 		$results = $this->model_finance_commissions_apply->getSettlementsByMonth($filter_data);
+		
+		$apply_total = $this->model_finance_commissions_apply->getTotalSettlements($filter_data);
 
 		$i = 0;
 		
@@ -128,13 +147,18 @@ class ControllerFinanceCommissionsApply extends Controller {
 			$i = $i + 1;
 			$data['settlements'][] = array(
 				'num'                    => $i,
-				'settlement_id'       	 => $result['apply_id'],
-				'period'       	         => $result['period_from'] . "-" . $result['period_to'],
-				'commission'             => $result['commission_total'],
+				'apply_id'       	     => $result['apply_id'],
+				'period'       	         => date($this->language->get('date_format_short'), strtotime($result['period_from'])) . " - " . date($this->language->get('date_format_short'), strtotime($result['period_to'])),
+				'period_from'            => date($this->language->get('date_format_short'), strtotime($result['period_from'])),
+				'period_to'              => date($this->language->get('date_format_short'), strtotime($result['period_to'])),
+				'order_total'            => $result['order_total'],
+				'amount_total'           => $result['amount_total'],
+				'commission_total'       => $result['commission_total'],
 				'apply_date'             => $result['apply_date'],
 				'status'                 => $result['status'],
 				'payment_status'         => $result['payment_status'],
-				'comments'               => $result['comments']
+				'comments'               => $result['comments'],
+				'apply'                  => $this->url->link('finance/commissions_apply/apply', 'token=' . $this->session->data['token'] . $url, 'SSL'),
 			);
 		}
 
@@ -152,21 +176,23 @@ class ControllerFinanceCommissionsApply extends Controller {
 		$data['text_payment_status_0'] = $this->language->get('text_payment_status_0');
 		$data['text_payment_status_1'] = $this->language->get('text_payment_status_1');
 
+		$data['column_action'] = $this->language->get("column_action");
 		$data['column_num'] = $this->language->get('column_num');
-		$data['column_settlement_id'] = $this->language->get('column_settlement_id');
+		$data['column_apply_id'] = $this->language->get('column_apply_id');
 		$data['column_period'] = $this->language->get('column_period');
-		$data['column_commission'] = $this->language->get('column_commission');
+		$data['column_commission_total'] = $this->language->get('column_commission_total');
 		$data['column_apply_date'] = $this->language->get('column_apply_date');
 		$data['column_status'] = $this->language->get('column_status');
 		$data['column_payment_status'] = $this->language->get('column_payment_status');
 		$data['column_comments'] = $this->language->get('column_comments');
 
 		$data['entry_settle_status'] = $this->language->get('entry_settle_status');
-		$data['entry_settlement_id'] = $this->language->get('entry_settlement_id');
+		$data['entry_apply_id'] = $this->language->get('entry_apply_id');
 		$data['entry_period_from'] = $this->language->get('entry_period_from');
 		$data['entry_period_to'] = $this->language->get('entry_period_to');
 
 		$data['button_filter'] = $this->language->get('button_filter');
+		$data['button_apply'] = $this->language->get('button_apply');
 
 		$data['token'] = $this->session->data['token'];
 
@@ -191,8 +217,8 @@ class ControllerFinanceCommissionsApply extends Controller {
 			$url .= '&filter_settle_status=' . $this->request->get['filter_settle_status'];
 		}
 		
-		if (isset($this->request->get['filter_settlement_id'])) {
-			$url .= '&filter_settlement_id=' . $this->request->get['filter_settlement_id'];
+		if (isset($this->request->get['filter_apply_id'])) {
+			$url .= '&filter_apply_id=' . $this->request->get['filter_apply_id'];
 		}
 		
 		if (isset($this->request->get['filter_period_from'])) {
@@ -213,12 +239,12 @@ class ControllerFinanceCommissionsApply extends Controller {
 			$url .= '&page=' . $this->request->get['page'];
 		}
 
-		$data['settlement_id'] = $this->url->link('finance/commissions_apply', 'token=' . $this->session->data['token'] . '&sort=settlement_id' . $url, 'SSL');
-		$data['period'] = $this->url->link('finance/commissions_apply', 'token=' . $this->session->data['token'] . '&sort=period' . $url, 'SSL');
-		$data['commission'] = $this->url->link('finance/commissions_apply', 'token=' . $this->session->data['token'] . '&sort=commission' . $url, 'SSL');
-		$data['apply_date'] = $this->url->link('finance/commissions_apply', 'token=' . $this->session->data['token'] . '&sort=apply_date' . $url, 'SSL');
-		$data['status'] = $this->url->link('finance/commissions_apply', 'token=' . $this->session->data['token'] . '&sort=status' . $url, 'SSL');
-		$data['payment_status'] = $this->url->link('finance/commissions_apply', 'token=' . $this->session->data['token'] . '&sort=payment_status' . $url, 'SSL');
+		$data['sort_apply_id'] = $this->url->link('finance/commissions_apply', 'token=' . $this->session->data['token'] . '&sort=apply_id' . $url, 'SSL');
+		$data['sort_period_from'] = $this->url->link('finance/commissions_apply', 'token=' . $this->session->data['token'] . '&sort=period_form' . $url, 'SSL');
+		$data['sort_commission_total'] = $this->url->link('finance/commissions_apply', 'token=' . $this->session->data['token'] . '&sort=commission_total' . $url, 'SSL');
+		$data['sort_apply_date'] = $this->url->link('finance/commissions_apply', 'token=' . $this->session->data['token'] . '&sort=apply_date' . $url, 'SSL');
+		$data['sort_status'] = $this->url->link('finance/commissions_apply', 'token=' . $this->session->data['token'] . '&sort=status' . $url, 'SSL');
+		$data['sort_payment_status'] = $this->url->link('finance/commission_totals_apply', 'token=' . $this->session->data['token'] . '&sort=payment_status' . $url, 'SSL');
 		
 		$url = '';
 
@@ -226,8 +252,8 @@ class ControllerFinanceCommissionsApply extends Controller {
 			$url .= '&filter_settle_status=' . $this->request->get['filter_settle_status'];
 		}
 		
-		if (isset($this->request->get['filter_settlement_id'])) {
-			$url .= '&filter_settlement_id=' . $this->request->get['filter_settlement_id'];
+		if (isset($this->request->get['filter_apply_id'])) {
+			$url .= '&filter_apply_id=' . $this->request->get['filter_apply_id'];
 		}
 		
 		if (isset($this->request->get['filter_period_from'])) {
@@ -247,17 +273,17 @@ class ControllerFinanceCommissionsApply extends Controller {
 		}
 
 		$pagination = new Pagination();
-		$pagination->total = $product_total;
+		$pagination->total = $apply_total;
 		$pagination->page = $page;
 		$pagination->limit = $this->config->get('config_limit_admin');
 		$pagination->url = $this->url->link('finance/commissions_apply', 'token=' . $this->session->data['token'] . $url . '&page={page}', 'SSL');
 
 		$data['pagination'] = $pagination->render();
 
-		$data['results'] = sprintf($this->language->get('text_pagination'), ($product_total) ? (($page - 1) * $this->config->get('config_limit_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_limit_admin')) > ($product_total - $this->config->get('config_limit_admin'))) ? $product_total : ((($page - 1) * $this->config->get('config_limit_admin')) + $this->config->get('config_limit_admin')), $product_total, ceil($product_total / $this->config->get('config_limit_admin')));
+		$data['results'] = sprintf($this->language->get('text_pagination'), ($apply_total) ? (($page - 1) * $this->config->get('config_limit_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_limit_admin')) > ($apply_total - $this->config->get('config_limit_admin'))) ? $apply_total : ((($page - 1) * $this->config->get('config_limit_admin')) + $this->config->get('config_limit_admin')), $apply_total, ceil($apply_total / $this->config->get('config_limit_admin')));
 
 		$data['filter_settle_status'] = $filter_settle_status;
-		$data['filter_settlement_id'] = $filter_settlement_id;
+		$data['filter_apply_id'] = $filter_apply_id;
 		$data['filter_period_from'] = $filter_period_from;
 		$data['filter_period_to'] = $filter_period_to;
 
@@ -270,49 +296,19 @@ class ControllerFinanceCommissionsApply extends Controller {
 
 		$this->response->setOutput($this->load->view('finance/commissions_apply.tpl', $data));
 	}
-
+	
 	/**
-	 * 自动查找
+	 * 检查该时间段的数据是否已申请过
 	 */
-	public function autocomplete() {
-		$json = array();
-
-		if (isset($this->request->get['filter_name'])) {
-			if (isset($this->request->get['filter_name'])) {
-				$filter_name = $this->request->get['filter_name'];
-			} else {
-				$filter_name = '';
-			}
-	
-			$this->load->model('finance/unit_commission');
-	
-			$filter_data = array(
-					'filter_name'  => $filter_name,
-					'salesman_id'  => $this->salesman->getId(),
-					'start'        => 0,
-					'limit'        => 5
-			);
-	
-			$results = $this->model_finance_unit_commission->getProductCommission($filter_data);
-	
-			foreach ($results as $result) {
-				$json[] = array(
-					'product_id'       => $result['product_id'],
-					'name'             => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8'))
-				);
-			}
+	protected function validateForm() {
+		if (!empty($this->model_finance_commissions_apply->getApply($this->request->post))) {
+			$this->error['apply_exist'] = $this->language->get('error_apply_exist');
 		}
-	
-		$sort_order = array();
-	
-		foreach ($json as $key => $value) {
-			$sort_order[$key] = $value['name'];
+		
+		if ($this->error && !isset($this->error['warning'])) {
+			$this->error['warning'] = $this->language->get('error_warning');
 		}
-	
-		array_multisort($sort_order, SORT_ASC, $json);
-	
-		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput(json_encode($json));
+		
+		return !$this->error;
 	}
-	
 }

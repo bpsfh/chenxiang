@@ -43,11 +43,10 @@
                 </select>
               </div>
             </div>
-
             <div class="col-sm-3">
               <div class="form-group">
-                <label class="control-label" for="input-fullname"><?php echo $entry_settlement_id; ?></label>
-                <input type="text" name="filter_settlement_id" value="<?php echo $filter_settlement_id; ?>" placeholder="<?php echo $entry_settlement_id; ?>" id="input-name" class="form-control" />
+                <label class="control-label" for="input-apply_id"><?php echo $entry_apply_id; ?></label>
+                <input type="text" name="filter_apply_id" value="<?php echo $filter_apply_id; ?>" placeholder="<?php echo $entry_apply_id; ?>" id="input-name" class="form-control" />
               </div>
             </div>
 
@@ -71,53 +70,60 @@
                  <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
                </span></div>
              </div>
+             <button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button>
            </div>
-
-            <div class="col-sm-3">
-              <button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button>
-            </div>
           </div>
         </div>
+        <?php if ($settlements) { ?>
+          <?php foreach ($settlements as $settlement) { ?>
+          	<?php if ($settlement['status'] == 0) {?>
+              <form method="post" id="<?php echo "form-apply".$settlement['num']; ?>">
+                <input type="hidden" name="period_from" value="<?php echo $settlement['period_from'];?>"/>
+                <input type="hidden" name="period_to" value="<?php echo $settlement['period_to'];?>"/>
+                <input type="hidden" name="order_total" value="<?php echo $settlement['order_total'];?>"/>
+                <input type="hidden" name="amount_total" value="<?php echo $settlement['amount_total'];?>"/>
+                <input type="hidden" name="commission_total" value="<?php echo $settlement['commission_total'];?>"/>
+              </form>
+            <?php }?>
+          <?php }?>
+        <?php }?>
         <div class="table-responsive">
           <table class="table table-bordered table-hover">
             <thead>
               <tr>
-                <td class="text-left"><?php if ($sort == 'num') { ?>
-                  <a href="<?php echo $sort_num; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_num; ?></a>
+                <td class="text-left"><?php echo $column_num; ?></td>
+                <td class="text-left"><?php if ($sort == 'apply_id') { ?>
+                  <a href="<?php echo $sort_apply_id; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_apply_id; ?></a>
                   <?php } else { ?>
-                  <a href="<?php echo $sort_num; ?>"><?php echo $column_num; ?></a>
+                  <a href="<?php echo $sort_apply_id; ?>"><?php echo $column_apply_id; ?></a>
                   <?php } ?></td>
-                <td class="text-left"><?php if ($sort == 'settlement_id') { ?>
-                  <a href="<?php echo $sort_settlement_id; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_settlement_id; ?></a>
+                <td class="text-left"><?php if ($sort == 'period_from') { ?>
+                  <a href="<?php echo $sort_period_from; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_period; ?></a>
                   <?php } else { ?>
-                  <a href="<?php echo $sort_settlement_id; ?>"><?php echo $column_settlement_id; ?></a>
+                  <a href="<?php echo $sort_period_from; ?>"><?php echo $column_period; ?></a>
                   <?php } ?></td>
-                <td class="text-left"><?php if ($sort == 'period') { ?>
-                  <a href="<?php echo $sort_period; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_period; ?></a>
+                <td class="text-right"><?php if ($sort == 'commission_total') { ?>
+                  <a href="<?php echo $sort_commission_total; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_commission_total; ?></a>
                   <?php } else { ?>
-                  <a href="<?php echo $sort_period; ?>"><?php echo $column_period; ?></a>
-                  <?php } ?></td>
-                <td class="text-right"><?php if ($sort == 'commission') { ?>
-                  <a href="<?php echo $sort_commission; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_commission; ?></a>
-                  <?php } else { ?>
-                  <a href="<?php echo $sort_commission; ?>"><?php echo $column_commission; ?></a>
+                  <a href="<?php echo $sort_commission_total; ?>"><?php echo $column_commission_total; ?></a>
                   <?php } ?></td>
                 <td class="text-right"><?php if ($sort == 'apply_date') { ?>
                   <a href="<?php echo $sort_apply_date; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_apply_date; ?></a>
                   <?php } else { ?>
                   <a href="<?php echo $sort_apply_date; ?>"><?php echo $column_apply_date; ?></a>
                   <?php } ?></td>
-                <td class="text-right"><?php if ($sort == 'status') { ?>
+                <td class="text-center"><?php if ($sort == 'status') { ?>
                   <a href="<?php echo $sort_status; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_status; ?></a>
                   <?php } else { ?>
                   <a href="<?php echo $sort_status; ?>"><?php echo $column_status; ?></a>
                   <?php } ?></td>
-                <td class="text-right"><?php if ($sort == 'payment_status') { ?>
+                <td class="text-center"><?php if ($sort == 'payment_status') { ?>
                   <a href="<?php echo $sort_payment_status; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_payment_status; ?></a>
                   <?php } else { ?>
                   <a href="<?php echo $sort_payment_status; ?>"><?php echo $column_payment_status; ?></a>
                   <?php } ?></td>
-                 <td class="text_center"> </td>
+                 <td class="text-left"><?php echo $column_comments; ?></td>
+                 <td class="text-right"><?php echo $column_action; ?></td>
               </tr>
             </thead>
             <tbody>
@@ -125,9 +131,9 @@
               <?php foreach ($settlements as $settlement) { ?>
               <tr>
                 <td class="text-left"><?php echo $settlement['num']; ?></td>
-                <td class="text-left"><?php echo $settlement['settlement_id']; ?></td>
+                <td class="text-left"><?php echo $settlement['apply_id']; ?></td>
                 <td class="text-left"><?php echo $settlement['period']; ?></td>
-                <td class="text-right"><?php echo $settlement['commission']; ?></td>
+                <td class="text-right"><?php echo $settlement['commission_total']; ?></td>
                 <td class="text-center"><?php echo $settlement['apply_date']; ?></td>
                 <td class="text-center">
                 	<?php if($settlement['status'] == 0) { echo $text_settle_status_0; }?>
@@ -141,16 +147,19 @@
                 	<?php if($settlement['payment_status'] == 0) { echo $text_payment_status_0; }?>
                 	<?php if($settlement['payment_status'] == 1) { echo $text_payment_status_1; }?>
                 </td>
-                <td class="text_center">
-                   <div class="text-right" id="<?php echo ('apply-'.$key); ?>"<?php if ($settlement['status'] != 0) {echo ('style = "display : none"');} ?>>
-<a href="javascript:void(0)" id="<?php echo ('apply-button-'.$key); ?>" onclick="apply(<?php echo ('\''.$settlement['num'].'\',\''.$key.'\''); ?>);" class="btn btn-success" title="<?php echo $column_apply; ?>" ><i class="fa fa-share"></i> </a>
-                   </div>
+                <td class="text-left">
+                	<?php echo $settlement['comments']; ?>
+                </td>
+                <td class="text-right">
+                	<?php if ($settlement['status'] == 0) {?>
+                		<button type="button" data-toggle="tooltip" title="<?php echo $button_apply; ?>" class="btn btn-primary" onclick="$('<?php echo "#form-apply".$settlement['num'];?>').attr('action', '<?php echo $settlement['apply']; ?>').submit()"><i class="fa fa-share"></i></button>
+                	<?php }?>
                 </td>
                </tr>
               <?php } ?>
               <?php } else { ?>
               <tr>
-                <td class="text-center" colspan="9"><?php echo $text_no_results; ?></td>
+                <td class="text-center" colspan="10"><?php echo $text_no_results; ?></td>
               </tr>
               <?php } ?>
             </tbody>
@@ -165,37 +174,39 @@
   </div>
   <script type="text/javascript"><!--
 $('#button-filter').on('click', function() {
-	url = 'index.php?route=finance/unit_commission&token=<?php echo $token; ?>';
+	url = 'index.php?route=finance/commissions_apply&token=<?php echo $token; ?>';
 
-	var filter_name = $('input[name=\'filter_name\']').val();
+	var filter_settle_status = $('select[name=\'filter_settle_status\']').val();
 
-	if (filter_name) {
-		url += '&filter_name=' + encodeURIComponent(filter_name);
+	if (filter_settle_status != '*') {
+		url += '&filter_settle_status=' + encodeURIComponent(filter_settle_status);
+	}
+
+	var filter_apply_id = $('input[name=\'filter_apply_id\']').val();
+
+	if (filter_apply_id) {
+		url += '&filter_apply_id=' + encodeURIComponent(filter_apply_id);
+	}
+
+	var filter_period_from = $('input[name=\'filter_period_from\']').val();
+
+	if (filter_period_from) {
+		url += '&filter_period_from=' + encodeURIComponent(filter_period_from);
+	}
+
+	var filter_period_to = $('input[name=\'filter_period_to\']').val();
+
+	if (filter_period_to) {
+		url += '&filter_period_to=' + encodeURIComponent(filter_period_to);
 	}
 
 	location = url;
 
 });
-//--></script> 
-  <script type="text/javascript"><!--
-  $('input[name=\'filter_name\']').autocomplete({
-		'source': function(request, response) {
-			$.ajax({
-				url: 'index.php?route=finance/commissions_apply/autocomplete&token=<?php echo $token; ?>&filter_name=' + encodeURIComponent(request),
-				dataType: 'json',			
-				success: function(json) {
-					response($.map(json, function(item) {
-						return {
-							label: item['name'],
-							value: item['settlement_id']
-						}
-					}));
-				}
-			});
-		},
-		'select': function(item) {
-			$('input[name=\'filter_name\']').val(item['label']);
-		}	
-	});
+//--></script>
+<script type="text/javascript"><!--
+$('.date').datetimepicker({
+	pickTime: false
+});
 //--></script></div>
 <?php echo $footer; ?> 
