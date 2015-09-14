@@ -72,12 +72,10 @@ class ModelFinanceCommissionsApply extends Model {
 		// Get the commission setted by the parent salesman for the subordinate.
 		$sql .= " INNER JOIN (";
 		$sql .= " SELECT p.product_id";
-		$sql .= " , pd.name ";
 		$sql .= " , CASE WHEN pc.commission IS NOT NULL THEN pc.commission ";
 		$sql .= "        ELSE p.price * sps.sub_commission_def_percent / 100 ";
 		$sql .= "   END AS commission ";
 		$sql .= " FROM `" . DB_PREFIX . "product` p ";
-		$sql .= " INNER JOIN `" . DB_PREFIX . "product_description` pd ON p.product_id = pd.product_id AND pd.language_id = 1 ";//AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 		$sql .= " JOIN ( "; 
 		$sql .= "       SELECT "; 
 		$sql .= "             IFNULL(sp.salesman_id, 0) AS salesman_id "; 
@@ -87,25 +85,18 @@ class ModelFinanceCommissionsApply extends Model {
 		$sql .= "       FROM `" . DB_PREFIX . "salesman` s " ;
 		$sql .= "       LEFT JOIN `" . DB_PREFIX . "salesman` sp ON s.parent_id = sp.salesman_id " ;
 		$sql .= "       WHERE s.salesman_id = '" . $this->db->escape($data['salesman_id']) . "') sps ";
-		$sql .= " LEFT JOIN `" . DB_PREFIX . "product_commission` pc ON p.product_id = pc.product_id AND sps.salesman_id = pc.salesman_id AND pc.start_date <= NOW() AND pc.end_date IS NULL ";
-		
-		$implode = array();
-
-		$implode[] = " p.status = 1 ";
-
-		if(empty($data['salesman_id'])) {
-			$implode[] .= " 0 = 1 ";
-		}
-
-		if ($implode) {
-			$sql .= " WHERE " . implode(" AND ", $implode);
-		}
-
+		$sql .= " LEFT JOIN `" . DB_PREFIX . "product_commission` pc ON p.status = 1 AND p.product_id = pc.product_id AND sps.salesman_id = pc.salesman_id AND pc.start_date <= NOW() AND pc.end_date IS NULL ";
 		$sql .= " ) comm "; 
 
-		$sql .= "  ON op.product_id = comm.product_id ";		
+		$sql .= "  ON op.product_id = comm.product_id "; 
 
 		$implode = array();
+
+		if(!empty($data['salesman_id'])) {
+			$implode[] .= " ca.salesman_id = '" . $this->db->escape($data['salesman_id']) . "' ";
+		} else {
+			$implode[] .= " 0 = 1 ";
+		}
 
 		if (!empty($data['filter_date_start'])) {
 			$implode[] .= " DATE(vc.date_bind_to_salesman) >= '" . $this->db->escape($data['filter_date_start']) . "'";
@@ -153,17 +144,20 @@ class ModelFinanceCommissionsApply extends Model {
 		if ($implode) {
 			$sql .= " WHERE " . implode(" AND ", $implode);
 		}
-/*		
+
 		$sort_data = array(
-				'product_id',
-				'name',
-				'commission'
+				'apply_id',
+				'period_from',
+				'commission_total',
+				'status',
+				'apply_date',
+				'payment_status'
 		);
 		
 		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
 			$sql .= " ORDER BY " . $data['sort'];
 		} else {
-			$sql .= " ORDER BY product_id";
+			$sql .= " ORDER BY period_from desc ";
 		}
 		
 		if (isset($data['order']) && ($data['order'] == 'DESC')) {
@@ -171,7 +165,6 @@ class ModelFinanceCommissionsApply extends Model {
 		} else {
 			$sql .= " ASC";
 		}
-*/
 		
 		if (isset($data['start']) || isset($data['limit'])) {
 			if ($data['start'] < 0) {
