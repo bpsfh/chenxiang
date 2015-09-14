@@ -35,7 +35,28 @@ class ControllerCommonDashboard extends Controller {
 			$data['error_install'] = '';
 		}
 		
+		$data['entry_period_from'] = $this->language->get('entry_period_from');
+		$data['entry_period_to'] = $this->language->get('entry_period_to');
+		$data['button_filter'] = $this->language->get('button_filter');
+
 		$data['token'] = $this->session->data['token'];
+
+
+		if (isset($this->request->get['filter_period_from'])) {
+			$filter_period_from = $this->request->get['filter_period_from'];
+		} else {
+			$filter_period_from= null;
+		}
+		
+		if (isset($this->request->get['filter_period_to'])) {
+			$filter_period_to = $this->request->get['filter_period_to'];
+		} else {
+			$filter_period_to = null;
+		}
+
+		$data['filter_period_from'] = $filter_period_from;
+		$data['filter_period_to'] = $filter_period_to;
+
 		
 		// Authority
 		$data['isAuthorized'] = $this->salesman->isAuthorized();
@@ -51,8 +72,7 @@ class ControllerCommonDashboard extends Controller {
 		$data['card'] = $this->load->controller('dashboard/card');
 		$data['map'] = $this->load->controller('dashboard/map');
 		$data['chart'] = $this->load->controller('dashboard/chart');
-//		$data['activity'] = $this->load->controller('dashboard/activity');
-//		$data['recent'] = $this->load->controller('dashboard/recent');
+		$data['achievement'] = $this->load->controller('dashboard/achievement');
 		$data['footer'] = $this->load->controller('common/footer');
 	
 		// message	

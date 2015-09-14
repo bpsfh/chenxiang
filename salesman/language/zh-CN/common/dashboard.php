@@ -23,6 +23,10 @@ $_['text_year']                    = '年';
 $_['text_view']                    = '查看更多......';
 $_['text_home']                    = '主页';
 
+$_['entry_period_from']            = '开始日期';
+$_['entry_period_to']              = '截止日期';
+
+
 // Application status message
 $_['text_application_status_0']    = '未申请'; 
 $_['text_application_status_1']    = '申请中'; 
