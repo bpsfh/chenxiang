@@ -7369,3 +7369,14 @@ CREATE TABLE IF NOT EXISTS `mcc_salesman_contact` (
   `reply_flg` boolean,
   PRIMARY KEY `contact_id` (`contact_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+----------------------------------------------------------
+-- System Initial Setting Data.
+----------------------------------------------------------
+
+-- default commission rate for the first class salseman setted by the site admin.
+-- 
+INSERT INTO `mcc_setting` (`store_id`, `code`, `key`, `value`, `serialized`) VALUES
+( 0, 'config', 'config_commission_def_percent', '5', 0);
+
