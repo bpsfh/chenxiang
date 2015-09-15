@@ -16,7 +16,7 @@ class ModelFinanceOrderCommissions extends Model {
 		}
 		$sql = " SELECT COUNT(*) AS total FROM";
 		$sql .= " (SELECT DATE(o.date_added) AS date";
-		$sql .= " 	,COUNT(*) AS order_num";
+		$sql .= " 	,COUNT(DISTINCT o.order_id) AS order_num";
 		$sql .= " 	,SUM(p.price * op.quantity) AS order_total";
 		$sql .= " 	,SUM(pcv.commission * op.quantity) AS commissions_total";
 		$sql .= " 	,ca.apply_date";
@@ -91,7 +91,7 @@ class ModelFinanceOrderCommissions extends Model {
 			$def_site_commission_percent = $query->row['value'];
 		}
 		$sql = " SELECT DATE(o.date_added) AS date";
-		$sql .= " 	,COUNT(*) AS order_num";
+		$sql .= " 	,COUNT(DISTINCT o.order_id) AS order_num";
 		$sql .= " 	,SUM(p.price * op.quantity) AS order_total";
 		$sql .= " 	,SUM(pcv.commission * op.quantity) AS commissions_total";
 		$sql .= " 	,ca.apply_date AS commissions_status";
@@ -176,7 +176,7 @@ class ModelFinanceOrderCommissions extends Model {
 				$data['limit'] = 20;
 			}
 
-			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+// 			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
 		}
 
 		$query = $this->db->query($sql);
