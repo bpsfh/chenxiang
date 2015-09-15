@@ -25,6 +25,7 @@ $_['entry_fullname']  	= '姓名';
 $_['entry_email']      	= '帐户名';
 $_['entry_image']      	= '图像';
 $_['entry_status']     	= '状态';
+$_['entry_telephone'] 	= '电话';
 
 $_['entry_commission_def_percent']     = '下级业务员佣金默认百分比';
 $_['entry_settle_suspend_days']        = '佣金申请滞后期';
@@ -46,13 +47,14 @@ $_['error_settle_suspend_days0']       = '佣金申请滞后期必须为整数�
 
 // Address
 // Entry
+$_['entry_company']         = '公司';
 $_['entry_address']        = '地址';
 $_['entry_postcode']       = '邮政编码';
 $_['entry_city']           = '所在城市';
 $_['entry_country']        = '国家';
 $_['entry_zone']           = '州/省/地区';
 $_['entry_default']        = '默认地址';
-$_['entry_telephone'] 	   = '收件人电话';
+$_['entry_shipping_telephone'] 	   = '货运电话';
 $_['entry_fax'] 	       = '传真';
 $_['entry_identity']       = '身份证';
 $_['entry_identity_img']   = '请上传证件照片';
@@ -66,5 +68,6 @@ $_['error_city']           = '所在城市必须为 2-128字符！';
 $_['error_country']        = '请选择国家';
 $_['error_zone']           = '请选择州/省/地区！';
 $_['error_custom_field']   = '%s 必须！';
-$_['error_telephone']      = '收件人电话必须为3到32字节！';
+$_['error_telephone']      = '请输入正确的手机号码！';
+$_['error_shipping_telephone']      = '收件人电话必须为8到14字节！';
 $_['error_identity_img']   = '请上传身份认证图片';

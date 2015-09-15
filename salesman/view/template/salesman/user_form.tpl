@@ -31,23 +31,23 @@
 	    </div>
 	    <?php } ?>
     <div class="panel panel-default">
-			<div class="panel-heading">
-				<h3 class="panel-title">
-					<i class="fa fa-pencil"></i> <?php echo $text_form; ?></h3>
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<i class="fa fa-pencil"></i> <?php echo $text_form; ?></h3>
+	</div>
+	<div class="panel-body">
+		<form action="<?php echo $action; ?>" method="post"
+			enctype="multipart/form-data" id="form-user"
+			class="form-horizontal">
+			<div class="form-group">
+				<label class="col-sm-2 control-label" for="input-email"><?php echo $entry_email; ?></label>
+				<div class="col-sm-10">
+					<input type="text" name="email" value="<?php echo $email; ?>"
+						placeholder="<?php echo $entry_email; ?>" id="input-email"
+						class="form-control" readonly="readonly"/>
+				</div>
 			</div>
-			<div class="panel-body">
-				<form action="<?php echo $action; ?>" method="post"
-					enctype="multipart/form-data" id="form-user"
-					class="form-horizontal">
-					<div class="form-group">
-						<label class="col-sm-2 control-label" for="input-email"><?php echo $entry_email; ?></label>
-						<div class="col-sm-10">
-							<input type="text" name="email" value="<?php echo $email; ?>"
-								placeholder="<?php echo $entry_email; ?>" id="input-email"
-								class="form-control" readonly="readonly"/>
-						</div>
-					</div>
-					<div class="form-group required">
+			<div class="form-group required">
             <label class="col-sm-2 control-label" for="input-fullname"><?php echo $entry_fullname; ?></label>
             <div class="col-sm-10">
               <input type="text" name="fullname" value="<?php echo $fullname; ?>" placeholder="<?php echo $entry_fullname; ?>" id="input-fullname" class="form-control" />
@@ -66,7 +66,7 @@
 						id="input-image" />
 				</div>
 			</div>
-			<div class="form-group required">
+			<div class="form-group">
             <label class="col-sm-1 control-label"></label>
             <label class="col-sm-1-4 ">
               <?php foreach ($languages as $language) { ?>
@@ -100,8 +100,12 @@
 					<input type="text" name="telephone" value="<?php echo $telephone; ?>"
 						placeholder="<?php echo $telephone; ?>" id="input-telephone"
 						class="form-control" />
+					<?php if ($error_telephone) { ?>
+	                <div class="text-danger "><?php echo $error_telephone; ?></div>
+	                <?php } ?>
 				</div>
 			</div>
+		    <input type="hidden" name="address_id" value="<?php echo $address_id; ?>" id="input-address-id" class="form-control" />
 			<div class="form-group">
 				<label class="col-sm-2 control-label" for="input-fax"><?php echo $entry_fax; ?></label>
 				<div class="col-sm-10">
@@ -147,6 +151,10 @@
               <?php } ?>
             </div>
           </div>
+          <div class="form-group">
+			    <label class="col-sm-2 control-label" for="input-company' + address_row + '"><?php echo $entry_company; ?></label>
+			    <div class="col-sm-6"><input type="text" name="company" value="<?php echo $company; ?>" placeholder="<?php echo $entry_company; ?>" id="input-company' + address_row + '" class="form-control" /></div>
+		  </div>
           <div class="form-group required">
             <label class="col-sm-2 control-label" for="input-address"><?php echo $entry_address; ?></label>
             <div class="col-sm-10">
@@ -166,6 +174,17 @@
               <?php } ?>
             </div>
           </div>
+			<div class="form-group required">
+				<label class="col-sm-2 control-label" for="input-shipping-telephone"><?php echo $entry_shipping_telephone; ?></label>
+				<div class="col-sm-10">
+					<input type="text" name="shipping_telephone" value="<?php echo $shipping_telephone; ?>"
+						placeholder="<?php echo $shipping_telephone; ?>" id="input-shipping-telephone"
+						class="form-control" />
+					<?php if ($error_shipping_telephone) { ?>
+	                <div class="text-danger "><?php echo $error_shipping_telephone; ?></div>
+	                <?php } ?>
+				</div>
+			</div>
 			<div class="form-group required">
 				<label class="col-sm-2 control-label" for="input-password"><?php echo $entry_password; ?></label>
 				<div class="col-sm-10">

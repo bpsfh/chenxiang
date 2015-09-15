@@ -3,7 +3,7 @@ class ModelSalesmanAddress extends Model {
 	public function addAddress($data) {
 		$this->event->trigger('pre.salesman.add.address', $data);
 
-		$this->db->query("INSERT INTO " . DB_PREFIX . "address SET salesman_id = '" . (int)$this->salesman->getId() . "', fullname = '" . $this->db->escape($data['fullname']) . "', address = '" . $this->db->escape($data['address']) . "', postcode = '" . $this->db->escape($data['postcode']) . "', city = '" . $this->db->escape($data['city']) . "', zone_id = '" . (int)$data['zone_id'] . "', country_id = '" . (int)$data['country_id'] . "', shipping_telephone = '" . $this->db->escape($data['shipping_telephone']) . "', custom_field = '" . $this->db->escape(isset($data['custom_field']) ? serialize($data['custom_field']) : '') . "'");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "salesman_address SET salesman_id = '" . (int)$this->salesman->getId() . "', fullname = '" . $this->db->escape($data['fullname']) . "',  company = '" . $this->db->escape($data['company']). "' ,address = '" . $this->db->escape($data['address']) . "', postcode = '" . $this->db->escape($data['postcode']) . "', city = '" . $this->db->escape($data['city']) . "', zone_id = '" . (int)$data['zone_id'] . "', country_id = '" . (int)$data['country_id'] . "', shipping_telephone = '" . $this->db->escape($data['shipping_telephone']) .  "'");
 
 		$address_id = $this->db->getLastId();
 
@@ -31,7 +31,7 @@ class ModelSalesmanAddress extends Model {
 	public function editAddress($address_id, $data) {
 		$this->event->trigger('pre.salesman.edit.address', $data);
 
-		$this->db->query("UPDATE " . DB_PREFIX . "address SET fullname = '" . $this->db->escape($data['fullname']) . "',  address = '" . $this->db->escape($data['address']) . "', postcode = '" . $this->db->escape($data['postcode']) . "', city = '" . $this->db->escape($data['city']) . "', zone_id = '" . (int)$data['zone_id'] . "', country_id = '" . (int)$data['country_id'] . "', shipping_telephone = '" . $this->db->escape($data['shipping_telephone']) . "', custom_field = '" . $this->db->escape(isset($data['custom_field']) ? serialize($data['custom_field']) : '') . "' WHERE address_id  = '" . (int)$address_id . "' AND customer_id = '" . (int)$this->salesman->getId() . "'");
+		$this->db->query("UPDATE " . DB_PREFIX . "salesman_address SET fullname = '" . $this->db->escape($data['fullname']) . "',  address = '" . $this->db->escape($data['address']) . "',  company = '" . $this->db->escape($data['company']). "' , postcode = '" . $this->db->escape($data['postcode']) . "', city = '" . $this->db->escape($data['city']) . "', zone_id = '" . (int)$data['zone_id'] . "', country_id = '" . (int)$data['country_id'] . "', shipping_telephone = '" . $this->db->escape($data['shipping_telephone']) . "' WHERE address_id  = '" . (int)$address_id . "'");
 
 		if (!empty($data['default'])) {
 			$this->db->query("UPDATE " . DB_PREFIX . "salesman SET address_id = '" . (int)$address_id . "' WHERE salesman_id = '" . (int)$this->salesman->getId() . "'");
@@ -43,13 +43,13 @@ class ModelSalesmanAddress extends Model {
 	public function deleteAddress($address_id) {
 		$this->event->trigger('pre.salesman.delete.address', $address_id);
 
-		$this->db->query("DELETE FROM " . DB_PREFIX . "address WHERE address_id = '" . (int)$address_id . "' AND salesman_id = '" . (int)$this->salesman->getId() . "'");
+		$this->db->query("DELETE FROM " . DB_PREFIX . "salesman_address WHERE address_id = '" . (int)$address_id . "'");
 
 		$this->event->trigger('post.salesman.delete.address', $address_id);
 	}
 
 	public function getAddress($address_id) {
-		$address_query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "address WHERE address_id = '" . (int)$address_id . "' AND customer_id = '" . (int)$this->salesman->getId() . "'");
+		$address_query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "salesman_address WHERE address_id = '" . (int)$address_id . "'");
 
 		if ($address_query->num_rows) {
 			$country_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "country` WHERE country_id = '" . (int)$address_query->row['country_id'] . "'");
@@ -78,9 +78,9 @@ class ModelSalesmanAddress extends Model {
 
 			$address_data = array(
 				'address_id'     => $address_query->row['address_id'],
-				'fullname'      => $address_query->row['fullname'],
+				'fullname'       => $address_query->row['fullname'],
 				'company'        => $address_query->row['company'],
-				'address'      => $address_query->row['address'],
+				'address'        => $address_query->row['address'],
 				'postcode'       => $address_query->row['postcode'],
 				'shipping_telephone'       => $address_query->row['shipping_telephone'],
 				'city'           => $address_query->row['city'],
@@ -91,8 +91,7 @@ class ModelSalesmanAddress extends Model {
 				'country'        => $country,
 				'iso_code_2'     => $iso_code_2,
 				'iso_code_3'     => $iso_code_3,
-				'address_format' => $address_format,
-				'custom_field'   => unserialize($address_query->row['custom_field'])
+				'address_format' => $address_format
 			);
 
 			return $address_data;
@@ -104,7 +103,7 @@ class ModelSalesmanAddress extends Model {
 	public function getAddresses() {
 		$address_data = array();
 
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "address WHERE salesman_id = '" . (int)$this->salesman->getId() . "'");
+		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "salesman_address WHERE salesman_id = '" . (int)$this->salesman->getId() . "'");
 
 		foreach ($query->rows as $result) {
 			$country_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "country` WHERE country_id = '" . (int)$result['country_id'] . "'");
@@ -146,8 +145,7 @@ class ModelSalesmanAddress extends Model {
 				'country'        => $country,
 				'iso_code_2'     => $iso_code_2,
 				'iso_code_3'     => $iso_code_3,
-				'address_format' => $address_format,
-				'custom_field'   => unserialize($result['custom_field'])
+				'address_format' => $address_format
 
 			);
 		}
@@ -156,7 +154,7 @@ class ModelSalesmanAddress extends Model {
 	}
 
 	public function getTotalAddresses() {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "address WHERE salesman_id = '" . (int)$this->salesman->getId() . "'");
+		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . DB_PREFIX . "salesman_address WHERE salesman_id = '" . (int)$this->salesman->getId() . "'");
 
 		return $query->row['total'];
 	}
