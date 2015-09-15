@@ -155,6 +155,7 @@ class ModelFinanceCommissionsApply extends Model {
 		$sql .= " INNER JOIN `" . DB_PREFIX . "vip_card` vc ON ca.vip_card_num = vc.vip_card_num AND ca.is_valid = 1 ";
 		$sql .= " INNER JOIN `" . DB_PREFIX . "customer` c ON vc.customer_id = c.customer_id ";
 		$sql .= " INNER JOIN `" . DB_PREFIX . "order` o ON c.customer_id = o.customer_id AND o.order_status_id = 5 ";
+		$sql .= "     AND vc.date_bind_to_salesman <= o.date_added ";
 		$sql .= " INNER JOIN `" . DB_PREFIX . "order_product` op ON o.order_id = op.order_id ";
 		$sql .= " INNER JOIN `" . DB_PREFIX . "salesman` s ON vc.salesman_id = s.salesman_id ";
 
@@ -174,7 +175,8 @@ class ModelFinanceCommissionsApply extends Model {
 		$sql .= "       FROM `" . DB_PREFIX . "salesman` s " ;
 		$sql .= "       LEFT JOIN `" . DB_PREFIX . "salesman` sp ON s.parent_id = sp.salesman_id " ;
 		$sql .= "       WHERE s.salesman_id = '" . $this->db->escape($data['salesman_id']) . "') sps ";
-		$sql .= " LEFT JOIN `" . DB_PREFIX . "product_commission` pc ON p.status = 1 AND p.product_id = pc.product_id AND sps.salesman_id = pc.salesman_id AND pc.start_date <= NOW() AND pc.end_date IS NULL ";
+		$sql .= " LEFT JOIN `" . DB_PREFIX . "product_commission` pc ON p.status = 1 AND p.product_id = pc.product_id ";
+		$sql .= "     AND sps.salesman_id = pc.salesman_id AND pc.start_date <= NOW() AND pc.end_date IS NULL ";
 		$sql .= " ) comm "; 
 
 		$sql .= "  ON op.product_id = comm.product_id ";
@@ -188,12 +190,10 @@ class ModelFinanceCommissionsApply extends Model {
 		}
 
 		if (!empty($data['filter_period_from'])) {
-			$implode[] .= " DATE(vc.date_bind_to_salesman) >= '" . $this->db->escape($data['filter_period_from']) . "'";
 			$implode[] .= " DATE(o.date_added) >= '" . $this->db->escape($data['filter_period_from']) . "'";
 		}
 
 		if (!empty($data['filter_period_to'])) {
-			$implode[] .= " DATE(vc.date_bind_to_salesman) <= '" . $this->db->escape($data['filter_period_to']) . "'";
 			$implode[] .= " DATE(o.date_added) <= '" . $this->db->escape($data['filter_period_to']) . "'";
 		}
 
@@ -237,7 +237,7 @@ class ModelFinanceCommissionsApply extends Model {
 		}
 
 		if ($implode) {
-			$sql .= " WHERE " . implode(" AND ", $implode);
+			$sql .= " AND" . implode(" AND ", $implode);
 		}
 		
 		$sql .= " UNION ALL ";
