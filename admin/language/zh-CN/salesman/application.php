@@ -29,7 +29,7 @@ $_['column_action']         = '操作';
 $_['column_date_processed'] = '处理时间';
 $_['column_record_id']		= '序列号';
 $_['column_reject_reason']	= '审核建议';
-$_['column_salesman_info']	= '';
+$_['column_salesman_info']	= '#';
 
 // Entry
 $_['entry_fullname']       = '业务员名';

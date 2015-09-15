@@ -25,7 +25,7 @@ class ControllerFinanceCommissionsApply extends Controller {
 	
 		$this->load->model('finance/commissions_apply');
 		
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
+		if (($this->request->server['REQUEST_METHOD'] == 'POST')) {
 			$this->model_finance_commissions_apply->apply($this->request->post);
 			
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -295,20 +295,5 @@ class ControllerFinanceCommissionsApply extends Controller {
 		$data['footer'] = $this->load->controller('common/footer');
 
 		$this->response->setOutput($this->load->view('finance/commissions_apply.tpl', $data));
-	}
-	
-	/**
-	 * 检查该时间段的数据是否已申请过
-	 */
-	protected function validateForm() {
-		if (!empty($this->model_finance_commissions_apply->getApply($this->request->post))) {
-			$this->error['apply_exist'] = $this->language->get('error_apply_exist');
-		}
-		
-		if ($this->error && !isset($this->error['warning'])) {
-			$this->error['warning'] = $this->language->get('error_warning');
-		}
-		
-		return !$this->error;
 	}
 }
