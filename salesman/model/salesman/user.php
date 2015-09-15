@@ -2,22 +2,14 @@
 class ModelSalesmanUser extends Model {
 	public function addSalesman($data) {
 		$this->event->trigger('pre.salesman.add', $data);
-//		if (isset($data['salesman_group_id']) && is_array($this->config->get('config_salesman_group_display')) && in_array($data['salesman_group_id'], $this->config->get('config_salesman_group_display'))) {
-//			$salesman_group_id = $data['salesman_group_id'];
-//		} else {
-//			$salesman_group_id = $this->config->get('config_salesman_group_id');
-//		}
-
-//		$this->load->model('account/salesman_group');
-//
-//		$salesman_group_info = $this->model_salesman_user_group->getSalesmanGroup($salesman_group_id);
 
 		$this->db->query("INSERT INTO " . DB_PREFIX . "salesman SET store_id = '" . (int)$this->config->get('config_store_id') . "', fullname = '" . $this->db->escape($data['fullname']) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax']) . "', salt = '" . $this->db->escape($salt = substr(md5(uniqid(rand(), true)), 0, 9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "', newsletter = '0', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) .
 				"', status = '1', approved = '1', application_status = '1', date_added = NOW(), date_first_applied = NOW(), parent_id = '0', level = '1', with_grant_opt = '1'");
 
 		$salesman_id = $this->db->getLastId();
 
-		$this->db->query("INSERT INTO " . DB_PREFIX . "address SET customer_id = '" . (int)$salesman_id . "', fullname = '" . $this->db->escape($data['fullname']) . "', company = '" . $this->db->escape($data['company']) . "', address = '" . $this->db->escape($data['address']) . "', city = '" . $this->db->escape($data['city']) . "', postcode = '" . $this->db->escape($data['postcode']) . "', country_id = '" . (int)$data['country_id'] . "', zone_id = '" . (int)$data['zone_id'] . "', custom_field = '" . $this->db->escape(isset($data['custom_field']['address']) ? serialize($data['custom_field']['address']) : '') . "'");
+		$this->db->query("INSERT INTO " . DB_PREFIX . "salesman_address SET salesman_id = '" . (int)$salesman_id . "', fullname = '" . $this->db->escape($data['shipping_fullname']) . "', company = '" . $this->db->escape($data['company']) . "', address = '" . $this->db->escape($data['address'])
+				. "', city = '" . $this->db->escape($data['city']) . "', postcode = '" . $this->db->escape($data['postcode']) . "', country_id = '" . (int)$data['country_id'] . "', zone_id = '" . (int)$data['zone_id'] . "'");
 
 		$address_id = $this->db->getLastId();
 
@@ -28,14 +20,6 @@ class ModelSalesmanUser extends Model {
 		$subject = sprintf($this->language->get('text_subject'), $this->config->get('config_name'));
 
 		$message = sprintf($this->language->get('text_welcome'), $this->config->get('config_name')) . "\n\n";
-
-		/*
-		if (!$salesman_group_info['approval']) {
-			$message .= $this->language->get('text_login') . "\n";
-		} else {
-			$message .= $this->language->get('text_approval') . "\n";
-		}
-		*/
 
 		$message .= $this->url->link('account/login', '', 'SSL') . "\n\n";
 		$message .= $this->language->get('text_services') . "\n\n";
@@ -116,16 +100,33 @@ class ModelSalesmanUser extends Model {
 
 		if (isset($data['sub_commission_def_percent']) && isset($data['sub_settle_suspend_days'])) {
 			$this->db->query("UPDATE " . DB_PREFIX . "salesman SET fullname = '" . $this->db->escape($data['fullname']) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax'])
-					. "', image = '" . $this->db->escape($data['image']) . "', custom_field = '" . $this->db->escape(isset($data['custom_field']) ? serialize($data['custom_field']) : '') . "', sub_settle_suspend_days = '" . (int)$data['sub_settle_suspend_days']
+					. "', image = '" . $this->db->escape($data['image']) . "', sub_settle_suspend_days = '" . (int)$data['sub_settle_suspend_days']
 					. "', sub_commission_def_percent = '" . (int)$data['sub_commission_def_percent'] . "' WHERE salesman_id = '" . (int)$salesman_id . "'");
 		} else {
 			$this->db->query("UPDATE " . DB_PREFIX . "salesman SET fullname = '" . $this->db->escape($data['fullname']) . "', email = '" . $this->db->escape($data['email']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', fax = '" . $this->db->escape($data['fax'])
-					. "', image = '" . $this->db->escape($data['image']) . "', custom_field = '" . $this->db->escape(isset($data['custom_field']) ? serialize($data['custom_field']) : '') . "' WHERE salesman_id = '" . (int)$salesman_id . "'");
+					. "', image = '" . $this->db->escape($data['image']) . "' WHERE salesman_id = '" . (int)$salesman_id . "'");
 		}
 
-		$this->load->model ( 'salesman/upload' );
+		$this->load->model ( 'salesman/address' );
+		if (! empty($data['address_id'])) {
+			$this->model_salesman_address->editAddress($data['address_id'], $data);
 
-		$this->model_salesman_upload->editUpload ( $data['upload_id'], $data);
+		} else {
+			$this->db->query("INSERT INTO " . DB_PREFIX . "salesman_address SET salesman_id = '" . (int)$salesman_id . "', fullname = '" . $this->db->escape($data['fullname']) . "', company = '" . $this->db->escape($data['company']) . "', address = '" . $this->db->escape($data['address'])
+					. "', city = '" . $this->db->escape($data['city']) . "', shipping_telephone = '" . $this->db->escape($data['shipping_telephone']) . "', postcode = '" . $this->db->escape($data['postcode']) . "', country_id = '" . (int)$data['country_id'] . "', zone_id = '" . (int)$data['zone_id'] . "'");
+
+			$address_id = $this->db->getLastId();
+
+			$this->db->query("UPDATE " . DB_PREFIX . "salesman SET address_id = '" . (int)$address_id . "' WHERE salesman_id = '" . (int)$salesman_id . "'");
+		}
+
+
+		$this->load->model ( 'salesman/upload' );
+		if (! empty($data['upload_id'])) {
+			$this->model_salesman_upload->editUpload ( $data['upload_id'], $data);
+		} else {
+			$this->model_salesman_upload->addUpload ( $salesman_id, $data);
+		}
 
 		$this->event->trigger('post.salesman.edit', $salesman_id);
 	}
@@ -207,7 +208,7 @@ class ModelSalesmanUser extends Model {
 	public function deleteLoginAttempts($email) {
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "salesman_login` WHERE email = '" . $this->db->escape(utf8_strtolower($email)) . "'");
 	}
-	
+
 	/**
 	 * 查看当前设置的佣金是否合理
 	 * 应当小于上级给自己设置的佣金百分比
@@ -216,7 +217,7 @@ class ModelSalesmanUser extends Model {
 		$commission_info = $this->db->query("SELECT CASE WHEN parent_id = 0 THEN (SELECT value FROM " . DB_PREFIX . "setting M WHERE store_id = 0 AND code = 'config' AND M.key = 'config_commission_def_percent')
 														ELSE (SELECT sub_commission_def_percent FROM " . DB_PREFIX . "salesman WHERE salesman_id = s.parent_id) END AS commission_def_percent FROM "
 													 . DB_PREFIX . "salesman s WHERE salesman_id = '" . (int)$this->salesman->getId() . "'");
-		
+
 		return $commission_info->row['commission_def_percent'];
 	}
 }

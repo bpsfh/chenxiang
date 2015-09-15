@@ -12,6 +12,7 @@ $_['text_edit']             = '编辑下级业务员';
 $_['text_default']          = '默认';
 $_['text_with_grant_opt_0'] = '禁止';
 $_['text_with_grant_opt_1'] = '启用';
+$_['text_shipping_info']    = '货运信息';
 
 // Column
 $_['column_salesman_id']    = '下级业务员ID';
@@ -30,9 +31,11 @@ $_['column_total']          = '账户总数量';
 $_['column_action']         = '操作';
 
 // Entry
+$_['entry_shipping_fullname'] = '收货人名';
 $_['entry_fullname']        = '业务员名';
 $_['entry_email']           = 'E-Mail';
 $_['entry_telephone']       = '电话';
+$_['entry_shipping_telephone']       = '货运联系电话';
 $_['entry_fax']             = '传真';
 $_['entry_newsletter']      = '订阅邮件';
 $_['entry_status']          = '状态';
@@ -52,14 +55,17 @@ $_['entry_default']         = '默认地址';
 $_['entry_name']            = '业务员名';
 $_['entry_date_added']      = '添加日期';
 $_['entry_date_approved']   = '批准日期';
+$_['entry_identity']       = '身份证';
 
 // Error
 $_['error_warning']         = '警告: 详细检查相关错误！';
 $_['error_permission']      = '警告: 无权限修改业务员！';
 $_['error_exists']          = '警告: E-Mail 已被注册使用了！';
 $_['error_fullname']        = '姓名必须为1-32字符！';
+$_['error_shipping_fullname'] = '联系人名必须为8-13字符！';
 $_['error_email']           = 'E-Mail 无效！';
-$_['error_telephone']       = '电话必须为3-32字符！';
+$_['error_telephone']       = '电话必须为正确的手机号码！';
+$_['error_shipping_telephone']       = '电话必须为3-32字符！';
 $_['error_password']        = '密码密续为4-20字符！';
 $_['error_confirm']         = '确认密码与密码不一致！';
 $_['error_address']         = '地址必须为3-128字符！';
