@@ -41,22 +41,21 @@ class ControllerCommonDashboard extends Controller {
 
 		$data['token'] = $this->session->data['token'];
 
-
+		// Filter
 		if (isset($this->request->get['filter_period_from'])) {
 			$filter_period_from = $this->request->get['filter_period_from'];
 		} else {
-			$filter_period_from= null;
+			$filter_period_from= null;  //date("Y-m-d", strtotime("-1 months"));
 		}
 		
 		if (isset($this->request->get['filter_period_to'])) {
 			$filter_period_to = $this->request->get['filter_period_to'];
 		} else {
-			$filter_period_to = null;
+			$filter_period_to = null;    //date("Y-m-d");
 		}
 
 		$data['filter_period_from'] = $filter_period_from;
 		$data['filter_period_to'] = $filter_period_to;
-
 		
 		// Authority
 		$data['isAuthorized'] = $this->salesman->isAuthorized();
@@ -65,12 +64,6 @@ class ControllerCommonDashboard extends Controller {
 		// links	
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
-		$data['commission'] = $this->load->controller('dashboard/commission');
-		$data['order'] = $this->load->controller('dashboard/order');
-		$data['sale'] = $this->load->controller('dashboard/sale');
-		$data['customer'] = $this->load->controller('dashboard/customer');
-		$data['card'] = $this->load->controller('dashboard/card');
-		$data['map'] = $this->load->controller('dashboard/map');
 		$data['chart'] = $this->load->controller('dashboard/chart');
 		$data['achievement'] = $this->load->controller('dashboard/achievement');
 		$data['footer'] = $this->load->controller('common/footer');

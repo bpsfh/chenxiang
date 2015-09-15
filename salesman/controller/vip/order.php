@@ -8,13 +8,13 @@ class ControllerVipOrder extends Controller {
 		if (isset($this->request->get['filter_date_start'])) {
 			$filter_date_start = $this->request->get['filter_date_start'];
 		} else {
-			$filter_date_start = date('Y-m-d', strtotime(date('Y') . '-' . date('m') . '-01'));
+			$filter_date_start = null;    // date('Y-m-d', strtotime(date('Y') . '-' . date('m') . '-01'));
 		}
 
 		if (isset($this->request->get['filter_date_end'])) {
 			$filter_date_end = $this->request->get['filter_date_end'];
 		} else {
-			$filter_date_end = date('Y-m-d');
+			$filter_date_end = null;    // date('Y-m-d');
 		}
 
 		if (isset($this->request->get['vip_card_id'])) {

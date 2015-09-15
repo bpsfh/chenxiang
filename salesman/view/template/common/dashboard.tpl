@@ -48,7 +48,12 @@
 
   <div class="container-fluid">
     <?php if($isAuthorized) { ?>
-      <?php echo $achievement ?>
+      <div class="row">
+        <?php echo $achievement ?>
+      </div>
+      <div class="row">
+        <?php echo $chart?>
+      </div>
     <?php } else {?>
        <?php echo $application_status_message ?>
     <?php } ?>

@@ -18,21 +18,18 @@ class ControllerDashboardAchievement extends Controller {
 
 		$data['token'] = $this->session->data['token'];
 
+		// Filter
 		if (isset($this->request->get['filter_period_from'])) {
 			$filter_period_from = $this->request->get['filter_period_from'];
 		} else {
-			$filter_period_from= null;
+			$filter_period_from= null;    //date("Y-m-d", strtotime("-1 months"));
 		}
 		
 		if (isset($this->request->get['filter_period_to'])) {
 			$filter_period_to = $this->request->get['filter_period_to'];
 		} else {
-			$filter_period_to = null;
+			$filter_period_to = null;    //date("Y-m-d");
 		}
-
-		$data['filter_period_from'] = $filter_period_from;
-		$data['filter_period_to'] = $filter_period_to;
-
 
 		// Total Commissions 
 		$this->load->model('finance/commissions_apply');
@@ -64,7 +61,7 @@ class ControllerDashboardAchievement extends Controller {
 		}
 
 		$data['total_formated_commission'] = $this->currency->format($commission_sum, $this->config->get('currency_code'));
-		$data['total_formated_sale'] = $this->currency->format($order_sum, $this->config->get('currency_code'));
+		$data['total_formated_sale'] = $this->currency->format($sale_sum, $this->config->get('currency_code'));
 		$data['total_order'] = $order_sum;
 
 		// Get VIP information.
@@ -86,10 +83,11 @@ class ControllerDashboardAchievement extends Controller {
 		$data['total_card'] = $this->model_vip_card->getTotalVipCardsCnt($filter_data);
 	
 		// Links
-		$data['commission'] = $this->url->link('finance/order_commissions', 'token=' . $this->session->data['token'], 'SSL');
-		$data['customer'] = $this->url->link('vip/customer', 'token=' . $this->session->data['token'], 'SSL');
-		$data['order'] = $this->url->link('vip/order', 'token=' . $this->session->data['token'], 'SSL');
-		$data['sale'] = $this->url->link('vip/order', 'token=' . $this->session->data['token'], 'SSL');
+		$param = 'token=' . $this->session->data['token'] . '&filter_date_start=' . $filter_period_from . '&filter_date_end=' . $filter_period_to;
+		$data['commission'] = $this->url->link('finance/order_commissions', $param, 'SSL');
+		$data['customer'] = $this->url->link('vip/customer', $param, 'SSL');
+		$data['order'] = $this->url->link('vip/order', $param, 'SSL');
+		$data['sale'] = $this->url->link('vip/order', $param, 'SSL');
 
 		return $this->load->view('dashboard/achievement.tpl', $data);
 	}

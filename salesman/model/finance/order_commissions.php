@@ -98,6 +98,7 @@ class ModelFinanceOrderCommissions extends Model {
 		$sql .= " FROM `" . DB_PREFIX . "vip_card_assign_record` vca";
 		$sql .= " INNER JOIN `" . DB_PREFIX . "vip_card` vc ON vca.vip_card_num = vc.vip_card_num";
 		$sql .= " INNER JOIN `" . DB_PREFIX . "order` o ON (vc.customer_id = o.customer_id AND o.order_status_id = 5)";
+		$sql .= "     AND vc.date_bind_to_salesman <= o.date_added ";
 		$sql .= " INNER JOIN `" . DB_PREFIX . "order_product` op ON o.order_id = op.order_id";
 		$sql .= " INNER JOIN `" . DB_PREFIX . "product` p ON op.product_id = p.product_id";
 

@@ -64,6 +64,7 @@ class ModelVipOrder extends Model {
 		$sql .= " INNER JOIN `" . DB_PREFIX . "vip_card` vc ON ca.vip_card_num = vc.vip_card_num ";
 		$sql .= " INNER JOIN `" . DB_PREFIX . "customer` c ON vc.customer_id = c.customer_id ";
 		$sql .= " INNER JOIN `" . DB_PREFIX . "order` o ON c.customer_id = o.customer_id ";
+		$sql .= "     AND vc.date_bind_to_salesman <= o.date_added ";
 		$sql .= " INNER JOIN `" . DB_PREFIX . "order_product` op ON o.order_id = op.order_id ";
 		$sql .= " INNER JOIN `" . DB_PREFIX . "salesman` s ON vc.salesman_id = s.salesman_id ";
 		$sql .= " LEFT JOIN `" . DB_PREFIX . "salesman` sp ON s.parent_id = sp.salesman_id ";
@@ -87,11 +88,11 @@ class ModelVipOrder extends Model {
 		}
 	
 		if (!empty($data['filter_date_start'])) {
-			$implode[] = "DATE(date_bind_to_salesman) >= '" . $this->db->escape($data['filter_date_start']) . "'";
+			$implode[] = "DATE(o.date_added) >= '" . $this->db->escape($data['filter_date_start']) . "'";
 		}
 
 		if (!empty($data['filter_date_end'])) {
-			$implode[] = "DATE(date_bind_to_salesman) <= '" . $this->db->escape($data['filter_date_end']) . "'";
+			$implode[] = "DATE(o.date_added) <= '" . $this->db->escape($data['filter_date_end']) . "'";
 		}
 
 		if ($implode) {

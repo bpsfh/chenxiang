@@ -12,7 +12,7 @@
 $(document).ready(function() {
 	$.ajax({
 		type: 'get',
-		url: 'index.php?route=dashboard/chart/chart&token=<?php echo $token; ?>&salesman_id=<?php echo $salesman_id?>', 
+		url: 'index.php?route=dashboard/chart/chart&token=<?php echo $token; ?>&salesman_id=<?php echo $salesman_id?>&filter_period_from=<?php echo $filter_period_from ?>&filter_period_to=<?php echo $filter_period_to?>', 
 		dataType: 'json',
 		success: function(json) {
        		     	if (typeof json['order'] == 'undefined') { return false; }
