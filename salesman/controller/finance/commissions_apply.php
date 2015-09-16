@@ -29,6 +29,38 @@ class ControllerFinanceCommissionsApply extends Controller {
 			$this->model_finance_commissions_apply->apply($this->request->post);
 			
 			$this->session->data['success'] = $this->language->get('text_success');
+			
+			$url = '';
+			
+			if (isset($this->request->get['filter_settle_status'])) {
+				$url .= '&filter_settle_status=' . $this->request->get['filter_settle_status'];
+			}
+			
+			if (isset($this->request->get['filter_apply_id'])) {
+				$url .= '&filter_apply_id=' . $this->request->get['filter_apply_id'];
+			}
+			
+			if (isset($this->request->get['filter_period_from'])) {
+				$url .= '&filter_period_from=' . $this->request->get['filter_period_from'];
+			}
+			
+			if (isset($this->request->get['filter_period_to'])) {
+				$url .= '&filter_period_to=' . $this->request->get['filter_period_to'];
+			}
+			
+			if (isset($this->request->get['sort'])) {
+				$url .= '&sort=' . $this->request->get['sort'];
+			}
+			
+			if (isset($this->request->get['order'])) {
+				$url .= '&order=' . $this->request->get['order'];
+			}
+			
+			if (isset($this->request->get['page'])) {
+				$url .= '&page=' . $this->request->get['page'];
+			}
+			
+			$this->response->redirect($this->url->link('finance/commissions_apply', 'token=' . $this->session->data['token'] . $url, 'SSL'));
 		}
 		
 		$this->getList();
