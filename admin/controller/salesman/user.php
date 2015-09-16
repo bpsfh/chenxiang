@@ -409,7 +409,10 @@ class ControllerSalesmanUser extends Controller {
 		$data['text_select'] = $this->language->get('text_select');
 		$data['text_none'] = $this->language->get('text_none');
 		$data['text_loading'] = $this->language->get('text_loading');
+		$data['text_shipping_info'] = $this->language->get('text_shipping_info');
 
+
+		$data['entry_shipping_fullname'] = $this->language->get('entry_shipping_fullname');
 		$data['entry_fullname'] = $this->language->get('entry_fullname');
 		$data['entry_email'] = $this->language->get('entry_email');
 		$data['entry_telephone'] = $this->language->get('entry_telephone');
@@ -430,6 +433,7 @@ class ControllerSalesmanUser extends Controller {
 		$data['entry_default'] = $this->language->get('entry_default');
 		$data['entry_identity'] = $this->language->get('entry_identity');
 		$data['entry_identity_img'] = $this->language->get('entry_identity_img');
+		$data['entry_shipping_telephone'] = $this->language->get ( 'entry_shipping_telephone' );
 
 		// use?
 		$data['help_safe'] = $this->language->get('help_safe');
@@ -487,16 +491,40 @@ class ControllerSalesmanUser extends Controller {
 			$data['error_confirm'] = '';
 		}
 
-		if (isset($this->error['address'])) {
-			$data['error_address'] = $this->error['address'];
+		if (isset ( $this->error ['shipping_telephone'] )) {
+			$data ['error_shipping_telephone'] = $this->error ['shipping_telephone'];
 		} else {
-			$data['error_address'] = array();
+			$data ['error_shipping_telephone'] = '';
 		}
 
-		if (isset($this->error['identity_img'])) {
-			$data['error_identity_img'] = $this->error['identity_img'];
+		if (isset ( $this->error ['address'] )) {
+			$data ['error_address'] = $this->error ['address'];
 		} else {
-			$data['error_identity_img'] = '';
+			$data ['error_address'] = '';
+		}
+
+		if (isset ( $this->error ['city'] )) {
+			$data ['error_city'] = $this->error ['city'];
+		} else {
+			$data ['error_city'] = '';
+		}
+
+		if (isset ( $this->error ['postcode'] )) {
+			$data ['error_postcode'] = $this->error ['postcode'];
+		} else {
+			$data ['error_postcode'] = '';
+		}
+
+		if (isset ( $this->error ['country'] )) {
+			$data ['error_country'] = $this->error ['country'];
+		} else {
+			$data ['error_country'] = '';
+		}
+
+		if (isset ( $this->error ['zone'] )) {
+			$data ['error_zone'] = $this->error ['zone'];
+		} else {
+			$data ['error_zone'] = '';
 		}
 
 		$url = '';
@@ -555,6 +583,7 @@ class ControllerSalesmanUser extends Controller {
 
 		if (isset($this->request->get['salesman_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
 			$salesman_info = $this->model_salesman_user->getSalesman($this->request->get['salesman_id']);
+			$address_info = $this->model_salesman_user->getAddress ($salesman_info['address_id']);
 		}
 
 		if (isset($this->request->post['fullname'])) {
@@ -653,21 +682,95 @@ class ControllerSalesmanUser extends Controller {
 			$data['confirm'] = '';
 		}
 
-		$this->load->model ( 'salesman/upload' );
-		if ( isset($this->request->get['salesman_id'])) {
-			$salesman_id = $this->request->get['salesman_id'];
+		$this->load->model('localisation/language');
+
+		$data['languages'] = $this->model_localisation_language->getLanguages();
+
+		$this->load->model('localisation/country');
+
+		$data['countries'] = $this->model_localisation_country->getCountries();
+
+		if (isset ( $this->request->post ['address_id'] )) {
+			$data ['address_id'] = $this->request->post ['address_id'];
+		} elseif (! empty ( $address_info )) {
+			$data ['address_id'] = $address_info ['address_id'];
 		} else {
-			$salesman_id = 0;
+			$data ['address_id'] = 0;
 		}
 
-		$user_identity_img_info = $this->model_salesman_upload->getSalesmanImgUpload ( $salesman_id, '1' );
+		if (isset ( $this->request->post ['shipping_fullname'] )) {
+			$data ['shipping_fullname'] = $this->request->post ['shipping_fullname'];
+		} elseif (! empty ( $address_info )) {
+			$data ['shipping_fullname'] = $address_info ['fullname'];
+		} else {
+			$data ['shipping_fullname'] = '';
+		}
+
+		if (isset ( $this->request->post ['address'] )) {
+			$data ['address'] = $this->request->post ['address'];
+		} elseif (! empty ( $address_info )) {
+			$data ['address'] = $address_info ['address'];
+		} else {
+			$data ['address'] = '';
+		}
+
+		if (isset ( $this->request->post ['postcode'] )) {
+			$data ['postcode'] = $this->request->post ['postcode'];
+		} elseif (! empty ( $address_info )) {
+			$data ['postcode'] = $address_info ['postcode'];
+		} else {
+			$data ['postcode'] = '';
+		}
+
+		if (isset ( $this->request->post ['company'] )) {
+			$data ['company'] = $this->request->post ['company'];
+		} elseif (! empty ( $address_info )) {
+			$data ['company'] = $address_info ['company'];
+		} else {
+			$data ['company'] = '';
+		}
+
+		if (isset ( $this->request->post ['shipping_telephone'] )) {
+			$data ['shipping_telephone'] = $this->request->post ['shipping_telephone'];
+		} elseif (! empty ( $address_info )) {
+			$data ['shipping_telephone'] = $address_info ['shipping_telephone'];
+		} else {
+			$data ['shipping_telephone'] = '';
+		}
+
+		if (isset ( $this->request->post ['city'] )) {
+			$data ['city'] = $this->request->post ['city'];
+		} elseif (! empty ( $address_info )) {
+			$data ['city'] = $address_info ['city'];
+		} else {
+			$data ['city'] = '';
+		}
+
+		if (isset ( $this->request->post ['country_id'] )) {
+			$data ['country_id'] = $this->request->post ['country_id'];
+		} elseif (! empty ( $address_info )) {
+			$data ['country_id'] = $address_info ['country_id'];
+		} else {
+			$data ['country_id'] = $this->config->get ( 'config_country_id' );
+		}
+
+		if (isset ( $this->request->post ['zone_id'] )) {
+			$data ['zone_id'] = $this->request->post ['zone_id'];
+		} elseif (! empty ( $address_info )) {
+			$data ['zone_id'] = $address_info ['zone_id'];
+		} else {
+			$data ['zone_id'] = '';
+		}
+
+		$this->load->model ( 'salesman/upload' );
+		$user_identity_img_info = $this->model_salesman_upload->getSalesmanImgUpload ( $this->request->get['salesman_id'], '1' );
 
 		if (isset($this->request->post['upload_id'])) {
 			$data ['upload_id'] = $this->request->post['upload_id'];
 		} elseif (! empty ( $user_identity_img_info )) {
 			$data ['upload_id'] = $user_identity_img_info ['upload_id'];
 		} else {
-			$data ['upload_id'] = 0;
+			$data ['upload_id'] = '';
 		}
 
 		if (isset($this->request->post['salesman_upload_description'])) {
@@ -704,29 +807,10 @@ class ControllerSalesmanUser extends Controller {
 
 		$data['download'] = $this->url->link('salesman/upload/download', 'token=' . $this->session->data['token'] . '&mask=' . $data['mask'] . $url, 'SSL');
 
+
 		$this->load->model('localisation/language');
 
 		$data['languages'] = $this->model_localisation_language->getLanguages();
-
-		$this->load->model('localisation/country');
-
-		$data['countries'] = $this->model_localisation_country->getCountries();
-
-		if (isset($this->request->post['address'])) {
-			$data['addresses'] = $this->request->post['address'];
-		} elseif (isset($this->request->get['salesman_id'])) {
-			$data['addresses'] = $this->model_salesman_user->getAddresses($this->request->get['salesman_id']);
-		} else {
-			$data['addresses'] = array();
-		}
-
-		if (isset($this->request->post['address_id'])) {
-			$data['address_id'] = $this->request->post['address_id'];
-		} elseif (!empty($salesman_info)) {
-			$data['address_id'] = $salesman_info['address_id'];
-		} else {
-			$data['address_id'] = '';
-		}
 
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
@@ -835,45 +919,46 @@ class ControllerSalesmanUser extends Controller {
 		}
 
 		// 地址的合理性
-		if (isset($this->request->post['address'])) {
-			foreach ($this->request->post['address'] as $key => $value) {
-				if ((utf8_strlen($value['fullname']) < 1) || (utf8_strlen($value['fullname']) > 32)) {
-					$this->error['address'][$key]['fullname'] = $this->language->get('error_fullname');
-				}
+		if (($this->request->post ['shipping_fullname'] !== '') && (utf8_strlen ( trim ( $this->request->post ['shipping_fullname'] ) ) < 2) || (utf8_strlen ( trim ( $this->request->post ['shipping_fullname'] ) ) > 32)) {
+			$this->error ['shipping_fullname'] = $this->language->get ( 'error_shipping_fullname' );
+		}
 
-				if ((utf8_strlen($value['address']) < 1) || (utf8_strlen($value['address']) > 128)) {
-					$this->error['address'][$key]['address'] = $this->language->get('error_address');
-				}
+		if (($this->request->post['shipping_telephone'] !== '') && (utf8_strlen ( trim ( $this->request->post ['shipping_telephone'] ) ) < 8) || (utf8_strlen ( trim ( $this->request->post ['shipping_telephone'] ) ) > 13)) {
+			$this->error ['shipping_telephone'] = $this->language->get ( 'error_shipping_telephone' );
+		}
 
-				if ((utf8_strlen($value['city']) < 2) || (utf8_strlen($value['city']) > 128)) {
-					$this->error['address'][$key]['city'] = $this->language->get('error_city');
-				}
+		if (($this->request->post ['address'] !== '') && (utf8_strlen ( trim ( $this->request->post ['address'] ) ) < 3) || (utf8_strlen ( trim ( $this->request->post ['address'] ) ) > 128)) {
+			$this->error ['address'] = $this->language->get ( 'error_address' );
+		}
 
-				$this->load->model('localisation/country');
+		if (($this->request->post ['city'] !== '') && (utf8_strlen ( trim ( $this->request->post ['city'] ) ) < 2) || (utf8_strlen ( trim ( $this->request->post ['city'] ) ) > 128)) {
+			$this->error ['city'] = $this->language->get ( 'error_city' );
+		}
 
-				$country_info = $this->model_localisation_country->getCountry($value['country_id']);
+		$this->load->model ( 'localisation/country' );
 
-				if ($country_info && $country_info['postcode_required'] && (utf8_strlen($value['postcode']) < 2 || utf8_strlen($value['postcode']) > 10)) {
-					$this->error['address'][$key]['postcode'] = $this->language->get('error_postcode');
-				}
+		$country_info = $this->model_localisation_country->getCountry ( $this->request->post ['country_id'] );
 
-				if ($value['country_id'] == '') {
-					$this->error['address'][$key]['country'] = $this->language->get('error_country');
-				}
+		if ($country_info && $country_info ['postcode_required'] && (utf8_strlen ( trim ( $this->request->post ['postcode'] ) ) < 2 || utf8_strlen ( trim ( $this->request->post ['postcode'] ) ) > 10)) {
+			$this->error ['postcode'] = $this->language->get ( 'error_postcode' );
+		}
 
-				if (!isset($value['zone_id']) || $value['zone_id'] == '') {
-					$this->error['address'][$key]['zone'] = $this->language->get('error_zone');
-				}
-			}
+		if ( ($this->request->post ['country_id'] !== '') && (utf8_strlen ( trim ( $this->request->post ['country_id'] ) ) < 2 || utf8_strlen ( trim ( $this->request->post ['country_id'] ) ) > 128)) {
+			$this->error ['country'] = $this->language->get ( 'error_country' );
+		}
+
+		if ((utf8_strlen ( trim ( $this->request->post ['country_id'] ) ) > 2 && utf8_strlen ( trim ( $this->request->post ['country_id'] ) ) < 128) && $this->request->post ['zone_id'] == '') {
+			$this->error ['zone'] = $this->language->get ( 'error_zone' );
 		}
 
 		if ($this->error && !isset($this->error['warning'])) {
 			$this->error['warning'] = $this->language->get('error_warning');
 		}
 
-		if (!isset($this->request->post['filename']) || $this->request->post['filename']  == '') {
-			$this->error['identity_img'] = $this->language->get('error_identity_img');
-		}
+		// 身份认证图片上传check
+// 		if (!isset($this->request->post['filename']) || $this->request->post['filename']  == '') {
+// 			$this->error['identity_img'] = $this->language->get('error_identity_img');
+// 		}
 
 		return !$this->error;
 	}

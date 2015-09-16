@@ -25,8 +25,12 @@ class ControllerSalesmanUser extends Controller {
 			}
 		}
 
-		if ((utf8_strlen ( $this->request->post ['telephone'] ) < 3) || (utf8_strlen ( $this->request->post ['telephone'] ) > 32)) {
+		if (!preg_match('/1[123456789]{1}\d{9}$/', $this->request->post['telephone'])) {
 			$this->error ['telephone'] = $this->language->get ( 'error_telephone' );
+		}
+
+		if ((utf8_strlen ( trim ( $this->request->post ['shipping_telephone'] ) ) < 8) || (utf8_strlen ( trim ( $this->request->post ['shipping_telephone'] ) ) > 14)) {
+			$this->error ['shipping_telephone'] = $this->language->get ( 'error_shipping_telephone' );
 		}
 
 		if ((utf8_strlen ( trim ( $this->request->post ['address'] ) ) < 3) || (utf8_strlen ( trim ( $this->request->post ['address'] ) ) > 128)) {
@@ -53,10 +57,12 @@ class ControllerSalesmanUser extends Controller {
 			$this->error ['zone'] = $this->language->get ( 'error_zone' );
 		}
 
-		if (!isset($this->request->post['filename']) || $this->request->post['filename']  == '') {
-			$this->error['identity_img'] = $this->language->get('error_identity_img');
-		}
-		
+
+		// 身份认证图片上check
+// 		if (!isset($this->request->post['filename']) || $this->request->post['filename']  == '') {
+// 			$this->error['identity_img'] = $this->language->get('error_identity_img');
+// 		}
+
 		// Add sangsanghu 2015/09/11 ST
 		if (isset($this->request->post['sub_commission_def_percent']) && isset($this->request->post['sub_settle_suspend_days'])) {
 			if (!$this->request->post['sub_commission_def_percent']) {
@@ -67,7 +73,7 @@ class ControllerSalesmanUser extends Controller {
 							$this->error['sub_commission_def_percent'] = sprintf($this->language->get('error_commission_def_percent0'), $this->model_salesman_user->getParentCommission() . "%");
 						}
 			}
-			
+
 			if (!$this->request->post['sub_settle_suspend_days']) {
 				$this->error['sub_settle_suspend_days'] = $this->language->get('error_settle_suspend_days');
 			} else {
@@ -77,9 +83,10 @@ class ControllerSalesmanUser extends Controller {
 			}
 		}
 		// Add sangsanghu 2015/09/11 END
-		
+
 		return ! $this->error;
 	}
+
 	public function edit() {
 		if (! $this->salesman->isLogged ()) {
 			return new Action ( 'common/login' );
@@ -95,9 +102,7 @@ class ControllerSalesmanUser extends Controller {
 
 		if (($this->request->server ['REQUEST_METHOD'] == 'POST') && $this->validateForm ()) {
 
-			$this->model_salesman_user->editSalesman ( $this->request->post );
-
-			$this->model_salesman_address->editAddress ( $this->salesman->getAddressId (), $this->request->post );
+			$this->model_salesman_user->editSalesman  ( $this->request->post );
 
 			$this->session->data ['success'] = $this->language->get ( 'text_success' );
 
@@ -120,6 +125,7 @@ class ControllerSalesmanUser extends Controller {
 
 		$this->getSalesmanForm ();
 	}
+
 	public function getSalesmanForm() {
 		if (! $this->salesman->isLogged ()) {
 			return new Action ( 'common/login' );
@@ -147,6 +153,7 @@ class ControllerSalesmanUser extends Controller {
 		$data ['entry_email'] = $this->language->get ( 'entry_email' );
 		$data ['entry_image'] = $this->language->get ( 'entry_image' );
 		$data ['entry_status'] = $this->language->get ( 'entry_status' );
+		$data ['entry_telephone'] = $this->language->get ( 'entry_telephone' );
 
 		$data ['text_yes'] = $this->language->get ( 'text_yes' );
 		$data ['text_no'] = $this->language->get ( 'text_no' );
@@ -154,17 +161,18 @@ class ControllerSalesmanUser extends Controller {
 		$data ['text_none'] = $this->language->get ( 'text_none' );
 		$data ['text_loading'] = $this->language->get ( 'text_loading' );
 
+		$data ['entry_company'] = $this->language->get('entry_company');
 		$data ['entry_address'] = $this->language->get ( 'entry_address' );
 		$data ['entry_postcode'] = $this->language->get ( 'entry_postcode' );
 		$data ['entry_city'] = $this->language->get ( 'entry_city' );
 		$data ['entry_country'] = $this->language->get ( 'entry_country' );
 		$data ['entry_zone'] = $this->language->get ( 'entry_zone' );
 		$data ['entry_default'] = $this->language->get ( 'entry_default' );
-		$data ['entry_telephone'] = $this->language->get ( 'entry_telephone' );
+		$data ['entry_shipping_telephone'] = $this->language->get ( 'entry_shipping_telephone' );
 		$data ['entry_fax'] = $this->language->get ( 'entry_fax' );
 		$data ['entry_identity'] = $this->language->get('entry_identity');
 		$data ['entry_identity_img'] = $this->language->get('entry_identity_img');
-		
+
 		$data ['entry_commission_def_percent'] = $this->language->get('entry_commission_def_percent');
 		$data ['entry_settle_suspend_days'] = $this->language->get('entry_settle_suspend_days');
 
@@ -211,6 +219,12 @@ class ControllerSalesmanUser extends Controller {
 			$data ['error_telephone'] = '';
 		}
 
+		if (isset ( $this->error ['shipping_telephone'] )) {
+			$data ['error_shipping_telephone'] = $this->error ['shipping_telephone'];
+		} else {
+			$data ['error_shipping_telephone'] = '';
+		}
+
 		if (isset ( $this->error ['address'] )) {
 			$data ['error_address'] = $this->error ['address'];
 		} else {
@@ -246,20 +260,20 @@ class ControllerSalesmanUser extends Controller {
 		} else {
 			$data['error_identity_img'] = '';
 		}
-		
+
 		// Add sangsanghu 2015/09/11 ST
 		if (isset($this->error['sub_commission_def_percent'])) {
 			$data['error_sub_commission_def_percent'] = $this->error['sub_commission_def_percent'];
 		} else {
 			$data['error_sub_commission_def_percent'] = '';
 		}
-		
+
 		if (isset($this->error['sub_settle_suspend_days'])) {
 			$data['error_sub_settle_suspend_days'] = $this->error['sub_settle_suspend_days'];
 		} else {
 			$data['error_sub_settle_suspend_days'] = '';
 		}
-		
+
 		// Add sangsanghu 2015/09/11 END
 
 		$url = '';
@@ -355,7 +369,7 @@ class ControllerSalesmanUser extends Controller {
 		} elseif (! empty ( $user_info )) {
 			$data ['telephone'] = $user_info ['telephone'];
 		} else {
-			$data ['telephone'] = 0;
+			$data ['telephone'] = '';
 		}
 
 		if (isset ( $this->request->post ['fax'] )) {
@@ -365,12 +379,12 @@ class ControllerSalesmanUser extends Controller {
 		} else {
 			$data ['fax'] = '';
 		}
-		
+
 		// Add sangsanghu 2015/09/11 ST
 		if (!empty($user_info)) {
 			$data['with_grant_opt'] = $user_info['with_grant_opt'];
 		}
-		
+
 		// 下级业务员佣金默认百分比
 		if (isset($this->request->post['sub_settle_suspend_days'])) {
 			$data['sub_settle_suspend_days'] = $this->request->post['sub_settle_suspend_days'];
@@ -379,7 +393,7 @@ class ControllerSalesmanUser extends Controller {
 		} else {
 			$data['sub_settle_suspend_days'] = '';
 		}
-		
+
 		// 下级业务员佣金申请滞后期
 		if (isset($this->request->post['sub_commission_def_percent'])) {
 			$data['sub_commission_def_percent'] = $this->request->post['sub_commission_def_percent'];
@@ -389,6 +403,14 @@ class ControllerSalesmanUser extends Controller {
 			$data['sub_commission_def_percent'] = '';
 		}
 		// Add sangsanghu 2015/09/11 END
+
+		if (isset ( $this->request->post ['address_id'] )) {
+			$data ['address_id'] = $this->request->post ['address_id'];
+		} elseif (! empty ( $address_info )) {
+			$data ['address_id'] = $address_id;
+		} else {
+			$data ['address_id'] = '';
+		}
 
 		if (isset ( $this->request->post ['address'] )) {
 			$data ['address'] = $this->request->post ['address'];
@@ -404,6 +426,22 @@ class ControllerSalesmanUser extends Controller {
 			$data ['postcode'] = $address_info ['postcode'];
 		} else {
 			$data ['postcode'] = '';
+		}
+
+		if (isset ( $this->request->post ['company'] )) {
+			$data ['company'] = $this->request->post ['company'];
+		} elseif (! empty ( $address_info )) {
+			$data ['company'] = $address_info ['company'];
+		} else {
+			$data ['company'] = '';
+		}
+
+		if (isset ( $this->request->post ['shipping_telephone'] )) {
+			$data ['shipping_telephone'] = $this->request->post ['shipping_telephone'];
+		} elseif (! empty ( $address_info )) {
+			$data ['shipping_telephone'] = $address_info ['shipping_telephone'];
+		} else {
+			$data ['shipping_telephone'] = '';
 		}
 
 		if (isset ( $this->request->post ['city'] )) {
@@ -438,7 +476,7 @@ class ControllerSalesmanUser extends Controller {
 		} elseif (! empty ( $user_identity_img_info )) {
 			$data ['upload_id'] = $user_identity_img_info ['upload_id'];
 		} else {
-			$data ['upload_id'] = 0;
+			$data ['upload_id'] = '';
 		}
 
 		if (isset($this->request->post['salesman_upload_description'])) {
