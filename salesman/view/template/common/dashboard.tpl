@@ -11,43 +11,44 @@
     </div>
   </div>
  
-  <!-- Filter by date -->
-  <div class="panel-body">
-    <div class="well">
-      <div class="row">
-  
-           <div class="col-sm-3">
-             <div class="form-group">
-               <label class="control-label" for="input-period-from"><?php echo $entry_period_from; ?></label>
-               <div class="input-group date">
-               <input type="text" name="filter_period_from" value="<?php echo $filter_period_from; ?>" placeholder="<?php echo $entry_period_from; ?>" data-date-format="YYYY-MM-DD" id="input-date-from" class="form-control" />
-               <span class="input-group-btn">
-                 <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
-               </span></div>
-             </div>
-           </div>
-
-           <div class="col-sm-3">
-             <div class="form-group">
-               <label class="control-label" for="input-period-to"><?php echo $entry_period_to; ?></label>
-               <div class="input-group date">
-               <input type="text" name="filter_period_to" value="<?php echo $filter_period_to; ?>" placeholder="<?php echo $entry_period_to; ?>" data-date-format="YYYY-MM-DD" id="input-date-to" class="form-control" />
-               <span class="input-group-btn">
-                 <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
-               </span></div>
-             </div>
-           </div>
-
-           <div class="col-sm-3">
-             <button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button>
-           </div>
-
-      </div>
-    </div>
-  </div>
-
   <div class="container-fluid">
     <?php if($isAuthorized) { ?>
+
+      <!-- Filter by date -->
+      <div class="panel-body">
+        <div class="well">
+          <div class="row">
+      
+               <div class="col-sm-3">
+                 <div class="form-group">
+                   <label class="control-label" for="input-period-from"><?php echo $entry_period_from; ?></label>
+                   <div class="input-group date">
+                   <input type="text" name="filter_period_from" value="<?php echo $filter_period_from; ?>" placeholder="<?php echo $entry_period_from; ?>" data-date-format="YYYY-MM-DD" id="input-date-from" class="form-control" />
+                   <span class="input-group-btn">
+                     <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                   </span></div>
+                 </div>
+               </div>
+    
+               <div class="col-sm-3">
+                 <div class="form-group">
+                   <label class="control-label" for="input-period-to"><?php echo $entry_period_to; ?></label>
+                   <div class="input-group date">
+                   <input type="text" name="filter_period_to" value="<?php echo $filter_period_to; ?>" placeholder="<?php echo $entry_period_to; ?>" data-date-format="YYYY-MM-DD" id="input-date-to" class="form-control" />
+                   <span class="input-group-btn">
+                     <button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+                   </span></div>
+                 </div>
+               </div>
+    
+               <div class="col-sm-3">
+                 <button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button>
+               </div>
+    
+          </div>
+        </div>
+      </div>
+
       <div class="row">
         <?php echo $achievement ?>
       </div>

@@ -9,7 +9,7 @@ $_['text_success']             = '下级业务员佣金修改成功！';
 // Column
 $_['column_product_id']        = '商品ID';
 $_['column_name']              = '商品名';
-$_['column_commission']        = '上级佣金';
+$_['column_commission']        = '佣金';
 $_['column_sub_commission']    = '下级佣金';
 
 // Entry

@@ -757,7 +757,10 @@ class ControllerSubSalesmanUser extends Controller {
 		}
 
 		$this->load->model ( 'salesman/upload' );
-		$user_identity_img_info = $this->model_salesman_upload->getSalesmanImgUpload ( $this->request->get ['salesman_id'] , '1' );
+
+		if(isset($this->request->get ['salesman_id'])) {
+			$user_identity_img_info = $this->model_salesman_upload->getSalesmanImgUpload ( $this->request->get ['salesman_id'] , '1' );
+		}
 
 		if (isset($this->request->post['upload_id'])) {
 			$data ['upload_id'] = $this->request->post['upload_id'];
@@ -804,7 +807,7 @@ class ControllerSubSalesmanUser extends Controller {
 
 		$this->load->model('localisation/language');
 
-		$data['languages'] = $this->model_localisation_language->getLanguages();
+		$data['languages'] = array(1);    // $this->model_localisation_language->getLanguages();
 
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
