@@ -109,8 +109,8 @@ class ControllerDashboardChart extends Controller {
 
 					if(empty($last_day) ||
 						strtotime($result['date']) == strtotime($last_day)) {
-						$sum_order = $sum_order + $result['order_num'];
-						$sum_sale = $sum_sale + $result['order_total'];
+						$sum_order = $sum_order + $result['order_total'];
+						$sum_sale = $sum_sale + $result['amount_total'];
 						$sum_comm = $sum_comm + $result['commissions_total'];
 					} else {
 						$json['order']['data'][$key] = array($key, $sum_order);
@@ -119,8 +119,8 @@ class ControllerDashboardChart extends Controller {
 
 						$key = (strtotime($result['date']) - strtotime($first_day)) / 86400;
 
-						$sum_order = $result['order_num'];
-						$sum_sale = $result['order_total'];
+						$sum_order = $result['order_total'];
+						$sum_sale = $result['amount_total'];
 						$sum_comm = $result['commissions_total'];
 					}
 
@@ -158,8 +158,8 @@ class ControllerDashboardChart extends Controller {
 
 					if(empty($last_day) ||
 						strtotime($this->getFirstDayOfMonth($result['date'])) == strtotime($this->getFirstDayOfMonth($last_day))) {
-						$sum_order = $sum_order + $result['order_num'];
-						$sum_sale = $sum_sale + $result['order_total'];
+						$sum_order = $sum_order + $result['order_total'];
+						$sum_sale = $sum_sale + $result['amount_total'];
 						$sum_comm = $sum_comm + $result['commissions_total'];
 					} else {
 						$json['order']['data'][$key] = array($key, $sum_order);
@@ -168,8 +168,8 @@ class ControllerDashboardChart extends Controller {
 
 						$key = $this->getMonthDiff($result['date'], $this->getFirstDayOfMonth($first_day)); 
 
-						$sum_order = $result['order_num'];
-						$sum_sale = $result['order_total'];
+						$sum_order = $result['order_total'];
+						$sum_sale = $result['amount_total'];
 						$sum_comm = $result['commissions_total'];
 					}
 
