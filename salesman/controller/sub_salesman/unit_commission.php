@@ -148,7 +148,7 @@ class ControllerSubSalesmanUnitCommission extends Controller {
 		$data['entry_name'] = $this->language->get('entry_name');
 
 		$data['button_filter'] = $this->language->get('button_filter');
-		$data['button_edit'] = $this->language->get('button_edit');
+		$data['button_save'] = $this->language->get('button_save');
 
 		$data['token'] = $this->session->data['token'];
 

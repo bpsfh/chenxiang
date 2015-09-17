@@ -3,7 +3,7 @@
   <div class="page-header">
     <div class="container-fluid">
       <div class="pull-right">
-        <button type="button" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary" onclick="$('#form-product').attr('action', '<?php echo $edit; ?>').submit()"><i class="fa fa-plus"></i></button>
+        <button type="button" data-toggle="tooltip" title="<?php echo $button_save; ?>" class="btn btn-primary" onclick="$('#form-product').attr('action', '<?php echo $edit; ?>').submit()"><i class="fa fa-plus"></i></button>
       </div>
       <h1><?php echo $heading_title; ?></h1>
       <ul class="breadcrumb">
@@ -82,7 +82,7 @@
                   <input type="hidden" name="commissions[<?php echo $product['product_id']; ?>][commission]" value="<?php echo $product['commission']; ?>" />
                 </td>
                 <td class="text-right"><?php if (isset($commissions[$product['product_id']]['sub_commission'])) { ?>
-                  <input type="text" name="commissions[<?php echo $product['product_id']; ?>][sub_commission]" value="<?php echo $commissions[$product['product_id']]['sub_commission']; ?>" />
+                  <input type="text" name="commissions[<?php echo $product['product_id']; ?>][sub_commission]" style="text-align: right;" value="<?php echo $commissions[$product['product_id']]['sub_commission']; ?>" />
                   <?php } else { ?>
                   <input type="text" name="commissions[<?php echo $product['product_id']; ?>][sub_commission]" style="text-align: right;" value="<?php echo $product['sub_commission']; ?>" />
                   <?php } ?>
