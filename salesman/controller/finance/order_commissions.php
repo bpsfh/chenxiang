@@ -17,10 +17,10 @@ class ControllerFinanceOrderCommissions extends Controller {
 			$filter_date_end = null ;
 		}
 
-		if (isset($this->request->get['filter_commissions_status'])) {
-			$filter_commissions_status = $this->request->get['filter_commissions_status'];
+		if (isset($this->request->get['filter_settlement_status'])) {
+			$filter_settlement_status = $this->request->get['filter_settlement_status'];
 		} else {
-			$filter_commissions_status = null;
+			$filter_settlement_status = null;
 		}
 
 		if (isset($this->request->get['sort'])) {
@@ -51,8 +51,8 @@ class ControllerFinanceOrderCommissions extends Controller {
 			$url .= '&filter_date_end=' . $this->request->get['filter_date_end'];
 		}
 
-		if (isset($this->request->get['filter_commissions_status'])) {
-			$url .= '&filter_commissions_status=' . $this->request->get['filter_commissions_status'];
+		if (isset($this->request->get['filter_settlement_status'])) {
+			$url .= '&filter_settlement_status=' . $this->request->get['filter_settlement_status'];
 		}
 
 		if (isset($this->request->get['page'])) {
@@ -70,10 +70,10 @@ class ControllerFinanceOrderCommissions extends Controller {
 		}
 
 		$data['sort_date'] = $this->url->link('finance/order_commissions', 'token=' . $this->session->data['token'] . '&sort=date' . $url, 'SSL');
-		$data['sort_order_num'] = $this->url->link('finance/order_commissions', 'token=' . $this->session->data['token'] . '&sort=order_num' . $url, 'SSL');
 		$data['sort_order_total'] = $this->url->link('finance/order_commissions', 'token=' . $this->session->data['token'] . '&sort=order_total' . $url, 'SSL');
+		$data['sort_amount_total'] = $this->url->link('finance/order_commissions', 'token=' . $this->session->data['token'] . '&sort=amount_total' . $url, 'SSL');
 		$data['sort_commissions_total'] = $this->url->link('finance/order_commissions', 'token=' . $this->session->data['token'] . '&sort=commissions_total' . $url, 'SSL');
-		$data['sort_commissions_status'] = $this->url->link('finance/order_commissions', 'token=' . $this->session->data['token'] . '&sort=commissions_status' . $url, 'SSL');
+		$data['sort_settlement_status'] = $this->url->link('finance/order_commissions', 'token=' . $this->session->data['token'] . '&sort=settlement_status' . $url, 'SSL');
 
 		$data['breadcrumbs'] = array();
 
@@ -95,25 +95,25 @@ class ControllerFinanceOrderCommissions extends Controller {
 			'salesman_id'		     => $this->salesman->getId(),
 			'filter_date_start'	     => $filter_date_start,
 			'filter_date_end'	     => $filter_date_end,
-			'filter_commissions_status'  => $filter_commissions_status,
-			'sort'                   => $sort,
-			'order'                  => $order,
-			'start'                  => ($page - 1) * $this->config->get('config_limit_admin'),
-			'limit'                  => $this->config->get('config_limit_admin')
+			'filter_settlement_status'   => $filter_settlement_status,
+			'sort'                       => $sort,
+			'order'                      => $order,
+			'start'                      => ($page - 1) * $this->config->get('config_limit_admin'),
+			'limit'                      => $this->config->get('config_limit_admin')
 		);
 
-		$order_total = $this->model_finance_order_commissions->getTotalOrderCommissions($filter_data);
+		$amount_total = $this->model_finance_order_commissions->getTotalOrderCommissions($filter_data);
 
 		$results = $this->model_finance_order_commissions->getOrderCommissions($filter_data);
 		if (!empty($results)) {
 			foreach ($results as $key=>$result) {
 				$data['commissions'][] = array(
-					'num'                 => $key+1,
-					'commissions_status'  => (!is_null($result['commissions_status'])? 1: 0),
-					'order_num'           => $result['order_num'],
- 					'order_total'         => $this->currency->format($result['order_total'], $this->config->get('config_currency')),
+					'num'                 => $key + 1,
+					'settlement_status'   => $result['settlement_status'],
+					'order_total'         => $result['order_total'],
+ 					'amount_total'        => $this->currency->format($result['amount_total'], $this->config->get('config_currency')),
 					'commissions_total'   => $this->currency->format($result['commissions_total'], $this->config->get('config_currency')),
-					'date'                => date($this->language->get('date_format_short'), strtotime($result['date'])),
+					'date'                => date($this->language->get('date_format_short'), strtotime($result['date']))
 				);
 			}
 		}
@@ -122,20 +122,20 @@ class ControllerFinanceOrderCommissions extends Controller {
 
 		$data['text_list'] = $this->language->get('text_list');
 		$data['text_no_results'] = $this->language->get('text_no_results');
-		$data['text_commissions_status_0'] = $this->language->get('text_commissions_status_0');
-		$data['text_commissions_status_1'] = $this->language->get('text_commissions_status_1');
+		$data['text_settlement_status_0'] = $this->language->get('text_settlement_status_0');
+		$data['text_settlement_status_1'] = $this->language->get('text_settlement_status_1');
 
 		$data['column_num'] = $this->language->get('column_num');
 		$data['column_date'] = $this->language->get('column_date');
-		$data['column_order_num'] = $this->language->get('column_order_num');
-		$data['column_date_added'] = $this->language->get('column_date_added');
 		$data['column_order_total'] = $this->language->get('column_order_total');
+		$data['column_date_added'] = $this->language->get('column_date_added');
+		$data['column_amount_total'] = $this->language->get('column_amount_total');
 		$data['column_commissions_total'] = $this->language->get('column_commissions_total');
-		$data['column_commissions_status'] = $this->language->get('column_commissions_status');
+		$data['column_settlement_status'] = $this->language->get('column_settlement_status');
 
 		$data['entry_date_start'] = $this->language->get('entry_date_start');
 		$data['entry_date_end'] = $this->language->get('entry_date_end');
-		$data['entry_commissions_status'] = $this->language->get('entry_commissions_status');
+		$data['entry_settlement_status'] = $this->language->get('entry_settlement_status');
 
 		$data['button_filter'] = $this->language->get('button_filter');
 
@@ -151,8 +151,8 @@ class ControllerFinanceOrderCommissions extends Controller {
 			$url .= '&filter_date_end=' . $this->request->get['filter_date_end'];
 		}
 
-		if (isset($this->request->get['filter_commissions_status'])) {
-			$url .= '&filter_commissions_status=' . $this->request->get['filter_commissions_status'];
+		if (isset($this->request->get['filter_settlement_status'])) {
+			$url .= '&filter_settlement_status=' . $this->request->get['filter_settlement_status'];
 		}
 
 		if (isset($this->request->get['sort'])) {
@@ -164,7 +164,7 @@ class ControllerFinanceOrderCommissions extends Controller {
 		}
 
 		$pagination = new Pagination();
-		$pagination->total = $order_total;
+		$pagination->total = $amount_total;
 		$pagination->page = $page;
 		$pagination->limit = $this->config->get('config_limit_admin');
 		$pagination->url = $this->url->link('finance/order_commissions', 'token=' . $this->session->data['token'] . $url . '&page={page}', 'SSL');
@@ -174,11 +174,11 @@ class ControllerFinanceOrderCommissions extends Controller {
 		$data['sort'] = $sort;
 		$data['order'] = $order;
 
-		$data['results'] = sprintf($this->language->get('text_pagination'), ($order_total) ? (($page - 1) * $this->config->get('config_limit_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_limit_admin')) > ($order_total - $this->config->get('config_limit_admin'))) ? $order_total : ((($page - 1) * $this->config->get('config_limit_admin')) + $this->config->get('config_limit_admin')), $order_total, ceil($order_total / $this->config->get('config_limit_admin')));
+		$data['results'] = sprintf($this->language->get('text_pagination'), ($amount_total) ? (($page - 1) * $this->config->get('config_limit_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_limit_admin')) > ($amount_total - $this->config->get('config_limit_admin'))) ? $amount_total : ((($page - 1) * $this->config->get('config_limit_admin')) + $this->config->get('config_limit_admin')), $amount_total, ceil($amount_total / $this->config->get('config_limit_admin')));
 
 		$data['filter_date_start'] = $filter_date_start;
 		$data['filter_date_end'] = $filter_date_end;
-		$data['filter_commissions_status'] = $filter_commissions_status;
+		$data['filter_settlement_status'] = $filter_settlement_status;
 
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');

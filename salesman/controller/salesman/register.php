@@ -329,8 +329,7 @@ class ControllerSalesmanRegister extends Controller {
 
 		$this->load->model('localisation/language');
 
-		$data['languages'] = $this->model_localisation_language->getLanguages();
-
+		$data['languages'] = array(1);    // $this->model_localisation_language->getLanguages();
 
 		// TODO
 		if ($this->config->get('config_salesman_id')) {

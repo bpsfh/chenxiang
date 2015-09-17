@@ -515,7 +515,7 @@ class ControllerSalesmanUser extends Controller {
 
 		$this->load->model('localisation/language');
 
-		$data['languages'] = $this->model_localisation_language->getLanguages();
+		$data['languages'] = array(1);    // $this->model_localisation_language->getLanguages();
 
 		$this->load->model ( 'localisation/country' );
 

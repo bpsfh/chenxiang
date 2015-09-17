@@ -38,11 +38,11 @@
             </div>
             <div class="col-sm-6">
               <div class="form-group">
-                <label class="control-label" for="input-commissions-status"><?php echo $entry_commissions_status; ?></label>
-                <select name="filter_commissions_status" id="input-commissions-status" class="form-control">
+                <label class="control-label" for="input-commissions-status"><?php echo $entry_settlement_status; ?></label>
+                <select name="filter_settlement_status" id="input-commissions-status" class="form-control">
 				  <option value="*"></option>
-				  <option value="0" <?php if(!is_null($filter_commissions_status) && (int)$filter_commissions_status === 0) echo("selected") ?>><?php echo $text_commissions_status_0; ?></option>
-				  <option value="1" <?php if($filter_commissions_status == 1) echo("selected") ?>><?php echo $text_commissions_status_1; ?></option>
+				  <option value="0" <?php if(!is_null($filter_settlement_status) && (int)$filter_settlement_status === 0) echo("selected") ?>><?php echo $text_settlement_status_0; ?></option>
+				  <option value="1" <?php if($filter_settlement_status == 1) echo("selected") ?>><?php echo $text_settlement_status_1; ?></option>
 				</select>
               </div>
               <button type="button" id="button-filter" class="btn btn-primary pull-right"><i class="fa fa-search"></i> <?php echo $button_filter; ?></button>
@@ -53,31 +53,31 @@
           <table class="table table-bordered">
             <thead>
               <tr>
-                 <td class="text-left"><?php echo $column_num; ?></td>
-                 <td class="text-left"><?php if ($sort == 'date') { ?>
+                 <td class="text-center"><?php echo $column_num; ?></td>
+                 <td class="text-center"><?php if ($sort == 'date') { ?>
                     <a href="<?php echo $sort_date; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_date; ?></a>
                     <?php } else { ?>
                     <a href="<?php echo $sort_date; ?>"><?php echo $column_date; ?></a>
                     <?php } ?></td>
-                 <td class="text-left"><?php if ($sort == 'order_num') { ?>
-                    <a href="<?php echo $sort_order_num; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_order_num; ?></a>
-                    <?php } else { ?>
-                    <a href="<?php echo $sort_order_num; ?>"><?php echo $column_order_num; ?></a>
-                    <?php } ?></td>
-                 <td class="text-left"><?php if ($sort == 'order_total') { ?>
+                 <td class="text-right"><?php if ($sort == 'order_total') { ?>
                     <a href="<?php echo $sort_order_total; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_order_total; ?></a>
                     <?php } else { ?>
                     <a href="<?php echo $sort_order_total; ?>"><?php echo $column_order_total; ?></a>
                     <?php } ?></td>
-                 <td class="text-left"><?php if ($sort == 'commissions_total') { ?>
+                 <td class="text-right"><?php if ($sort == 'amount_total') { ?>
+                    <a href="<?php echo $sort_amount_total; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_amount_total; ?></a>
+                    <?php } else { ?>
+                    <a href="<?php echo $sort_amount_total; ?>"><?php echo $column_amount_total; ?></a>
+                    <?php } ?></td>
+                 <td class="text-right"><?php if ($sort == 'commissions_total') { ?>
                     <a href="<?php echo $sort_commissions_total; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_commissions_total; ?></a>
                     <?php } else { ?>
                     <a href="<?php echo $sort_commissions_total; ?>"><?php echo $column_commissions_total; ?></a>
                     <?php } ?></td>
-                 <td class="text-left"><?php if ($sort == 'commissions_status') { ?>
-                    <a href="<?php echo $sort_commissions_status; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_commissions_status; ?></a>
+                 <td class="text-center"><?php if ($sort == 'settlement_status') { ?>
+                    <a href="<?php echo $sort_settlement_status; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_settlement_status; ?></a>
                     <?php } else { ?>
-                    <a href="<?php echo $sort_commissions_status; ?>"><?php echo $column_commissions_status; ?></a>
+                    <a href="<?php echo $sort_settlement_status; ?>"><?php echo $column_settlement_status; ?></a>
                     <?php } ?></td>
               </tr>
             </thead>
@@ -85,14 +85,14 @@
               <?php if (isset($commissions)) { ?>
               <?php foreach ($commissions as $commission) { ?>
               <tr>
-                <td class="text-left"><?php echo $commission['num']; ?></td>
-                <td class="text-left"><?php echo $commission['date']; ?></td>
-                <td class="text-left"><?php echo $commission['order_num']; ?></td>
+                <td class="text-center"><?php echo $commission['num']; ?></td>
+                <td class="text-center"><?php echo $commission['date']; ?></td>
                 <td class="text-right"><?php echo $commission['order_total']; ?></td>
+                <td class="text-right"><?php echo $commission['amount_total']; ?></td>
                 <td class="text-right"><?php echo $commission['commissions_total']; ?></td>
                 <td class="text-center">
-                  <?php if(!is_null($commission['commissions_status']) && (int)$commission['commissions_status'] === 0) echo $text_commissions_status_0; ?>
-                  <?php if($commission['commissions_status'] == 1)  echo $text_commissions_status_1; ?></td>
+                  <?php if($commission['settlement_status'] == 0) echo $text_settlement_status_0; ?>
+                  <?php if($commission['settlement_status'] == 1) echo $text_settlement_status_1; ?></td>
               <?php } ?>
               <?php } else { ?>
               <tr>
@@ -125,10 +125,10 @@
 			url += '&filter_date_end=' + encodeURIComponent(filter_date_end);
 		}
 
-		var filter_commissions_status = $('select[name=\'filter_commissions_status\']').val();
+		var filter_settlement_status = $('select[name=\'filter_settlement_status\']').val();
 
-		if (filter_commissions_status != '*') {
-			url += '&filter_commissions_status=' + encodeURIComponent(filter_commissions_status);
+		if (filter_settlement_status != '*') {
+			url += '&filter_settlement_status=' + encodeURIComponent(filter_settlement_status);
 		}
 		location = url;
 	});
