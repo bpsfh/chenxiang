@@ -391,6 +391,8 @@ class ControllerSubSalesmanUser extends Controller {
 		$data['text_form'] = !isset($this->request->get['salesman_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
 		$data['text_enabled'] = $this->language->get('text_enabled');
 		$data['text_disabled'] = $this->language->get('text_disabled');
+		$data['text_with_grant_opt_0'] = $this->language->get('text_with_grant_opt_0');
+		$data['text_with_grant_opt_1'] = $this->language->get('text_with_grant_opt_1');
 		$data['text_yes'] = $this->language->get('text_yes');
 		$data['text_no'] = $this->language->get('text_no');
 		$data['text_select'] = $this->language->get('text_select');

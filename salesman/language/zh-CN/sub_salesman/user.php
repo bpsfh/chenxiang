@@ -10,8 +10,8 @@ $_['text_list']             = '下级业务员列表';
 $_['text_add']              = '添加下级业务员';
 $_['text_edit']             = '编辑下级业务员';
 $_['text_default']          = '默认';
-$_['text_with_grant_opt_0'] = '禁止';
-$_['text_with_grant_opt_1'] = '启用';
+$_['text_with_grant_opt_0'] = '无';
+$_['text_with_grant_opt_1'] = '有';
 $_['text_shipping_info']    = '货运信息';
 
 // Column
