@@ -165,7 +165,7 @@ class ModelFinanceOrderCommissions extends Model {
 		$sql .= " ) dyna "; 
 
 		$sql .= " LEFT JOIN `" . DB_PREFIX . "commissions_apply` cma ";
-		$sql .= " ON dyna.salesman_id = cma.salesman_id ";
+		$sql .= " ON dyna.salesman_id = cma.salesman_id AND cma.status != 9 ";
 		$sql .= " AND dyna.date >= cma.period_from AND dyna.date <= cma.period_to ";
 		$sql .= " AND cma.salesman_id = '" . $this->db->escape($data['salesman_id']) . "'";
 		
