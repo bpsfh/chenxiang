@@ -142,11 +142,11 @@
                         <div class="col-sm-6">
                           <select name="with_grant_opt" id="input-with_grant_opt" class="form-control">
                             <?php if ($with_grant_opt) { ?>
-                            <option value="1" selected="selected"><?php echo $text_enabled; ?></option>
-                            <option value="0"><?php echo $text_disabled; ?></option>
+                            <option value="1" selected="selected"><?php echo $text_with_grant_opt_1; ?></option>
+                            <option value="0"><?php echo $text_with_grant_opt_0; ?></option>
                             <?php } else { ?>
-                            <option value="1"><?php echo $text_enabled; ?></option>
-                            <option value="0" selected="selected"><?php echo $text_disabled; ?></option>
+                            <option value="1"><?php echo $text_with_grant_opt_1; ?></option>
+                            <option value="0" selected="selected"><?php echo $text_with_grant_opt_0; ?></option>
                             <?php } ?>
                           </select>
                         </div>
