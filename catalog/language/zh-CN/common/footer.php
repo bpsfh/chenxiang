@@ -18,6 +18,6 @@ $_['text_account']      = '会员中心';
 $_['text_order']        = '历史订单';
 $_['text_wishlist']     = '收藏列表';
 $_['text_newsletter']   = '订阅咨询';
-$_['text_powered']      = '<a href="http://www.miitbeian.gov.cn" target="_blank">增值电信业务经营许可证:苏B2-20150351</a> %s &copy; %s <a href="http://www.miitbeian.gov.cn" target="_blank">苏ICP备13061026号</a>  苏州恒记宏鑫贸易有限公司 版权所有 <br /> 技术支持 <a href="http://www.sz-rontech.com">苏州隆泰信息有限公司</a>';
+$_['text_powered']      = '<a href="http://shenhenet.com/hongxin_icp.jpg" target="_blank">增值电信业务经营许可证:苏B2-20150351</a> %s &copy; %s <a href="http://www.miitbeian.gov.cn" target="_blank">苏ICP备13061026号</a>  苏州恒记宏鑫贸易有限公司 版权所有 <br /> 技术支持 <a href="http://www.sz-rontech.com">苏州隆泰信息有限公司</a>';
 
 
