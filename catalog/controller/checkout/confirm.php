@@ -6,8 +6,8 @@ class ControllerCheckoutConfirm extends Controller {
 		if ($this->cart->hasShipping()) {
 			// Validate if shipping address has been set.
 			if (!isset($this->session->data['shipping_address'])) {
-				$redirect = $this->url->link('checkout/checkout', '', 'SSL');
-			}
+				$redirect = $this->url->link('checkout/checkout', '', 'SSL');  
+			}     
 
 			// Validate if shipping method has been set.
 			if (!isset($this->session->data['shipping_method'])) {
